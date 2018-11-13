@@ -6,5 +6,5 @@
 
 class RPeaksModuleBase : public ModuleBase {
 public:
-    virtual RPeaksData output() = 0;
+    virtual RPeaksData getResults() = 0;
 };

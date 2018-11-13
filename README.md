@@ -4,7 +4,7 @@ Inżynieria Biomedyczna - Dedykowane Algorytmy Diagnostyki Medycznej - Analiza E
 
 ## Na początek
 
-Dzięki poniższym instrukcjom zdobędziesz i uruchomisz kopię projektu na swoim komputerze.
+Dzięki poniższym instrukcjom pobierzesz i uruchomisz projekt na swoim komputerze.
 
 ### Wymagania
 
@@ -43,7 +43,7 @@ alias cardio="cd your/path/to/repo/build && cmake .. && make && ./cardiorama; cd
 ```c++
 class TwójModułModuleBase : public ModuleBase {
 public:
-    virtual TwójModułData output() = 0; // Oblicza i zwraca wynik.
+    virtual TwójModułData getResults() = 0; // Oblicza i zwraca wynik.
     virtual void configure(TwójModułConfig) = 0; // Opcjonalne.*
 };
 ```
@@ -51,7 +51,7 @@ public:
 Wszystkie klasy bazowe modułów dziedziczą po ```ModuleBase```, która obsługuje przepływ informacji o zmianie stanu modułów od których twój moduł zależy.
 Klasa bazowa zawiera deklaracje metod publicznych.  
 
-*Jeżeli potrzebujesz parametrów wejściowych od użytkownika (np. wybór implementacji z kilku oferowanych przez moduł, progi), zdefiniuj kontener na te parametry i obsłuż go w metodzie ```configure()```.
+*Jeżeli potrzebujesz parametrów wejściowych od użytkownika (np. wybór implementacji z kilku oferowanych przez moduł, progi), zadeklaruj kontener na te parametry i obsłuż go w metodzie ```configure()```.
 ```c++
 enum class TwójModułParametr1 {
     wariant1,
@@ -94,7 +94,7 @@ public:
     TwójModułModule(PotrzebnyMiTenModuł1ModuleBase&, PotrzebnyMiTenModuł2ModuleBase&);
 
     // Będziemy implementować wirtualne metody zadeklarowane w klasie bazowej
-    TwójModułData output() override;
+    TwójModułData getResults() override;
     void configure(TwójModułConfig) override; // Mówiłem że to opcjonalne?
     
     // Opcjonalne. Możesz powrzucać do tych metod jakieś printy do debugowania.
@@ -124,7 +124,7 @@ TwójModułModule::TwójModułModule(PotrzebnyMiTenModuł1ModuleBase& potrzebnyM
 ```
 
 #### Zmiany stanu
-W razie zmiany konfiguracji (i w kilku innych przypadkach) wyniki obliczeń przestaną być aktualne. Zmianie stanu zawsze musi towarzyszyć wywołanie ```invalidateResults()```. Dzięki temu  przy najbliższym wywołaniu ```output()``` będziemy wiedzieć że należy wykonać obliczenia od nowa. ```invalidateResults()``` automatycznie propaguje się na wszystkie moduły zależne od naszego.
+W razie zmiany konfiguracji (i w kilku innych przypadkach) wyniki obliczeń przestaną być aktualne. Zmianie stanu zawsze musi towarzyszyć wywołanie ```invalidateResults()```. Dzięki temu  przy najbliższym wywołaniu ```getResults()``` będziemy wiedzieć że należy wykonać obliczenia od nowa. ```invalidateResults()``` automatycznie propaguje się na wszystkie moduły zależne od naszego.
 
 ```c++
 void TwójModułModule::configure(TwójModułConfig config) {
@@ -139,8 +139,8 @@ void TwójModułModule::configure(TwójModułConfig config) {
 void TwójModułModule::runTwójModuł() {
 
     // Tak pobieramy nasze dane wejściowe
-    auto wejscie1 = potrzebnyMiTenModuł1Module.output();
-    auto wejscie2 = potrzebnyMiTenModuł2Module.output();
+    auto wejscie1 = potrzebnyMiTenModuł1Module.getResults();
+    auto wejscie2 = potrzebnyMiTenModuł2Module.getResults();
 
     /*jakis kod*/
 
@@ -162,7 +162,7 @@ void TwójModułModule::runTwójModuł() {
 
 #### Getter do wyników
 ```c++
-TwójModułData TwójModułModule::output() {
+TwójModułData TwójModułModule::getResults() {
     
     if (!resultsValid()) {
         runTwójModuł();
@@ -180,7 +180,7 @@ void TwójModułModule::notify() {
     ModuleBase::notify(); // Wywołaj właściwą metodę
 }
 ```
-Pamiętaj żeby w deklaracji klasy wskazać, że będziesz reimplementować wybrane metody:
+Pamiętaj żeby w deklaracji klasy wskazać, które metody będziesz przesłaniać:
 ```c++
 /* include/TwojModułModule.hpp */
 ...

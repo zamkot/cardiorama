@@ -5,5 +5,5 @@
 
 class EcgBaselineModuleBase : public ModuleBase {
 public:
-    virtual Signal output() = 0;
+    virtual Signal getResults() = 0;
 };

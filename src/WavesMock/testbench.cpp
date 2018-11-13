@@ -14,8 +14,8 @@ class EcgBaselineModuleStub : public EcgBaselineModuleBase {
 public:
     EcgBaselineModuleStub(Signal& rawData) : rawData{ rawData } {}
 
-    Signal output() override {
-        log("Runnig output");
+    Signal getResults() override {
+        log("Runnig getResults");
         Signal s;
         for (const auto& sample : rawData.samples) {
             s.samples.push_back(sample * 3);
@@ -41,8 +41,8 @@ class RPeaksModuleStub : public RPeaksModuleBase {
 public:
     RPeaksModuleStub(RPeaksData& rPeaks) : rPeaks{ rPeaks } {}
 
-    RPeaksData output() override {
-        log("Runnig output");
+    RPeaksData getResults() override {
+        log("Runnig getResults");
         return rPeaks;
     }
 

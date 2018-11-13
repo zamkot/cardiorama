@@ -7,5 +7,5 @@
 
 class WavesModuleBase : public ModuleBase {
 public:
-    virtual WavesData output() = 0;
+    virtual WavesData getResults() = 0;
 };

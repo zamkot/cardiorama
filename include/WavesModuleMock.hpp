@@ -31,7 +31,7 @@ class WavesModule : public WavesModuleBase {
 
 public:
     WavesModule(EcgBaselineModuleBase&, RPeaksModuleBase&);
-    WavesData output() override;
+    WavesData getResults() override;
     void notify() override;
     void invalidateResults() override;
     void configure(WavesConfig);

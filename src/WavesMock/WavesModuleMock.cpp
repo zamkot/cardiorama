@@ -22,8 +22,8 @@ void WavesModule::configure(WavesConfig config) {
 
 void WavesModule::runWaves() {
     log("Running");
-    auto rPeaks = rPeaksModule.output();
-    auto ecgBaseline = ecgBaselineModule.output();
+    auto rPeaks = rPeaksModule.getResults();
+    auto ecgBaseline = ecgBaselineModule.getResults();
 
     if (config.variant == WavesVariant::B) {
         waves.pEnd = rPeaks.rpeaks;
@@ -39,7 +39,7 @@ void WavesModule::runWaves() {
 }
 
 
-WavesData WavesModule::output() {
+WavesData WavesModule::getResults() {
     
     if (!resultsValid()) {
         runWaves();
