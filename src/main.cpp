@@ -1,7 +1,12 @@
 #include <iostream>
-#include <wfdb.h>
+#include <armadillo>
+
+using namespace std;
+using namespace arma;
 
 int main() {
-    WFDB_Anninfo an[2];
-    annopen("../data/100s", an, 2);
+    mat A = randu<mat>(4,5);
+    mat B = randu<mat>(4,5);
+
+    cout << A*B.t() << endl;
 }
