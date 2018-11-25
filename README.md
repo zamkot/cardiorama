@@ -33,7 +33,7 @@ Program gotowy do uruchomiania znajdziesz w ```${PROJECT_DIR}/build/cardiorama``
 ### Bonus
 Wklej to do swojego ```.bashrc``` i zapomnij co tu widziałeś.
 ```
-alias cardio="cd your/path/to/repo/build && cmake .. && make && ./cardiorama; cd -"
+alias cardio="your/path/to/repo/cardio.sh"
 ```
 
 ## Jak zrobić moduł?
