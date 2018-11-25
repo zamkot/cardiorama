@@ -10,6 +10,20 @@ Dzięki poniższym instrukcjom pobierzesz i uruchomisz projekt na swoim komputer
 
 Wszystko co znajdziesz poniżej zostało przetestowane na systemach Ubuntu 16.04 i Linux Mint 18 z CMake w wersji 3.5.1. i GCC w wersji 5.4.0
 
+Projekt wykorzystuje następujące biblioteki zewnętrzne:
+* CURL
+* OpenBLAS
+* LAPACK
+* SuperLU
+* ARPACK
+
+Dodatkowo do każdej z bibliotek należy pobrać pliki deweloperskie. Na przykład instalując paczkę "lapack", zainstaluj również "lapack-dev" lub "lapack-development".
+
+Dla przykładu, na Linux Mint 18 powinnno wystarczyć:
+```
+$ sudo apt-get install libcurl4-openssl-dev libopenblas-dev liblapack-dev libsuperlu-dev libarpack2-dev
+```
+
 ### Sklonuj repozytorium
 ```
 $ git clone https://github.com/zamkot/cardiorama.git
@@ -103,7 +117,7 @@ public:
 };
 ```
 
-### 3. src/TwójModuł/TwójModułModule.cpp
+### 3. ```src/TwójModuł/TwójModułModule.cpp```
 Implementacja twojego modułu
 
 #### Konstruktor
@@ -124,6 +138,7 @@ TwójModułModule::TwójModułModule(PotrzebnyMiTenModuł1ModuleBase& potrzebnyM
 ```
 
 #### Zmiany stanu
+
 W razie zmiany konfiguracji (i w kilku innych przypadkach) wyniki obliczeń przestaną być aktualne. Zmianie stanu zawsze musi towarzyszyć wywołanie ```invalidateResults()```. Dzięki temu  przy najbliższym wywołaniu ```getResults()``` będziemy wiedzieć że należy wykonać obliczenia od nowa. ```invalidateResults()``` automatycznie propaguje się na wszystkie moduły zależne od naszego.
 
 ```c++
@@ -161,6 +176,7 @@ void TwójModułModule::runTwójModuł() {
 ```
 
 #### Getter do wyników
+
 ```c++
 TwójModułData TwójModułModule::getResults() {
     
@@ -173,6 +189,7 @@ TwójModułData TwójModułModule::getResults() {
 ```
 
 #### Opcjonalne printy
+
 ```c++
 void TwójModułModule::notify() {
     log("Notifying"); // Zrób co chcesz
