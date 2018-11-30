@@ -86,9 +86,6 @@ Właściwy plik nagłówkowy twojego modułu.
 ```c++
 class TwójModułModule : public TwójModułModuleBase {
     
-    // chcemy dziedziczyć konstruktor po ModuleBase
-    using ModuleBase::ModuleBase;
-
     // deklarujemy referencje do obiektów, które dostarczają twoje dane wejściowe
     PotrzebnyMiTenModuł1ModuleBase& potrzebnyMiTenModuł1Module;
     PotrzebnyMiTenModuł2ModuleBase& potrzebnyMiTenModuł2Module;

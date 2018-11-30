@@ -19,8 +19,6 @@ struct WavesConfig {
 
 
 class WavesModule : public WavesModuleBase {
-    using ModuleBase::ModuleBase;
-
     EcgBaselineModuleBase& ecgBaselineModule;
     RPeaksModuleBase& rPeaksModule;
 
