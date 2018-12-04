@@ -17,5 +17,5 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DARMA_DONT_USE_WRAPPER")
 set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${BLAS_LINKER_FLAGS} ${LAPACK_LINKER_FLAGS}")
 
 add_subdirectory(third_party/wfdb-10.6.0)
-add_executable(cardiorama src/main.cpp src/ModuleBase.cpp)
+add_executable(cardiorama src/main.cpp src/ModuleBase.cpp include/IOModule.hpp src/IOModule.cpp)
 target_link_libraries(cardiorama wfdb ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
