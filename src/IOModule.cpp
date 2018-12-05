@@ -8,7 +8,6 @@
  * allows to read signal's samples and information such as fs, adc gain etc. -> (most wanted usability)
  * also allows to read annotations made by Physionet team
  * TODO: (version 1.0)
- * specific header for every channel
  * annotaions translator from subtypes to types (we need only 3 'main' types of annotations -> N, V, SV)
  * some other cool features!
  * */
@@ -62,17 +61,6 @@ CardioSignal Physionet::readSamples() {
     return signal;
 };
 
-void Physionet::notReadedAnnotationHandling() {
-    std::cout<<"Method readAnnotations() not called before. Reading annotations..."<<std::endl;
-    readAnnotations();
-}
-// ------------------------ PUBLIC:
-
-Physionet::Physionet(std::string recordName) {
-    setRecord(recordName);
-    setHeader();
-};
-
 void Physionet::readAnnotations() {
 
     WFDB_Anninfo an;
@@ -88,8 +76,16 @@ void Physionet::readAnnotations() {
         mAnnotations.annotations.emplace_back(std::string(annstr(annot.anntyp)));    // :(
     }
 
-    annotationsReadedFlag = true;
+    annotationsCached = true;
 };
+
+// ------------------------ PUBLIC:
+
+Physionet::Physionet(std::string recordName) {
+    setRecord(recordName);
+    setHeader();
+};
+
 
 CardioRecordHeader Physionet::getHeader() {
     return mHeader;
@@ -102,7 +98,8 @@ CardioDataFrame Physionet::getDataFrame() {
 
     for(int i = 0; i <mHeader.nLeads; i++) {
         CardioChannel channel;
-        channel.header = mHeader;
+        CardioChannelHeader header(mHeader, i);
+        channel.header = header;
         channel.signal = signal[i];
         dataFrame.dataFrame.emplace_back(channel);
     }
@@ -111,17 +108,17 @@ CardioDataFrame Physionet::getDataFrame() {
 
 
 CardioRPeaks Physionet::getRPeaks() {
-    if(!annotationsReadedFlag)
-        notReadedAnnotationHandling();  // nie wiem czy taki handling jest okej
+    if(!annotationsCached)
+        readAnnotations();  // nie wiem czy taki handling jest okej
     return mRPeaks;
 };
 
 CardioAnnotaions Physionet::getAnnotations() {
-    if(!annotationsReadedFlag)
-        notReadedAnnotationHandling();
+    if(!annotationsCached)
+        readAnnotations();
     return mAnnotations;
 };
 
 Physionet::~Physionet() {
-    //TODO: uzupełnić destruktor
+    delete []mRecordPath;
 };
