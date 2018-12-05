@@ -108,8 +108,10 @@ symbols reserved to the library begin with the characters "wfdb_".
 
 #ifndef WFDB_NETFILES
 # define DEFWFDB	". /usr/local/database"
+# define DEFWFDB " "
 #else
-# define DEFWFDB ". /usr/local/database http://physionet.org/physiobank/database"
+//# define DEFWFDB ". /usr/local/database http://physionet.org/physiobank/database"
+# define DEFWFDB " "
 #endif
 
 /* Mac OS 9 and earlier, only:  The value of DEFWFDB given below specifies

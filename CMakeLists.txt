@@ -19,7 +19,7 @@ set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${BLAS_LINKER_FLAGS} ${LA
 # WFDB
 add_subdirectory(third_party/wfdb-10.6.0)
 
-add_executable(cardiorama src/main.cpp src/ModuleBase.cpp)
+add_executable(cardiorama src/main.cpp src/ModuleBase.cpp src/IOModule.cpp)
 
 # WFDB & Armadillo
 target_link_libraries(cardiorama wfdb ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
