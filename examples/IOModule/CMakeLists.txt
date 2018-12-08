@@ -18,7 +18,7 @@ set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${BLAS_LINKER_FLAGS} ${LA
 add_subdirectory(../../third_party/wfdb-10.6.0 build)
 
 add_executable(
-    io-example
+    io-examples
     ioExample.cpp
     ../../src/IOModule.cpp
 )

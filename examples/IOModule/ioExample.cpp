@@ -32,3 +32,7 @@ int IOmodule() {
 
     return 0;
 };
+
+int main() {
+    IOmodule();
+}
