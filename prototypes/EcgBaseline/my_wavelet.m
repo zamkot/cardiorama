@@ -1,19 +1,33 @@
 clc; clear; close all;
-% adapted from ECG Baseline Drift Removal Using Discrete Wavelet Transform
+% ECG Baseline Drift Removal Using Discrete Wavelet Transform
 % Vega-Martínez G., Alvarado-Serrano C. and Leija-Salas L.
 %% Przygotowanie danych
 addpath('./ekg_zasoby');
 
 load('100_V5.dat');
 x = X100_V5;
+fs = 360;
+
+%% Szukanie czêstotliwoœci œrodkowej 
+
+delta = 1/fs;
+amax = 10;
+a = 2.^[1:amax];  % wektor zawieraj¹cy potêgi 2
+
+F = scal2frq(a,'db4',delta); % wyznacza 
+
+for i = 1: length(a)
+    if (F(i) < 1)
+        level = i;
+        break;
+    end
+end
 
 %% DWT
-level = 7;
 y = x(:)'; 
 c = []; % wektor, w którym znajduj¹ siê informacje dotycz¹ce detali i ostatniej aproksymacji
 l = zeros(1, level+2); %wektor zawieraj¹cy w sobie informacje dotycz¹ce d³ugoœci sygna³ów
 l(end) = length(y); % zapisuje informacjê na temat d³ugoœci sygna³u
-
 
 % l = [l1, l2, ..., ;ln]
 % ln - d³ugoœæ sygna³u, l(n-1) - dlugosc sygnalu po pierwszej dekompozycji,
@@ -31,7 +45,7 @@ c = [y c];  %finalny wektor: x wspó³czynników Aproksymacji poziomu level
             % 1-level wspó³czynników detali
 l(1) = length(y);
 
-%% Usuniêcie 
+%% Usuniêcie wspó³czynnika detali
 % usuniêcie detali ostatniej dekompozycji - zast¹pienie pierwszych l(1)
 % elementów wartoœci¹ 0 
 
@@ -39,7 +53,7 @@ c(1:l(1)) = zeros(l(1),1);
 
 %% Transformata odwrotna
 % dokonujemy iDWT sygna³u korzystaj¹c z wyznaczonych wczeœniej detali,
-% gdzie ostatni wektor detali zosta³ usuniêty
+% gdzie ostatni wektor detali zosta³ usuniêty (zast¹piony wartoœci¹ 0)
 % iDWT wykonujemy level razy
 
 a = c(1:l(1));  % aproksymacja poziomu level
