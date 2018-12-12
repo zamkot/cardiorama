@@ -68,13 +68,25 @@ for i = 1:level
 end
 s = a; %sygna³ EKG z usuniêt¹ lini¹ izoelektryczn¹ 
 
+% figure()
+% subplot(2, 1, 1)
+% plot(x(1:1000), 'r')
+% title('Oryginalny sygna³ EKG')
+% xlabel('Nr próbki')
+% ylabel('Amplituda sygna³u [mV]')
+% subplot(2,1,2)
+% plot(s(1:1000))
+% title('Sygna³ po usuniêciu linii izoelektrycznej')
+% xlabel('Nr próbki')
+% ylabel('Amplituda sygna³u [mV]')
+
 figure()
-subplot(2, 1, 1)
 plot(x(1:1000), 'r')
 title('Oryginalny sygna³ EKG')
-subplot(2,1,2)
+hold on
 plot(s(1:1000))
 title('Sygna³ po usuniêciu linii izoelektrycznej')
-
-
+xlabel('Nr próbki')
+ylabel('Amplituda sygna³u [mV]')
+legend('Oryginalny sygna³', 'Sygna³ po usuniêciu izolinii')
 
