@@ -1,7 +1,8 @@
 #include <ModuleBase.hpp>
 
 
-ModuleBase::ModuleBase() : resultsValidFlag{false} {}
+ModuleBase::ModuleBase() : resultsValidFlag{false}, isConfigured{false}
+{}
 
 
 bool ModuleBase::resultsValid() {
