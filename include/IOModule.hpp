@@ -16,7 +16,9 @@ private:
     CardioSignal readSamples();
 
 public:
-    Physionet(std::string recordName);
+    explicit Physionet(std::string recordName);
+    void readFile(const std::string& file_name) {}; // Trzeba wczytać jakoś te pliki
+
     CardioRecordHeader getHeader() override;
     CardioDataFrame getDataFrame() override;
     CardioRPeaks getRPeaks() override;
