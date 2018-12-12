@@ -1,4 +1,4 @@
-function [maxTWA, resBegin, resEnd] = TWAfunctionENG(ecg, Tonset, Tend, fc)
+function [maxTWA, resBegin, resEnd] = TWaveAlt(ecg, Tonset, Tend, fc)
     
     % INFO: T-wave alternans (TWA) detection and measurment
     % INPUTS:
