@@ -34,6 +34,12 @@ $ git clone https://github.com/zamkot/cardiorama.git
 $ cd cardiorama
 $ mkdir build
 ```
+### Pobierz dane
+```
+$ sh -x download.sh
+```
+Jeżeli chcesz aby twoje dane zawsze się automatycznie pobierały (np. ktoś będzie ich potrzebować) w foldezrze data znajduje się plik files.txt, dodaj do niego w nowej linii link do pobrania danych. W pliku już są przykładowe linki.
+##### !Wszystkie dane powinny znajdować się tylko i wyłącznie  w folderze data!
 
 ### Skonfiguruj i skompiluj
 ```
