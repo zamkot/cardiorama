@@ -3,10 +3,10 @@
 
 
 class ModuleBase {
+protected:
     std::vector<ModuleBase*> views;
     bool resultsValidFlag;
-
-protected:
+    bool isConfigured;
     virtual void notify();
 
 public:
