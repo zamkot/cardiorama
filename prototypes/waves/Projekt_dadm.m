@@ -61,7 +61,7 @@ for i=1: length(R_wektor)
 	okno=0;
     miejsce=0;
 		
-	while R_wektor(i)-okno>=0 && okno<=100 %okno 100 probek - > do zmiany!
+	while R_wektor(i)-okno>=1 && okno<=20 
 		
 			if sygnal(R_wektor(i)-okno) < sygnal(R_wektor(i)-(okno+1)) 
 			
@@ -75,9 +75,9 @@ for i=1: length(R_wektor)
     % QRS onset
    
     okno=0;
-    while R_wektor(i)-miejsce>=1 && okno/czestotliwosc<=0.04 %okno 100 probek - > do zmiany!
+    while R_wektor(i)-miejsce>=1 && okno/czestotliwosc<=0.04
 		
-			if sygnal(R_wektor(i)-miejsce) > sygnal(R_wektor(i)-(miejsce+1)) && sygnal(R_wektor(i)-miejsce) < 0.2 &&  sygnal(R_wektor(i)-miejsce) > -0.2 
+			if sygnal(R_wektor(i)-miejsce) > sygnal(R_wektor(i)-(miejsce+1)) && sygnal(R_wektor(i)-miejsce) < -0.05 &&  sygnal(R_wektor(i)-miejsce) > -0.1 
 			
 				QRSonset_wektor(i)=R_wektor(i)-miejsce; %wpisanie znalezionej pozycji do tablicy
 				break
@@ -91,9 +91,9 @@ for i=1: length(R_wektor)
        % Pend_wektor;
    
     okno=0;
-    while R_wektor(i)-miejsce>=1  && okno/czestotliwosc<=0.1 %okno 100 probek - > do zmiany!
+    while R_wektor(i)-miejsce>=1  && okno/czestotliwosc<=0.1 
 		
-			if sygnal(R_wektor(i)-miejsce) < sygnal(R_wektor(i)-(miejsce+1)) && sygnal(R_wektor(i)-miejsce) > 0.5 && okno/czestotliwosc>=0.04 
+			if sygnal(R_wektor(i)-miejsce) < sygnal(R_wektor(i)-(miejsce+1)) && sygnal(R_wektor(i))>-0.05 && okno/czestotliwosc>=0.04 
 			
 				Pend_wektor(i)=R_wektor(i)-miejsce; %wpisanie znalezionej pozycji do tablicy
 				break
@@ -108,7 +108,7 @@ for i=1: length(R_wektor)
     okno=0;
     while R_wektor(i)-miejsce>=1  && okno/czestotliwosc<=0.16 %okno 
 		
-			if sygnal(R_wektor(i)-miejsce) > sygnal(R_wektor(i)-(miejsce+1)) && sygnal(R_wektor(i)-miejsce) < 0.2 &&  sygnal(R_wektor(i)-miejsce) > -0.2 && okno/czestotliwosc>=0.02 
+			if sygnal(R_wektor(i)-miejsce) > sygnal(R_wektor(i)-(miejsce+1)) && sygnal(R_wektor(i)-miejsce) < -0.005 &&  sygnal(R_wektor(i)-miejsce) > -0.15 && okno/czestotliwosc>=0.02 
 			
 				Ponset_wektor(i)=R_wektor(i)-miejsce; %wpisanie znalezionej pozycji do tablicy
 				break
@@ -120,10 +120,9 @@ for i=1: length(R_wektor)
     
     % S_wektor
     
-    S_wektor(i)=0; %gdyby za³amek Q dla tego R nie zosta³ odnalezionych z jakiœ przyczyn
-		okno=0;
+		okno=3;
 		miejsce=0;
-		while R_wektor(i)+okno< length(sygnal) && okno<=100 %okno 100 probek - > do zmiany!
+		while R_wektor(i)+okno< length(sygnal) && okno<=20
 		
 			if sygnal(R_wektor(i)+okno) < sygnal(R_wektor(i)+(okno+1))
 			
@@ -134,13 +133,27 @@ for i=1: length(R_wektor)
 			miejsce=miejsce+1;
         end
     
+          % QRS end
+   
+    okno=0;
+    while R_wektor(i)+miejsce< length(sygnal) && okno/czestotliwosc<=0.02
+		
+			if sygnal(R_wektor(i)+miejsce) < sygnal(R_wektor(i)+(miejsce+1)) && sygnal(R_wektor(i)+miejsce) < -0.05 &&  sygnal(R_wektor(i)+miejsce) > -0.13 
+			
+				QRSend_wektor(i)=R_wektor(i)+miejsce; %wpisanie znalezionej pozycji do tablicy
+				break
+            end
+            miejsce=miejsce+1;
+			okno=okno+1; %przesuwanie siê wzd³u¿ okna
+    end   
+    
        
    % Tonset_wektor;
    
     okno=0;
-    while  R_wektor(i)+miejsce< length(sygnal)  && okno/czestotliwosc<=0.12 %okno 
+    while  R_wektor(i)+miejsce< length(sygnal)  && okno/czestotliwosc<=0.3 %okno 
 		
-			if sygnal(R_wektor(i)+miejsce) < sygnal(R_wektor(i)+(miejsce+1)) && sygnal(R_wektor(i)+miejsce) > 0.2  && okno/czestotliwosc>=0.02 
+			if sygnal(R_wektor(i)+miejsce) < sygnal(R_wektor(i)+(miejsce+1)) && sygnal(R_wektor(i)+miejsce) > -0.2  && okno/czestotliwosc>=0.23 
 			
 				Tonset_wektor(i)=R_wektor(i)+miejsce; %wpisanie znalezionej pozycji do tablicy
 				break
@@ -153,7 +166,17 @@ for i=1: length(R_wektor)
        % Tend_wektor;
    
 
-    
+    okno=0;
+    while  R_wektor(i)+miejsce< length(sygnal)  && okno/czestotliwosc<=0.16 %okno 
+		
+			if sygnal(R_wektor(i)+miejsce) < sygnal(R_wektor(i)+(miejsce+1)) && sygnal(R_wektor(i)+miejsce) < 0 &&  sygnal(R_wektor(i)+miejsce) > -0.1 && okno/czestotliwosc>=0.12 
+			
+				Tend_wektor(i)=R_wektor(i)+miejsce; %wpisanie znalezionej pozycji do tablicy
+				break
+            end
+            miejsce=miejsce+1;
+			okno=okno+1; %przesuwanie siê wzd³u¿ okna
+    end  
     
     
     
@@ -163,20 +186,15 @@ for i=1: length(R_wektor)
     
 end
 
-
-
+    
+    
 for i=1:4
  hold on   
-plot(QRSonset_wektor(i), sygnal(QRSonset_wektor(i)),'*')
+plot(Ponset_wektor(i), sygnal(Ponset_wektor(i)),'*')
 
 end
 
 
-for i=1:4
- hold on   
-plot(Ponset_wektor(i)-9, sygnal(Ponset_wektor(i)-9),'*') %% uwaga oszukane!
-
-end
 
 
 
