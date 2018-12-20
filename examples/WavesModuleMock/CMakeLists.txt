@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 3.5)
-project (wavesmock-testbench)
+project (wavesmock-testbench) # tu możesz zmienić nazwe modulu
 
 set (CMAKE_CXX_FLAGS "-g -std=c++11")
 include_directories(
@@ -18,11 +18,13 @@ set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${BLAS_LINKER_FLAGS} ${LA
 add_subdirectory(../../third_party/wfdb-10.6.0 build)
 
 add_executable(
-    wavesmock-testbench 
+    wavesmock-testbench # tu zamien wavesmock-module na to co w drugiej linijce
     testbench.cpp 
-    ../../src/ModuleBase.cpp 
-    ../../src/WavesModuleMock.cpp
+    ../../src/ModuleBase.cpp        # tu mozesz
+    ../../src/WavesModuleMock.cpp   # podmienic
+                                    # albo dodać pliki
 )
 
 # WFDB & Armadillo
+# tu zamien wavesmock-module na to co w drugiej linijce
 target_link_libraries(wavesmock-testbench wfdb ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
