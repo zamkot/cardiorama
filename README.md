@@ -48,7 +48,11 @@ $ cmake ..
 $ make
 ```
 
-Program gotowy do uruchomiania znajdziesz w ```${PROJECT_DIR}/build/cardiorama```
+### Uruchom
+ ```./cardiorama``` 
+ lub
+ ```/your/path/to/repo/build/cardiorama```
+
 
 ### Bonus
 Wklej to do swojego ```.bashrc``` i zapomnij co tu widziałeś.
