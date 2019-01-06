@@ -19,3 +19,5 @@ struct WavesData {
     std::vector<int> pOnset;
     std::vector<int> pEnd;
 };
+
+#define EcgBaselineData Signal

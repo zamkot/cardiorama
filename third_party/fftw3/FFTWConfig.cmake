@@ -26,7 +26,7 @@ find_package(PkgConfig)
 
 #Determine from PKG
 if( PKG_CONFIG_FOUND AND NOT FFTW_ROOT )
-  pkg_check_modules( PKG_FFTW QUIET "fftw3" )
+  pkg_check_modules( PKG_FFTW QUIET "." )
 endif()
 
 #Check whether to search static or dynamic libs
@@ -43,7 +43,7 @@ if( FFTW_ROOT )
   #find libs
   find_library(
     FFTW_LIB
-    NAMES "fftw3"
+    NAMES "."
     PATHS ${FFTW_ROOT}
     PATH_SUFFIXES "lib" "lib64"
     NO_DEFAULT_PATH
@@ -94,7 +94,7 @@ if( FFTW_ROOT )
     FFTW_INCLUDES
     NAMES "fftw3.h"
     PATHS ${FFTW_ROOT}
-    PATH_SUFFIXES "include"
+    PATH_SUFFIXES "../../include"
     NO_DEFAULT_PATH
   )
 
@@ -102,7 +102,7 @@ else()
 
   find_library(
     FFTW_LIB
-    NAMES "fftw3"
+    NAMES "."
     PATHS ${PKG_FFTW_LIBRARY_DIRS} ${LIB_INSTALL_DIR}
   )
 

@@ -20,11 +20,10 @@ set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${BLAS_LINKER_FLAGS} ${LA
 add_subdirectory(third_party/wfdb-10.6.0)
 
 # FFTW3
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}")
+set(FFTW_DIR third_party/fftw3)
 find_package(FFTW)
-message(${FFTW_FOUND})
 
-add_executable(cardiorama src/main.cpp src/ModuleBase.cpp src/IOModule.cpp src/RPeaksFinder.cpp src/RPeaksModule.cpp)
+add_executable(cardiorama src/main.cpp src/ModuleBase.cpp src/IOModule.cpp src/RPeaksModule.cpp src/EcgBaselineModule.cpp include/EcgBaselineModule.hpp)
 
 # WFDB & Armadillo
 target_link_libraries(cardiorama wfdb ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES} ${FFTW_LIBRARIES})
