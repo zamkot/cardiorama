@@ -132,6 +132,25 @@ std::vector<double> processButter(const std::vector<double>& signal) {
 
 // method for Wavelet decomposition
 std::vector<double> processWavelet(const std::vector<double>& signal) {
-        std::cout << " walcze z biblioteka zewnetrzna!" << std::endl;
+    int l = 9; // decomposition level
+    std::string nm = "db4";
+    std::vector<double> dwt_output;
+    std::vector<double> flag;
+    std::vector<int> lenght1;
+
+    dwt(signal, l, nm, dwt_output, flag, lenght1);
+
+    int from = lenght1[0] + 1;
+    int to = lenght1[0] + lenght1[1];
+
+    for (int i = from; i<to+1; i++)
+    {
+        dwt_output[i] = 0.0;
+    }
+
+    std::vector<double> idwt_output;
+    idwt(dwt_output, flag,  nm, idwt_output,lenght1);
+
+    return idwt_output;
 }
 

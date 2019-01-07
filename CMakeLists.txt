@@ -8,6 +8,7 @@ include_directories(
     include
     third_party/wfdb-10.6.0 # WFDB
     third_party/armadillo-9.200.4/include # Armadillo
+    third_party/wavelib # Wavelib
 )
 
 # Armadillo
