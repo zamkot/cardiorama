@@ -10,28 +10,13 @@
 #define log(message) std::cout << typeid(*this).name() << ": " << message << std::endl
 
 class EcgBaselineModuleStub : public EcgBaselineModuleBase {
-    Signal& rawData;
+    Signal& ecgBaseline;
 
 public:
-    EcgBaselineModuleStub(Signal& rawData) : rawData{ rawData } {}
+    EcgBaselineModuleStub(Signal& ecgBaseline) : ecgBaseline{ ecgBaseline } {}
 
     Signal getResults() override {
-        log("Runnig getResults");
-        Signal s;
-        for (const auto& sample : rawData.samples) {
-            s.samples.push_back(sample * 3);
-        }
-        return s;
-    }
-
-    void invalidateResults() override {
-        log("Something changed");
-        ModuleBase::invalidateResults();
-    }
-
-    void notify() override {
-        log("Notifying");
-        ModuleBase::notify();
+        return ecgBaseline;
     }
 };
 
@@ -43,31 +28,39 @@ public:
     RPeaksModuleStub(RPeaksData& rPeaks) : rPeaks{ rPeaks } {}
 
     RPeaksData getResults() override {
-        log("Runnig getResults");
         return rPeaks;
-    }
-
-    void invalidateResults() override {
-        log("Something changed");
-        ModuleBase::invalidateResults();
     }
 };
 
 
 int main() {
-    Signal rawData;
+    Signal ecgBaseline;
     RPeaksData rPeaks;
+    WavesData waves;
 
-    EcgBaselineModuleStub ecgBaselineModule(rawData);
+    EcgBaselineModuleStub ecgBaselineModule(ecgBaseline);
     RPeaksModuleStub rPeaksModule(rPeaks);
     WavesModule wavesModule(ecgBaselineModule, rPeaksModule);
 
-    ecgBaselineModule.invalidateResults();
+    ecgBaseline.samples = {12, 15, 12, 12, 13, 15, 19, 20, 9, 10};
+    rPeaks.rpeaks = {3, 6, 10};
+    wavesModule.invalidateResults();
+    waves = wavesModule.getResults();
+    for (auto i : waves.qrsEnd) {
+        std::cout << i << " ";
+    }
+    std::putchar('\n');
 
-    arma::mat A = arma::randu<arma::mat>(4,5);
-    arma::mat B = arma::randu<arma::mat>(4,5);
 
-    std::cout << A*B.t() << std::endl;
+    ecgBaseline.samples = {12, 15, 12, 12, 13, 15, 19, 20, 9, 10};
+    rPeaks.rpeaks = {0, 1, 2};
+    wavesModule.invalidateResults();
+    waves = wavesModule.getResults();
+    for (auto i : waves.qrsEnd) {
+        std::cout << i << " ";
+    }
+    std::putchar('\n');
+
 
     return 0;
 }

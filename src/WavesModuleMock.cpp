@@ -22,17 +22,12 @@ void WavesModule::configure(WavesConfig config) {
 
 void WavesModule::runWaves() {
     log("Running");
+    waves = {};
     auto rPeaks = rPeaksModule.getResults();
     auto ecgBaseline = ecgBaselineModule.getResults();
 
-    if (config.variant == WavesVariant::B) {
-        waves.pEnd = rPeaks.rpeaks;
-        waves.pOnset = ecgBaseline.samples;
-    }
-    else
-    {
-        waves.pEnd = rPeaks.rpeaks;
-        waves.qrsOnset = ecgBaseline.samples;
+    for (auto rpeak : rPeaks.rpeaks) {
+        waves.qrsEnd.push_back(ecgBaseline.samples[rpeak] * 2);
     }
 
     validateResults();
