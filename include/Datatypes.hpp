@@ -22,3 +22,19 @@ struct WavesData {
     std::vector<int> pOnset;
     std::vector<int> pEnd;
 };
+<<<<<<< HEAD
+=======
+
+struct Hrv2Data {
+    std::vector<int> hist_values;
+    std::vector<double> bin_centers;
+    double hrv_index;
+    double tinn;
+    double SD1; 
+    double SD2; 
+    std::vector<double> poincareplot_x_axis;
+    std::vector<double> poincareplot_y_axis; 
+    double centroid_x;
+    double centroid_y; 
+}; 
+>>>>>>> Added Hrv2Module
