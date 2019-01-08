@@ -21,7 +21,7 @@ void Hrv2Module::runHrv2() {
     auto rpeaksmodule_output = RPeaksModule.getResults();
     vec rpeaksindex(rpeaksmodule_output.rpeaks);
     
-    vec rr = createRRVector(rpeaksindex, config.sample_frequency);
+    vec rr = createRRVector(rpeaksindex, config.sampling_frequency);
     vec rr_filtered = rrFiltering(rr);
  
     // histogram values
@@ -99,13 +99,11 @@ Hrv2Data Hrv2Module::getResults() {
 
 /*--------------------------------------------------------------------------------------*/
 
-Hrv2Module::arma::vec createRRVector(arma::vec& rpeaksindex, double sample_frequency){
-    vec rp = rpeaksindex
-
+Hrv2Module::arma::vec createRRVector(arma::vec& rpeaksindex, double sampling_frequency){
+   
    using namespace arma;
-   double deltaT = 1/sample_frequency;
-   cout << deltaT << endl;
-   vec rpeaks = rpeaks_index*deltaT;
+   double deltaT = 1/sampling_frequency;
+   vec rpeaks = rpeaksindex*deltaT;
    vec vector1 = rpeaks.rows(1,rpeaks_index.n_elem-1);
    vec vector2 = rpeaks.rows(0,rpeaks_index.n_elem-2);
    vec rr = vector1-vector2; 

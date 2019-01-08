@@ -1,9 +1,9 @@
 #include <RPeaksModuleBase.hpp>
 #include <Datatypes.hpp>
 #include <IOModule.hpp>
-#include<armadillo>
+#include <armadillo>
 
-class Hrv2Module::public Hrv2ModuleBase{
+class Hrv2Module : public Hrv2ModuleBase{
 
     RPeaksModuleBase& RPeaksModule;
     
@@ -16,7 +16,7 @@ class Hrv2Module::public Hrv2ModuleBase{
     arma::vec createTriangularFunction(arma::uword N, arma::uword M, arma::uword index_of_maximum, 
                                        double maximum_value, arma::vec& bin_centers, int num_of_bins);
     double errorCalculation(arma::uvec& hist_values,arma::vec& triangular_values);
-    arma::vec createRRVector(arma::vec& rpeaksindex, double sample_frequency);
+    arma::vec createRRVector(arma::vec& rpeaksindex, double sampling_frequency);
 	
 public:
 

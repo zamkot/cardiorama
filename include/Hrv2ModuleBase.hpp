@@ -12,4 +12,3 @@ public:
     virtual void configure(Hrv2Config) = 0;
 };
 	
-	
