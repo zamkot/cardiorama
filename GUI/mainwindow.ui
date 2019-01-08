@@ -7,15 +7,22 @@
     <x>0</x>
     <y>0</y>
     <width>1379</width>
-    <height>709</height>
+    <height>732</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QGridLayout" name="gridLayout_2">
-    <item row="1" column="0">
+   <layout class="QVBoxLayout" name="verticalLayout_4">
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>ECG Diagram</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QLabel" name="label_pic">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -28,714 +35,878 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QGroupBox" name="groupBox_3">
-        <property name="maximumSize">
-         <size>
-          <width>346</width>
-          <height>627</height>
-         </size>
-        </property>
-        <property name="title">
-         <string>Analysis Options</string>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout">
-         <item alignment="Qt::AlignTop">
-          <widget class="QGroupBox" name="groupBox_6">
-           <property name="title">
-            <string/>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_2">
-            <item>
-             <widget class="QGroupBox" name="groupBox_4">
-              <property name="title">
-               <string/>
-              </property>
-              <layout class="QGridLayout" name="gridLayout_5">
-               <item row="2" column="0">
-                <widget class="QPushButton" name="RunR_PEAKS">
-                 <property name="enabled">
+    <item>
+     <widget class="QScrollArea" name="scrollArea_8">
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents_10">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>1345</width>
+         <height>628</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QGroupBox" name="groupBox_3">
+          <property name="maximumSize">
+           <size>
+            <width>346</width>
+            <height>627</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>Analysis Options</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="QGroupBox" name="groupBox_4">
+             <property name="title">
+              <string/>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_5">
+              <item row="3" column="1">
+               <widget class="QProgressBar" name="progressBar">
+                <property name="value">
+                 <number>0</number>
+                </property>
+               </widget>
+              </item>
+              <item row="8" column="1">
+               <widget class="QProgressBar" name="progressBar_4">
+                <property name="value">
+                 <number>0</number>
+                </property>
+               </widget>
+              </item>
+              <item row="10" column="1">
+               <widget class="QProgressBar" name="progressBar_6">
+                <property name="value">
+                 <number>0</number>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="1">
+               <widget class="QProgressBar" name="progressBar_5">
+                <property name="value">
+                 <number>0</number>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QTextBrowser" name="textBrowser">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="0">
+               <widget class="QPushButton" name="RunHRV2">
+                <property name="text">
+                 <string>Run HRV2</string>
+                </property>
+               </widget>
+              </item>
+              <item row="8" column="0">
+               <widget class="QPushButton" name="RunHRV1">
+                <property name="text">
+                 <string>Run HRV1</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="0">
+               <widget class="QPushButton" name="RunWAVES">
+                <property name="text">
+                 <string>Run WAVES</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QPushButton" name="OpenFile">
+                <property name="text">
+                 <string>Open File</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="1">
+               <widget class="QProgressBar" name="progressBar_2">
+                <property name="value">
+                 <number>0</number>
+                </property>
+               </widget>
+              </item>
+              <item row="11" column="0">
+               <widget class="QPushButton" name="RunHEART_CLASS">
+                <property name="text">
+                 <string>Run HEART_CLASS</string>
+                </property>
+               </widget>
+              </item>
+              <item row="11" column="1">
+               <widget class="QProgressBar" name="progressBar_7">
+                <property name="value">
+                 <number>0</number>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="1">
+               <widget class="QProgressBar" name="progressBar_3">
+                <property name="value">
+                 <number>0</number>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QPushButton" name="RunR_PEAKS">
+                <property name="enabled">
+                 <bool>true</bool>
+                </property>
+                <property name="text">
+                 <string>Run R_PEAKS</string>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="0">
+               <widget class="QPushButton" name="RunT_WAVES_ALT">
+                <property name="text">
+                 <string>Run T_WAVES_ALT</string>
+                </property>
+               </widget>
+              </item>
+              <item row="10" column="0">
+               <widget class="QPushButton" name="RunHRV_DFA">
+                <property name="text">
+                 <string>Run HRV_DFA</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QPushButton" name="pushButton">
+                <property name="text">
+                 <string>Run ECG_BASELINE</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QProgressBar" name="progressBar_8">
+                <property name="value">
+                 <number>0</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_5">
+             <property name="title">
+              <string>R - peaks detection method:</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_6">
+              <item>
+               <widget class="QRadioButton" name="radioButton_4">
+                <property name="text">
+                 <string>Hilbert</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="radioButton_3">
+                <property name="text">
+                 <string>Pan - Tompkins</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_7">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="title">
+              <string>Filtration and isoline detection method:</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_3">
+              <item>
+               <widget class="QRadioButton" name="radioButton_2">
+                <property name="text">
+                 <string>Buttherworth filter</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="radioButton">
+                <property name="text">
+                 <string>Wavelet decomposition</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_2">
+          <property name="title">
+           <string>Analysis Results</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout">
+           <item row="0" column="0">
+            <widget class="QTabWidget" name="Tab">
+             <property name="currentIndex">
+              <number>3</number>
+             </property>
+             <widget class="QWidget" name="R_PEAKS">
+              <attribute name="title">
+               <string>R_PEAKS</string>
+              </attribute>
+              <layout class="QVBoxLayout" name="verticalLayout_5">
+               <item>
+                <widget class="QScrollArea" name="scrollArea">
+                 <property name="widgetResizable">
                   <bool>true</bool>
                  </property>
+                 <widget class="QWidget" name="scrollAreaWidgetContents">
+                  <property name="geometry">
+                   <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>927</width>
+                    <height>484</height>
+                   </rect>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout_4">
+                   <item row="0" column="0" alignment="Qt::AlignHCenter">
+                    <widget class="QTableWidget" name="tableWidget">
+                     <property name="enabled">
+                      <bool>true</bool>
+                     </property>
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>256</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>256</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="autoFillBackground">
+                      <bool>false</bool>
+                     </property>
+                     <attribute name="horizontalHeaderDefaultSectionSize">
+                      <number>220</number>
+                     </attribute>
+                     <row>
+                      <property name="text">
+                       <string>1.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>2.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>3.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>4.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>5.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>6.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>7.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>8.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>9.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>10.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>11.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>12.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>13.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>14.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>15.</string>
+                      </property>
+                     </row>
+                     <column>
+                      <property name="text">
+                       <string>R_Peak_Position [sec]</string>
+                      </property>
+                     </column>
+                     <item row="0" column="0">
+                      <property name="text">
+                       <string>0.501</string>
+                      </property>
+                     </item>
+                     <item row="1" column="0">
+                      <property name="text">
+                       <string>1.009</string>
+                      </property>
+                     </item>
+                     <item row="2" column="0">
+                      <property name="text">
+                       <string>1.595</string>
+                      </property>
+                     </item>
+                     <item row="3" column="0">
+                      <property name="text">
+                       <string>2.181</string>
+                      </property>
+                     </item>
+                     <item row="4" column="0">
+                      <property name="text">
+                       <string>2.759</string>
+                      </property>
+                     </item>
+                     <item row="5" column="0">
+                      <property name="text">
+                       <string>3.345</string>
+                      </property>
+                     </item>
+                     <item row="6" column="0">
+                      <property name="text">
+                       <string>3.931</string>
+                      </property>
+                     </item>
+                     <item row="7" column="0">
+                      <property name="text">
+                       <string>4.509</string>
+                      </property>
+                     </item>
+                     <item row="8" column="0">
+                      <property name="text">
+                       <string>5.087</string>
+                      </property>
+                     </item>
+                     <item row="9" column="0">
+                      <property name="text">
+                       <string>5.673</string>
+                      </property>
+                     </item>
+                     <item row="10" column="0">
+                      <property name="text">
+                       <string>6.251</string>
+                      </property>
+                     </item>
+                     <item row="11" column="0">
+                      <property name="text">
+                       <string>6.829</string>
+                      </property>
+                     </item>
+                     <item row="12" column="0">
+                      <property name="text">
+                       <string>7.407</string>
+                      </property>
+                     </item>
+                     <item row="13" column="0">
+                      <property name="text">
+                       <string>7.985</string>
+                      </property>
+                     </item>
+                     <item row="14" column="0">
+                      <property name="text">
+                       <string>8.563</string>
+                      </property>
+                     </item>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="ExportData">
                  <property name="text">
-                  <string>Run R_PEAKS</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="7" column="0">
-                <widget class="QPushButton" name="RunHRV1">
-                 <property name="text">
-                  <string>Run HRV1</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="0">
-                <widget class="QPushButton" name="RunWAVES">
-                 <property name="text">
-                  <string>Run WAVES</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="0">
-                <widget class="QPushButton" name="RunT_WAVES_ALT">
-                 <property name="text">
-                  <string>Run T_WAVES_ALT</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="10" column="0">
-                <widget class="QPushButton" name="RunHEART_CLASS">
-                 <property name="text">
-                  <string>Run HEART_CLASS</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="8" column="0">
-                <widget class="QPushButton" name="RunHRV2">
-                 <property name="text">
-                  <string>Run HRV2</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="9" column="0">
-                <widget class="QPushButton" name="RunHRV_DFA">
-                 <property name="text">
-                  <string>Run HRV_DFA</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
-                <widget class="QProgressBar" name="progressBar">
-                 <property name="value">
-                  <number>24</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="1">
-                <widget class="QProgressBar" name="progressBar_2">
-                 <property name="value">
-                  <number>24</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="1">
-                <widget class="QProgressBar" name="progressBar_3">
-                 <property name="value">
-                  <number>24</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="7" column="1">
-                <widget class="QProgressBar" name="progressBar_4">
-                 <property name="value">
-                  <number>24</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="8" column="1">
-                <widget class="QProgressBar" name="progressBar_5">
-                 <property name="value">
-                  <number>24</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="9" column="1">
-                <widget class="QProgressBar" name="progressBar_6">
-                 <property name="value">
-                  <number>24</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="10" column="1">
-                <widget class="QProgressBar" name="progressBar_7">
-                 <property name="value">
-                  <number>24</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="0" colspan="2">
-                <widget class="QPushButton" name="OpenFile">
-                 <property name="text">
-                  <string>Open File</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0" colspan="2">
-                <widget class="QTextBrowser" name="textBrowser">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
+                  <string>Export Data</string>
                  </property>
                 </widget>
                </item>
               </layout>
              </widget>
-            </item>
-            <item>
-             <widget class="QGroupBox" name="groupBox_7">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="title">
-               <string>Filtration and isoline detection method:</string>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_3">
+             <widget class="QWidget" name="WAVES">
+              <attribute name="title">
+               <string>WAVES</string>
+              </attribute>
+              <layout class="QVBoxLayout" name="verticalLayout_7">
                <item>
-                <widget class="QRadioButton" name="radioButton_2">
-                 <property name="text">
-                  <string>Buttherworth filter</string>
+                <widget class="QScrollArea" name="scrollArea_2">
+                 <property name="widgetResizable">
+                  <bool>true</bool>
                  </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QRadioButton" name="radioButton">
-                 <property name="text">
-                  <string>Wavelet decomposition</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QGroupBox" name="groupBox_5">
-              <property name="title">
-               <string>R - peaks detection method:</string>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_6">
-               <item>
-                <widget class="QRadioButton" name="radioButton_4">
-                 <property name="text">
-                  <string>Hilbert</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QRadioButton" name="radioButton_3">
-                 <property name="text">
-                  <string>Pan - Tompkins</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item>
-       <widget class="QGroupBox" name="groupBox_2">
-        <property name="title">
-         <string>Analysis Results</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout">
-         <item row="0" column="0">
-          <widget class="QTabWidget" name="Tab">
-           <property name="currentIndex">
-            <number>0</number>
-           </property>
-           <widget class="QWidget" name="R_PEAKS">
-            <attribute name="title">
-             <string>R_PEAKS</string>
-            </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_5">
-             <item>
-              <widget class="QScrollArea" name="scrollArea">
-               <property name="widgetResizable">
-                <bool>true</bool>
-               </property>
-               <widget class="QWidget" name="scrollAreaWidgetContents">
-                <property name="geometry">
-                 <rect>
-                  <x>0</x>
-                  <y>0</y>
-                  <width>959</width>
-                  <height>478</height>
-                 </rect>
-                </property>
-                <layout class="QGridLayout" name="gridLayout_4">
-                 <item row="0" column="0" alignment="Qt::AlignHCenter">
-                  <widget class="QTableWidget" name="tableWidget">
-                   <property name="enabled">
-                    <bool>true</bool>
-                   </property>
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>256</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>256</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="autoFillBackground">
-                    <bool>false</bool>
-                   </property>
-                   <attribute name="horizontalHeaderDefaultSectionSize">
-                    <number>220</number>
-                   </attribute>
-                   <row>
-                    <property name="text">
-                     <string>1.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>2.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>3.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>4.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>5.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>6.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>7.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>8.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>9.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>10.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>11.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>12.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>13.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>14.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>15.</string>
-                    </property>
-                   </row>
-                   <column>
-                    <property name="text">
-                     <string>R_Peak_Position [sec]</string>
-                    </property>
-                   </column>
+                 <widget class="QWidget" name="scrollAreaWidgetContents_2">
+                  <property name="geometry">
+                   <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>927</width>
+                    <height>484</height>
+                   </rect>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout_3">
                    <item row="0" column="0">
-                    <property name="text">
-                     <string>0.501</string>
-                    </property>
+                    <widget class="QTableWidget" name="tableWidget_2">
+                     <attribute name="horizontalHeaderDefaultSectionSize">
+                      <number>135</number>
+                     </attribute>
+                     <row>
+                      <property name="text">
+                       <string>1.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>2.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>3.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>4.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>5.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>6.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>7.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>8.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>9.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>10.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>11.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>12.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>13.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>14.</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>15.</string>
+                      </property>
+                     </row>
+                     <column>
+                      <property name="text">
+                       <string>P_onset [sec]</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>P_end [sec]</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>QRS_onset [sec]</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>QRS_end [sec]</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>T_onset [sec]</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>T_end [sec]</string>
+                      </property>
+                     </column>
+                    </widget>
                    </item>
+                  </layout>
+                 </widget>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="ExportData_2">
+                 <property name="text">
+                  <string>Export Data</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="T_WAVES_ALT">
+              <attribute name="title">
+               <string>T_WAVES_ALT</string>
+              </attribute>
+              <layout class="QVBoxLayout" name="verticalLayout_9">
+               <item>
+                <widget class="QScrollArea" name="scrollArea_3">
+                 <property name="widgetResizable">
+                  <bool>true</bool>
+                 </property>
+                 <widget class="QWidget" name="scrollAreaWidgetContents_3">
+                  <property name="geometry">
+                   <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>927</width>
+                    <height>484</height>
+                   </rect>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout_2">
                    <item row="1" column="0">
-                    <property name="text">
-                     <string>1.009</string>
-                    </property>
+                    <widget class="QGroupBox" name="groupBox">
+                     <property name="title">
+                      <string>GroupBox</string>
+                     </property>
+                     <layout class="QHBoxLayout" name="horizontalLayout_2"/>
+                    </widget>
                    </item>
-                   <item row="2" column="0">
-                    <property name="text">
-                     <string>1.595</string>
-                    </property>
+                  </layout>
+                 </widget>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="ExportData_3">
+                 <property name="text">
+                  <string>Export Data</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="HRV1">
+              <attribute name="title">
+               <string>HRV1</string>
+              </attribute>
+              <layout class="QVBoxLayout" name="verticalLayout_8">
+               <item>
+                <widget class="QScrollArea" name="scrollArea_4">
+                 <property name="widgetResizable">
+                  <bool>true</bool>
+                 </property>
+                 <widget class="QWidget" name="scrollAreaWidgetContents_4">
+                  <property name="geometry">
+                   <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>927</width>
+                    <height>484</height>
+                   </rect>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout_6">
+                   <item row="0" column="0">
+                    <widget class="QGroupBox" name="groupBox_8">
+                     <property name="title">
+                      <string>GroupBox</string>
+                     </property>
+                     <layout class="QHBoxLayout" name="horizontalLayout_3">
+                      <item>
+                       <widget class="QTableWidget" name="tableWidget_3">
+                        <attribute name="horizontalHeaderDefaultSectionSize">
+                         <number>120</number>
+                        </attribute>
+                        <row>
+                         <property name="text">
+                          <string>Mean RR Interval</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>SDNN</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>RMSSD</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>NN50</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>pNN50</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>SDANN</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>SDSD</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>pVLF</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>pLF</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>pHF</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>LF/HF</string>
+                         </property>
+                        </row>
+                        <column>
+                         <property name="text">
+                          <string>Value</string>
+                         </property>
+                        </column>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
                    </item>
-                   <item row="3" column="0">
-                    <property name="text">
-                     <string>2.181</string>
-                    </property>
+                  </layout>
+                 </widget>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="ExportData_4">
+                 <property name="text">
+                  <string>Export Data</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="HRV2">
+              <attribute name="title">
+               <string>HRV2</string>
+              </attribute>
+              <layout class="QVBoxLayout" name="verticalLayout_10">
+               <item>
+                <widget class="QScrollArea" name="scrollArea_5">
+                 <property name="widgetResizable">
+                  <bool>true</bool>
+                 </property>
+                 <widget class="QWidget" name="scrollAreaWidgetContents_5">
+                  <property name="geometry">
+                   <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>927</width>
+                    <height>484</height>
+                   </rect>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout_7">
+                   <item row="0" column="0">
+                    <widget class="QGroupBox" name="groupBox_9">
+                     <property name="title">
+                      <string>GroupBox</string>
+                     </property>
+                    </widget>
                    </item>
-                   <item row="4" column="0">
-                    <property name="text">
-                     <string>2.759</string>
-                    </property>
+                  </layout>
+                 </widget>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="ExportData_5">
+                 <property name="text">
+                  <string>Export Data</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="HRV_DFA">
+              <attribute name="title">
+               <string>HRV_DFA</string>
+              </attribute>
+              <layout class="QVBoxLayout" name="verticalLayout_11">
+               <item>
+                <widget class="QScrollArea" name="scrollArea_6">
+                 <property name="widgetResizable">
+                  <bool>true</bool>
+                 </property>
+                 <widget class="QWidget" name="scrollAreaWidgetContents_6">
+                  <property name="geometry">
+                   <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>927</width>
+                    <height>484</height>
+                   </rect>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout_8">
+                   <item row="0" column="0">
+                    <widget class="QGroupBox" name="groupBox_10">
+                     <property name="title">
+                      <string>GroupBox</string>
+                     </property>
+                    </widget>
                    </item>
-                   <item row="5" column="0">
-                    <property name="text">
-                     <string>3.345</string>
-                    </property>
+                  </layout>
+                 </widget>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="ExportData_6">
+                 <property name="text">
+                  <string>Export Data</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="HEART_CLASS">
+              <attribute name="title">
+               <string>HEART_CLASS</string>
+              </attribute>
+              <layout class="QVBoxLayout" name="verticalLayout_12">
+               <item>
+                <widget class="QScrollArea" name="scrollArea_7">
+                 <property name="widgetResizable">
+                  <bool>true</bool>
+                 </property>
+                 <widget class="QWidget" name="scrollAreaWidgetContents_7">
+                  <property name="geometry">
+                   <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>927</width>
+                    <height>484</height>
+                   </rect>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout_9">
+                   <item row="0" column="0">
+                    <widget class="QGroupBox" name="groupBox_11">
+                     <property name="title">
+                      <string>GroupBox</string>
+                     </property>
+                    </widget>
                    </item>
-                   <item row="6" column="0">
-                    <property name="text">
-                     <string>3.931</string>
-                    </property>
-                   </item>
-                   <item row="7" column="0">
-                    <property name="text">
-                     <string>4.509</string>
-                    </property>
-                   </item>
-                   <item row="8" column="0">
-                    <property name="text">
-                     <string>5.087</string>
-                    </property>
-                   </item>
-                   <item row="9" column="0">
-                    <property name="text">
-                     <string>5.673</string>
-                    </property>
-                   </item>
-                   <item row="10" column="0">
-                    <property name="text">
-                     <string>6.251</string>
-                    </property>
-                   </item>
-                   <item row="11" column="0">
-                    <property name="text">
-                     <string>6.829</string>
-                    </property>
-                   </item>
-                   <item row="12" column="0">
-                    <property name="text">
-                     <string>7.407</string>
-                    </property>
-                   </item>
-                   <item row="13" column="0">
-                    <property name="text">
-                     <string>7.985</string>
-                    </property>
-                   </item>
-                   <item row="14" column="0">
-                    <property name="text">
-                     <string>8.563</string>
-                    </property>
-                   </item>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="ExportData">
-               <property name="text">
-                <string>Export Data</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="WAVES">
-            <attribute name="title">
-             <string>WAVES</string>
-            </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_7">
-             <item>
-              <widget class="QScrollArea" name="scrollArea_2">
-               <property name="widgetResizable">
-                <bool>true</bool>
-               </property>
-               <widget class="QWidget" name="scrollAreaWidgetContents_2">
-                <property name="geometry">
-                 <rect>
-                  <x>0</x>
-                  <y>0</y>
-                  <width>959</width>
-                  <height>478</height>
-                 </rect>
-                </property>
-                <layout class="QGridLayout" name="gridLayout_3">
-                 <item row="0" column="0">
-                  <widget class="QTableWidget" name="tableWidget_2">
-                   <attribute name="horizontalHeaderDefaultSectionSize">
-                    <number>135</number>
-                   </attribute>
-                   <row>
-                    <property name="text">
-                     <string>1.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>2.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>3.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>4.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>5.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>6.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>7.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>8.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>9.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>10.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>11.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>12.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>13.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>14.</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>15.</string>
-                    </property>
-                   </row>
-                   <column>
-                    <property name="text">
-                     <string>P_onset [sec]</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>P_end [sec]</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>QRS_onset [sec]</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>QRS_end [sec]</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>T_onset [sec]</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>T_end [sec]</string>
-                    </property>
-                   </column>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="ExportData_2">
-               <property name="text">
-                <string>Export Data</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="T_WAVES_ALT">
-            <attribute name="title">
-             <string>T_WAVES_ALT</string>
-            </attribute>
-           </widget>
-           <widget class="QWidget" name="HRV1">
-            <attribute name="title">
-             <string>HRV1</string>
-            </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_8">
-             <item alignment="Qt::AlignHCenter">
-              <widget class="QTableWidget" name="tableWidget_3">
-               <attribute name="horizontalHeaderDefaultSectionSize">
-                <number>120</number>
-               </attribute>
-               <row>
-                <property name="text">
-                 <string>Mean RR Interval</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>SDNN</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>RMSSD</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>NN50</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>pNN50</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>SDANN</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>SDSD</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>pVLF</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>pLF</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>pHF</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>LF/HF</string>
-                </property>
-               </row>
-               <column>
-                <property name="text">
-                 <string>Value</string>
-                </property>
-               </column>
-              </widget>
-             </item>
-             <item alignment="Qt::AlignHCenter">
-              <widget class="QLabel" name="label_2">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16700</width>
-                 <height>16700</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true"/>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="pixmap">
-                <pixmap>../Pobrane/48356577_320084731942071_8853634485778907136_n.png</pixmap>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="HRV2">
-            <attribute name="title">
-             <string>HRV2</string>
-            </attribute>
-           </widget>
-           <widget class="QWidget" name="HRV_DFA">
-            <attribute name="title">
-             <string>HRV_DFA</string>
-            </attribute>
-           </widget>
-           <widget class="QWidget" name="HEART_CLASS">
-            <attribute name="title">
-             <string>HEART_CLASS</string>
-            </attribute>
-           </widget>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>ECG Diagram</string>
-      </property>
+                  </layout>
+                 </widget>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="ExportData_7">
+                 <property name="text">
+                  <string>Export Data</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>

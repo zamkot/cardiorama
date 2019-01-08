@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 
+
 namespace Ui {
 class MainWindow;
 }
@@ -16,11 +17,14 @@ public:
     ~MainWindow();
 
 private slots:
-
     void on_OpenFile_clicked();
 
 private:
     Ui::MainWindow *ui;
+    Analysis analysis;
+
+    //private methods
+    void loadFile(QString);
 };
 
 #endif // MAINWINDOW_H
