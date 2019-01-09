@@ -5,7 +5,7 @@
 struct EcgBaselineConfig {
    enum Algorithm { BUTTERWORTH, WAVELET };
    Algorithm algorithm;
-}
+};
 
 class EcgBaselineModuleBase : public ModuleBase {
 public:
