@@ -1,14 +1,21 @@
 #include <iostream>
+#include <fstream>
+
 #include <RPeaksModule.h>
 
 int main() {
-    std::cout << "To jest cardiorama. Jeszcze nic tu nie ma" << std::endl;
+    std::cout << "test modułu rpeaks" << std::endl;
 
     // test modułu rpeaks
-//    Physionet ioModule("test");
-//    RPeaksModule rPeaksModule(ioModule);
-//    rPeaksModule.configure("resources/100.dat", HILBERT);
-//    auto results = rPeaksModule.getResults();
-//    std::cout << "RPEAKS" << results.rpeaks.at(0) << std::endl << std::flush;
+    EcgBaselineModule ecgBaselineModule;
+    ecgBaselineModule.configure("100.csv");
+    RPeaksModule rPeaksModuleTest(ecgBaselineModule);
+//    rPeaksModuleTest.configureTest();
+    auto results = rPeaksModuleTest.getResults();
 
+    std::ofstream outfile(std::string(ecgBaselineModule.getFilename()) + std::string("_nolowpass_prog7_results.csv"), std::ios::trunc);
+    for(auto element: results.rpeaks) {
+        std::cout << element << ",";
+        outfile << element << ",";
+    }
 }
