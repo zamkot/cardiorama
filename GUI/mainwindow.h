@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include "../include/AnalysisInterface.hpp"
 
 namespace Ui {
 class MainWindow;
@@ -18,6 +18,26 @@ public:
 
 private slots:
     void on_OpenFile_clicked();
+
+    void on_RunR_PEAKS_clicked();
+
+    void on_RunWAVES_clicked();
+
+    void on_Hilbert_clicked();
+
+    void on_PanTompkins_clicked();
+
+    void on_RunECG_BASELINE_clicked();
+
+    void on_RunT_WAVES_ALT_clicked();
+
+    void on_RunHRV1_clicked();
+
+    void on_RunHRV2_clicked();
+
+    void on_RunHRV_DFA_clicked();
+
+    void on_RunHEART_CLASS_clicked();
 
 private:
     Ui::MainWindow *ui;

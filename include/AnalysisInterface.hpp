@@ -1,5 +1,5 @@
 #include "Datatypes.hpp"
-
+#include <string>
 
 struct RPeaksConfig {
     short algorithm; // 0 - HILBERT, 1 - PAN_TOMPKINS
