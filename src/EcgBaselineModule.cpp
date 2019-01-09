@@ -52,9 +52,9 @@ EcgBaselineData EcgBaselineModule::getResults() {
 
 
 // method for IIR Butterworth filter
-std::vector<double> filt (const std::vector<double>& sos, const std::vector<double>& signal)
+std::vector<double> filt (const std::vector<double>& sos, EcgBaselineData signal)
 {
-    int length = signal.size();
+    int length = signal.samples.size();
     std::vector <double> y(length, 0);
 
     double v1 = 0.0;
@@ -63,7 +63,7 @@ std::vector<double> filt (const std::vector<double>& sos, const std::vector<doub
     for (int i = 0; i < length; ++i)
     {
         // y[n] =  b0*x[n] + b1*x[n-1] + b2*x[n-2] - a1*y[n-1] - a2*y[n-2]
-        double v0 = signal[i] - sos[4] * v1 - sos[5] * v2;
+        double v0 = signal.samples[i] - sos[4] * v1 - sos[5] * v2;
         y[i] = sos[0] * v0 + sos[1] * v1 + sos[2] * v2;
         v2 = v1;
         v1 = v0;
@@ -71,10 +71,10 @@ std::vector<double> filt (const std::vector<double>& sos, const std::vector<doub
     return y;
 }
 
-std::vector<double> filtfilt (const std::vector<double>& sos, const std::vector<double>& signal)
+std::vector<double> filtfilt (const std::vector<double>& sos, EcgBaselineData signal)
 {
-    int l1 = signal.size();
-    std::vector<double> y = filt(sos, signal);
+    int l1 = signal.samples.size();
+    std::vector<double> y = filt(sos, signal.samples);
 
     int l2 = y.size();
     std::vector<double> y2(l2);
@@ -93,7 +93,7 @@ std::vector<double> filtfilt (const std::vector<double>& sos, const std::vector<
 
 }
 
-std::vector<double> processButter(const std::vector<double>& signal) {
+std::vector<double> processButter(EcgBaselineData signal) {
 
     int filterOrder = 2; // filter order
     double overallGain = 1.0; // filter gain
@@ -127,11 +127,12 @@ std::vector<double> processButter(const std::vector<double>& signal) {
     sos.push_back(sos5);
     sos.push_back(sos6);
 
-    return filtfilt(sos, signal);
+    return filtfilt(sos, signal.samples);
 }
 
 // method for Wavelet decomposition
-std::vector<double> processWavelet(const std::vector<double>& signal) {
+std::vector<double> processWavelet(EcgBaselineData signal) {
         std::cout << " walcze z biblioteka zewnetrzna!" << std::endl;
 }
+
 
