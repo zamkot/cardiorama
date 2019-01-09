@@ -101,31 +101,15 @@ std::vector<double> processButter(EcgBaselineData signal) {
     double fc = 0.5; // cut off frequency
     double Wc = double((fc/fs)/2); // normalized cut off frequency
 
-    // coefficient a, b from matlab prototype
-
-    double a0 = 1.0;
-    double a1 = -1.9969;
-    double a2 = 0.9969;
-
-    double b0 = 0.9965;
-    double b1 = -1.9969;
-    double b2 = 0.9985;
-
-    // calculate sos matrix
-    double sos1 = b0/a0;
-    double sos2 = b1/a0;
-    double sos3 = b2/a0;
-    double sos4 = a0;
-    double sos5 = a1/a0;
-    double sos6 = a2/a0;
+    // sos matrix from matlab prototype
 
     std::vector<double> sos;
-    sos.push_back(sos1);
-    sos.push_back(sos2);
-    sos.push_back(sos3);
-    sos.push_back(sos4);
-    sos.push_back(sos5);
-    sos.push_back(sos6);
+    sos.push_back(1.00000);
+    sos.push_back(-2.0000);
+    sos.push_back(1.0000);
+    sos.push_back(1.0000);
+    sos.push_back(-1.9969);
+    sos.push_back(0.9969);
 
     return filtfilt(sos, signal.samples);
 }
