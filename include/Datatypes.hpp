@@ -22,8 +22,6 @@ struct WavesData {
     std::vector<int> pOnset;
     std::vector<int> pEnd;
 };
-<<<<<<< HEAD
-=======
 
 struct Hrv2Data {
     std::vector<int> hist_values;
@@ -37,4 +35,3 @@ struct Hrv2Data {
     double centroid_x;
     double centroid_y; 
 }; 
->>>>>>> Added Hrv2Module

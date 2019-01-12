@@ -21,7 +21,8 @@ void Hrv2Module::runHrv2() {
     auto rpeaksmodule_output = RPeaksModule.getResults();
     vec rpeaksindex(rpeaksmodule_output.rpeaks);
     
-    vec rr = createRRVector(rpeaksindex, config.sampling_frequency);
+    double sampling_frequency = 320;
+    vec rr = createRRVector(rpeaksindex, sampling_frequency);
     vec rr_filtered = rrFiltering(rr);
  
     // histogram values

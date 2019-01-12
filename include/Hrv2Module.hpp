@@ -2,6 +2,7 @@
 #include <Datatypes.hpp>
 #include <IOModule.hpp>
 #include <armadillo>
+#include <Hrv2ModuleBase.hpp>
 
 class Hrv2Module : public Hrv2ModuleBase{
 
@@ -12,7 +13,7 @@ class Hrv2Module : public Hrv2ModuleBase{
 	
     void runHrv2();
 	
-    arma::vec rrFiltering(arma:vec& rr);
+    arma::vec rrFiltering(arma::vec& rr);
     arma::vec createTriangularFunction(arma::uword N, arma::uword M, arma::uword index_of_maximum, 
                                        double maximum_value, arma::vec& bin_centers, int num_of_bins);
     double errorCalculation(arma::uvec& hist_values,arma::vec& triangular_values);
@@ -24,4 +25,4 @@ public:
     Hrv2Data getResults() override;  
     void configure(Hrv2Config) override;
 	
-}
+};
