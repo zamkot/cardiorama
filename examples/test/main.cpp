@@ -11,6 +11,13 @@ std::vector<int> loadData(std::string path) {
     return data;
 }
 
+std::vector<double> loadData2(std::string path) {
+    DataFrame df(path);
+    //std::cout << df << std::endl;
+    std::vector<double> data = df.get<double>("", [](auto s){ return std::stoi(s); });
+
+    return data;
+}
 
 
 void saveData(std::vector<int> data, std::string path) {
@@ -22,11 +29,12 @@ void saveData(std::vector<int> data, std::string path) {
     df.toCsv("output_data.csv");
 }
 
-std::vector<int> doCalculations(std::vector<int> R_wektor, std::vector<int> sygnal) {
+std::vector<int> doCalculations(std::vector<int> R_wektor, std::vector<double> sygnal) {
     std::vector<int> results;
     std::vector<int> Q_wektor;
     //for (auto number : data)
         //results.push_back(number * 2);
+	std::cout<<R_wektor.size() <<std::endl;
 
 
 	    for (int i=0; i<R_wektor.size(); i++)
@@ -61,8 +69,8 @@ std::vector<int> doCalculations(std::vector<int> R_wektor, std::vector<int> sygn
 }
 
 int main() {
-    std::vector<int> inputData1 = loadData("results_arma.csv");
-    std::vector<int> inputData2 = loadData("100.csv");
+    std::vector<int> inputData1 = loadData("Rpeaks.csv");
+    std::vector<double> inputData2 = loadData2("100.csv");
     std::vector<int> outputData = doCalculations(inputData1,inputData2);
     saveData(outputData, "output_data.csv");
 }
