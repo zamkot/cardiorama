@@ -3,68 +3,66 @@
 
 #include <DataFrame.hpp>
 
-struct WavesData {
-    std::vector<int> data1;
-    std::vector<double> data2;
-};
-
-struct OutputData {
-    std::vector<int> data1;
-    std::vector<double> data2;
-    std::vector<double> output;
-};
-
-WavesData loadData(std::string path) {
+std::vector<int> loadData(std::string path) {
     DataFrame df(path);
+    //std::cout << df << std::endl;
+    std::vector<int> data = df.get<int>("", [](auto s){ return std::stoi(s); });
 
-    std::vector<int> data1 = df.get<int>("Seria 1", [](auto s){ return std::stoi(s); });
-    std::vector<double> data2 = df.get<double>("Seria 2", [](auto s){ return std::stod(s); });
-
-    return {data1, data2};
+    return data;
 }
 
-void saveData(OutputData data, std::string path) {
+
+
+void saveData(std::vector<int> data, std::string path) {
     DataFrame df;
-
-
-
-    df.addColumn("Seria 1", data.data1, [](int number) {
-        return std::to_string(number);
-    });
-
-    df.addColumn("Seria 2", data.data2, [](double number) {
-        return std::to_string(number);
-    });
-
-    df.addColumn("Ouput", data.output, [](double number) {
-        return std::to_string(number);
+    df.addColumn("Example Output Data", data, [](int number) {       
+	return std::to_string(number);
     });
 
     df.toCsv("output_data.csv");
 }
 
-OutputData doCalculations(WavesData data) {
-    std::vector<double> output;
+std::vector<int> doCalculations(std::vector<int> R_wektor, std::vector<int> sygnal) {
+    std::vector<int> results;
+    std::vector<int> Q_wektor;
+    //for (auto number : data)
+        //results.push_back(number * 2);
 
-    auto data1 = data.data1;
-    auto data2 = data.data2;
 
-    for (int i = 0; i < data1.size(); i++) {
-        output.push_back(static_cast<double>(data1[i]) + data2[i]);
-    }
+	    for (int i=0; i<R_wektor.size(); i++)
+    {
+        int odl;
+        //odleglosc miedzy R
+        if (i == 0)
+        {
+            odl = R_wektor [0];
+        }
+        else 
+        {
+            odl = R_wektor [i] - R_wektor[i-1];
+        }
 
-    OutputData od;
-    od.data1 = data1;
-    od.data2 = data2;
-    od.output = output;
+        int okno = 0; 
+        // szukanie wektora Q
 
-    return od;
+        while (R_wektor[i]-okno-1>=0 && okno<= odl*0.1)
+        {
+            if (sygnal[R_wektor[i]-okno] < sygnal[R_wektor[i]-okno-1])
+                {Q_wektor.push_back(R_wektor[i] - okno); break;}
+            okno=okno+1;
+
+        }
+   }
+
+
+
+
+    return Q_wektor;
 }
 
 int main() {
-    WavesData inputData = loadData("input_data.csv");
-
-    OutputData outputData = doCalculations(inputData);
-
+    std::vector<int> inputData1 = loadData("results_arma.csv");
+    std::vector<int> inputData2 = loadData("100.csv");
+    std::vector<int> outputData = doCalculations(inputData1,inputData2);
     saveData(outputData, "output_data.csv");
 }
