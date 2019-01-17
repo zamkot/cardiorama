@@ -2,7 +2,19 @@
 
 Inżynieria Biomedyczna - Dedykowane Algorytmy Diagnostyki Medycznej - Analiza EKG
 
-## Na początek
+## TODO
+### Klasy bazowe modułów
+
+- [ ] EcgBaseline
+- [ ] RPeaks
+- [ ] Waves
+- [ ] TWaves
+- [ ] Hrv1
+- [ ] Hrv2
+- [ ] HrvDfa
+- [ ] HeartClass
+
+## Quick start
 
 Dzięki poniższym instrukcjom pobierzesz i uruchomisz projekt na swoim komputerze.
 
