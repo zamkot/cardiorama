@@ -69,8 +69,8 @@ std::vector<int> doCalculations(std::vector<int> R_wektor, std::vector<double> s
 }
 
 int main() {
-    std::vector<int> inputData1 = loadData("Rpeaks.csv");
-    std::vector<double> inputData2 = loadData2("100.csv");
+    std::vector<int> inputData1 = loadData("Rpeaks2.csv");
+    std::vector<double> inputData2 = loadData2("sygnal2.csv");
     std::vector<int> outputData = doCalculations(inputData1,inputData2);
     saveData(outputData, "output_data.csv");
 }
