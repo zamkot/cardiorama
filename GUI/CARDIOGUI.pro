@@ -4,8 +4,9 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT += core gui
 QT += widgets
+QT += core gui charts
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 TARGET = CARDIOGUI
@@ -27,11 +28,13 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    myanalysis.cpp
+    myanalysis.cpp \
+    chart.cpp
 
 HEADERS += \
         mainwindow.h \
-    myanalysis.h
+    myanalysis.h \
+    chart.h
 
 FORMS += \
         mainwindow.ui
