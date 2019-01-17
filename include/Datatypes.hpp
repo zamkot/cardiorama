@@ -6,13 +6,7 @@ struct Signal {
     std::vector<int> samples;
 };
 
-struct EcgBaselineData {
-    std::vector<double> samples;
-};
 
-struct RPeaksData {
-    std::vector<int> rpeaks;
-};
 
 
 struct WavesData {
