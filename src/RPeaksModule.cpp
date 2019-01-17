@@ -85,11 +85,11 @@ RPeaksData RPeaksModule::getResults() {
 void RPeaksModule::Pan_Tompkins()
 {
     filteredSignal = rawSignal; // signal from ECG_Baseline (now it's RAW from 100.csv)
-    filter_highpass(5,24);      // Highpass (Cutoff = 5, Moving window lenght = 24) - from literature and tests)
-//    filter_lowpass(15,24);      // Lowpass  (Cutoff = 15, Moving window lenght = 24) - from literature and tests)
+    filter_highpass(5,30);      // Highpass (Cutoff = 5, Moving window lenght = 24) - from literature and tests)
+    filter_lowpass(15,30);      // Lowpass  (Cutoff = 15, Moving window lenght = 24) - from literature and tests)
     differentiate();            // Differentiate
     square();                   // Squaring
-    integrate(13);              // Integration (window length = 13) - from tests
+    integrate(19);              // Integration (window length = 13) - from tests
 
     arma::vec peaks = find_peaks(filteredSignal);     //  Candidates for R Peak
     int N = int(peaks.size());
@@ -139,7 +139,7 @@ arma::vec RPeaksModule::find_peaks(arma::vec signal)
 {
     int N = int(signal.size());
     arma::vec peaks(N);
-    double threshold = signal.max() / 7;   // Threshold = 0.1 - from literature and tests
+    double threshold = signal.max() / 10;   // Threshold = 0.07 - from literature and tests
     int counter = 0;
 
     if (N > 2)
@@ -176,7 +176,7 @@ void RPeaksModule::filter_lowpass(double fc, int M)
     arma::vec window(N);
     for (int i=0; i<N; i++) {
         double bb = besseli0(9);
-        window[i] = besseli0(9*sqrt(4.0*i*(N-1-i))/(N-1))/bb;
+        window[i] = besseli0(9 * sqrt(4.0 * i * (N - 1 - i)) / (N - 1)) / bb;
     }
 
     // Convolution
@@ -196,12 +196,12 @@ void RPeaksModule::filter_highpass(double fc, int M)
     // coefficients of filter
     arma::vec h(N);
     for (int i=-M; i<0; i++)
-        h[i+M] = -2*fc*pi*arma::sinc(i*2*fc*pi); // -sin(2*pi*fs*t) / pi*t for t!=0 (from left side)
+        h[i+M] = -2*pi*fc*arma::sinc(2*pi*fc*i); // -sin(2*pi*fs*t) / pi*t for t!=0 (from left side)
 
     h[M] = 1-2*fc; // 1-2*fc for t=0
 
     for (int i=1; i<=M; i++)
-        h[i+M] = -2*fc*pi*arma::sinc(i*2*fc*pi); // -sin(2*pi*fs*t) / pi*t for t!=0 (from left side)
+        h[i+M] = -2*pi*fc*arma::sinc(2*pi*fc*i); // -sin(2*pi*fs*t) / pi*t for t!=0 (from right side)
 
     // Kaiser window with beta = 9
     arma::vec window(N);
@@ -293,3 +293,4 @@ std::vector<int> RPeaksModule::armavecToStdvec(const arma::vec& invec) {
 
     return stdvec;
 }
+
