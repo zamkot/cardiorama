@@ -19,3 +19,14 @@ struct WavesData {
     std::vector<int> pOnset;
     std::vector<int> pEnd;
 };
+
+struct Hrv1Data {
+    
+    std::vector<double> F;
+    std::vector<double> P;
+    std::vector<double> VLF;
+    std::vector<double> LF;
+    std::vector<double> HF;
+    TimeDomanVar timeDomainResults;
+
+}; 
