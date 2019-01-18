@@ -4,6 +4,23 @@
 #include <armadillo>
 #include <Hrv1ModuleBase.hpp>
 
+struct TimeDomainVar{
+    double TP;
+    double pVLF;
+    double pLF;
+    double pHF;
+    double LHHF;
+    double meanRR;
+    double stdRR;
+    double rmsRR;
+    int sumNN50;
+    double pNN50;
+    double sdann;
+    double sdanni;
+    double sdsd;
+
+};
+
 class Hrv1Module : public Hrv1ModuleBase{
 
     RPeaksModuleBase& RPeaksModule;
