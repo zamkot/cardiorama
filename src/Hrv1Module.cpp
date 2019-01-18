@@ -4,24 +4,6 @@
 #include <cmath>
 #include <armadillo>
 
-struct TimeDomainVar{
-    double TP;
-    double pVLF;
-    double pLF;
-    double pHF;
-    double LHHF;
-    double meanRR;
-    double stdRR;
-    double rmsRR;
-    int sumNN50;
-    double pNN50;
-    double sdann;
-    double sdanni;
-    double sdsd;
-
-};
-
-
 Hrv1Module::Hrv1Module(RPeaksModuleBase& RPeaksModule):RPeaksModule{RpeaksModule}{
 
     RPeaksModule.attach(this);
