@@ -1,17 +1,18 @@
 #pragma once
 #include <ModuleBase.hpp>
-
-
+	
 struct Hrv1Data {
+    
+    std::vector<double> F;
+    std::vector<double> P;
+    std::vector<double> VLF;
+    std::vector<double> LF;
+    std::vector<double> HF;
+    TimeDomainVar timeDomainResults;
 
-};
-
-struct Hrv1Config {
-
-};
+}; 
 
 class Hrv1ModuleBase : public ModuleBase {
 public:
     virtual Hrv1Data getResults() = 0;
-    virtual void configure(Hrv1Config) = 0;
 };
