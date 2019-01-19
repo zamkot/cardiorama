@@ -5,6 +5,8 @@
 #include "wavelet2s.h"
 #include "EcgBaselineModule.hpp"
 
+// TODO konstruktor 
+
 /*EcgBaselineModule::EcgBaselineModule() // 
 {
 }*/
@@ -27,12 +29,15 @@ void EcgBaselineModule::runEcgBaseline() {
 //    vector prepared for test
     EcgBaselineData ecgBaselineData;
     std::vector<double> signal{-69, -69, -69, -69, -69, -69, -69, -69, -66, -64, -64, -65, -66};
+    // TODO - wczytywanie sygnału z bazy danych ! 
+
     ecgBaselineData.samples = signal;
 
     if (config.algorithm == EcgBaselineConfig::BUTTERWORTH) results.samples = processButter(ecgBaselineData.samples);
     if (config.algorithm == EcgBaselineConfig::WAVELET) results.samples = processWavelet(ecgBaselineData.samples);
 
     validateResults();
+
 }
 
 EcgBaselineData EcgBaselineModule::getResults() {
@@ -46,7 +51,7 @@ EcgBaselineData EcgBaselineModule::getResults() {
 
 
 // method for IIR Butterworth filter
-std::vector<double> EcgBaselineModule::filt(const std::vector<double> &sos, const std::vector<double> &signal) {
+std::vector<double> EcgBaselineModule::filt(std::vector<double> &sos, std::vector<double> &signal) {
     int length = signal.size();
     std::vector<double> y(length, 0);
 
@@ -54,7 +59,6 @@ std::vector<double> EcgBaselineModule::filt(const std::vector<double> &sos, cons
     double v2 = 0.0;
 
     for (int i = 0; i < length; ++i) {
-        // y[n] =  b0*x[n] + b1*x[n-1] + b2*x[n-2] - a1*y[n-1] - a2*y[n-2]
         double v0 = signal[i] - sos[4] * v1 - sos[5] * v2;
         y[i] = sos[0] * v0 + sos[1] * v1 + sos[2] * v2;
         v2 = v1;
@@ -63,7 +67,7 @@ std::vector<double> EcgBaselineModule::filt(const std::vector<double> &sos, cons
     return y;
 }
 
-std::vector<double> EcgBaselineModule::filtfilt(const std::vector<double> &sos, const std::vector<double> &signal) {
+std::vector<double> EcgBaselineModule::filtfilt(std::vector<double> &sos, std::vector<double> &signal) {
     int l1 = signal.size();
     std::vector<double> y = filt(sos, signal);
 
@@ -82,9 +86,8 @@ std::vector<double> EcgBaselineModule::filtfilt(const std::vector<double> &sos, 
 
 }
 
-std::vector<double> EcgBaselineModule::processButter(const std::vector<double> &signal) {
+std::vector<double> EcgBaselineModule::processButter(std::vector<double> &signal) {
     int filterOrder = 2; // filter order
-    double overallGain = 1.0; // filter gain
     int fs = 360; // all signals from physionet have fs = 360 Hz
     double fc = 0.5; // cut off frequency
     double Wc = double((fc / fs) / 2); // normalized cut off frequency
@@ -105,15 +108,15 @@ std::vector<double> EcgBaselineModule::processButter(const std::vector<double> &
 // method for Wavelet decomposition
 std::vector<double> EcgBaselineModule::processWavelet(std::vector<double> &signal) {
     int l = 9; // decomposition level
-    std::string nm = "db4";
-    std::vector<double> dwt_output;
+    std::string nm = "db4"; // name Wavelet family
+    std::vector<double> dwt_output; 
     std::vector<double> flag;
     std::vector<int> lenght1;
 
     dwt(signal, l, nm, dwt_output, flag, lenght1);
 
-    int from = lenght1[0] + 1;
-    int to = lenght1[0] + lenght1[1];
+   int from = 0;
+   int to = lenght1[0] -1;
 
     for (int i = from; i < to + 1; i++) {
         dwt_output[i] = 0.0;

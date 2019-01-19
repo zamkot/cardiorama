@@ -14,6 +14,7 @@ class EcgBaselineModule : public EcgBaselineModuleBase {
     std::vector<double> processButter( std::vector<double> &signal);
     std::vector<double> processWavelet(std::vector<double> &signal);
 
+
 public:
 
     EcgBaselineData getResults() override;
