@@ -46,10 +46,11 @@ c = [y c];  %finalny wektor: x wspó³czynników Aproksymacji poziomu level
 l(1) = length(y);
 
 %% Usuniêcie wspó³czynnika detali
-% usuniêcie detali ostatniej dekompozycji - zast¹pienie pierwszych l(1)
-% elementów wartoœci¹ 0 
+% usuniêcie detali (zast¹pienie ich wartoœci¹ 0)
 
-c(1:l(1)) = zeros(l(1),1);
+for i=l(1)+1:length(c)
+	c(i) = 0;
+end
 
 %% Transformata odwrotna
 % dokonujemy iDWT sygna³u korzystaj¹c z wyznaczonych wczeœniej detali,
@@ -66,15 +67,27 @@ for i = 1:level
     od = do + 1;
 
 end
-s = a; %sygna³ EKG z usuniêt¹ lini¹ izoelektryczn¹ 
+s = x - a; %sygna³ EKG z usuniêt¹ lini¹ izoelektryczn¹ 
+
+% figure()
+% subplot(2, 1, 1)
+% plot(x(1:1000), 'r')
+% title('Oryginalny sygna³ EKG')
+% xlabel('Nr próbki')
+% ylabel('Amplituda sygna³u [mV]')
+% subplot(2,1,2)
+% plot(s(1:1000))
+% title('Sygna³ po usuniêciu linii izoelektrycznej')
+% xlabel('Nr próbki')
+% ylabel('Amplituda sygna³u [mV]')
 
 figure()
-subplot(2, 1, 1)
 plot(x(1:1000), 'r')
 title('Oryginalny sygna³ EKG')
-subplot(2,1,2)
+hold on
 plot(s(1:1000))
 title('Sygna³ po usuniêciu linii izoelektrycznej')
-
-
+xlabel('Nr próbki')
+ylabel('Amplituda sygna³u [mV]')
+legend('Oryginalny sygna³', 'Sygna³ po usuniêciu izolinii')
 
