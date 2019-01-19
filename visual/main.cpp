@@ -1,6 +1,4 @@
 #include "mainwindow.h"
-#include "histogram.h"
-
 
 #include <QApplication>
 #include <QtWidgets/QMainWindow>
@@ -27,11 +25,12 @@ int main(int argc, char *argv[])
     MainWindow window;
 
     window.show();
-    window.setChart_R_peaks();
+    window.setChart_T_Waves_ALT();
     window.setChart_HRV_2();
     window.setChart_ECG_Baseline();
     window.setChart_QRS();
-
+    window.setChart_HRV_1();
+    window.setChart_HVR_DFA();
 
     return a.exec();
 }

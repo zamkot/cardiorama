@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>775</width>
-    <height>505</height>
+    <width>1086</width>
+    <height>794</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,49 +18,69 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>20</y>
-      <width>256</width>
-      <height>192</height>
+      <y>30</y>
+      <width>331</width>
+      <height>181</height>
      </rect>
     </property>
    </widget>
    <widget class="QChartView" name="HRV2_histogram">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>20</y>
-      <width>256</width>
-      <height>192</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QChartView" name="HRV2_poincare">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>230</y>
-      <width>256</width>
-      <height>192</height>
+      <x>30</x>
+      <y>220</y>
+      <width>251</width>
+      <height>351</height>
      </rect>
     </property>
    </widget>
    <widget class="QChartView" name="QRS_chart">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>230</y>
-      <width>461</width>
-      <height>371</height>
+      <x>680</x>
+      <y>0</y>
+      <width>411</width>
+      <height>171</height>
      </rect>
     </property>
    </widget>
    <widget class="QChartView" name="baseline">
     <property name="geometry">
      <rect>
-      <x>550</x>
-      <y>20</y>
-      <width>256</width>
-      <height>192</height>
+      <x>390</x>
+      <y>0</y>
+      <width>241</width>
+      <height>181</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QChartView" name="HRV2_poincare">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>260</y>
+      <width>311</width>
+      <height>251</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QChartView" name="Chart_HRV1">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>200</y>
+      <width>541</width>
+      <height>441</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QChartView" name="Chart_DFA">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>280</y>
+      <width>541</width>
+      <height>441</height>
      </rect>
     </property>
    </widget>
@@ -70,7 +90,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>775</width>
+     <width>1086</width>
      <height>19</height>
     </rect>
    </property>
