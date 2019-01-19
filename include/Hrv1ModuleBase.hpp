@@ -5,6 +5,7 @@ struct Hrv1Data {
     
     std::vector<double> F;
     std::vector<double> P;
+    std::vector<double> ULF;
     std::vector<double> VLF;
     std::vector<double> LF;
     std::vector<double> HF;
