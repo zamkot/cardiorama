@@ -22,12 +22,23 @@ H       = tf(b,a);              % wyznaczenie transmitancji
 
 %% stworzenie macierzy sos
 
-[sos,g] = tf2sos(b,a);          % tworzenie macierzy
+%[sos,g] = tf2sos(b,a);          % tworzenie macierzy
 
 
 %% filtracja w fazie zerowej
 
-y = filtfilt(sos, g, s);
+y1 = filter(b, a, s);
+
+for i=0:length(y1)-1
+   y2(i+1) = y1(end-i); 
+end
+
+ y3 = filter(b,a,y2);
+
+for i=0:length(y3)-1
+   y(i+1) = y3(end-i); 
+end
+
 subplot(2,1,2);
 plot(y(1:1000), 'b');
 title('sygnal bez linii izoelektrycznej po filtracji butter')
