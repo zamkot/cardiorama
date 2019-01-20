@@ -45,6 +45,7 @@ private:
 
     //private methods
     void loadFile(QString);
+
 };
 
 #endif // MAINWINDOW_H

@@ -204,7 +204,7 @@
               </size>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>5</number>
              </property>
              <widget class="QWidget" name="ECG_BASELINE">
               <attribute name="title">
@@ -212,11 +212,11 @@
               </attribute>
               <layout class="QVBoxLayout" name="verticalLayout_5">
                <item>
-                <widget class="QScrollArea" name="scrollArea_9">
+                <widget class="QScrollArea" name="scrollAreaB">
                  <property name="widgetResizable">
                   <bool>true</bool>
                  </property>
-                 <widget class="QWidget" name="scrollAreaWidgetContents_18">
+                 <widget class="QWidget" name="scrollB">
                   <property name="geometry">
                    <rect>
                     <x>0</x>
@@ -225,11 +225,7 @@
                     <height>529</height>
                    </rect>
                   </property>
-                  <layout class="QGridLayout" name="gridLayout_17">
-                   <item row="0" column="0">
-                    <widget class="QChartView" name="BASELINE"/>
-                   </item>
-                  </layout>
+                  <layout class="QGridLayout" name="gridLayout_17"/>
                  </widget>
                 </widget>
                </item>
@@ -251,11 +247,11 @@
               </attribute>
               <layout class="QVBoxLayout" name="verticalLayout_2">
                <item>
-                <widget class="QScrollArea" name="scrollArea">
+                <widget class="QScrollArea" name="scrollAreaR">
                  <property name="widgetResizable">
                   <bool>true</bool>
                  </property>
-                 <widget class="QWidget" name="scrollAreaWidgetContents">
+                 <widget class="QWidget" name="scrollR">
                   <property name="geometry">
                    <rect>
                     <x>0</x>
@@ -264,11 +260,7 @@
                     <height>529</height>
                    </rect>
                   </property>
-                  <layout class="QGridLayout" name="gridLayout_4">
-                   <item row="0" column="0">
-                    <widget class="QChartView" name="RPEAKSCHART"/>
-                   </item>
-                  </layout>
+                  <layout class="QVBoxLayout" name="verticalLayout_13"/>
                  </widget>
                 </widget>
                </item>
@@ -290,11 +282,11 @@
               </attribute>
               <layout class="QVBoxLayout" name="verticalLayout_7">
                <item>
-                <widget class="QScrollArea" name="scrollArea_2">
+                <widget class="QScrollArea" name="scrollAreaW">
                  <property name="widgetResizable">
                   <bool>true</bool>
                  </property>
-                 <widget class="QWidget" name="scrollAreaWidgetContents_2">
+                 <widget class="QWidget" name="scrollW">
                   <property name="geometry">
                    <rect>
                     <x>0</x>
@@ -322,11 +314,11 @@
               </attribute>
               <layout class="QVBoxLayout" name="verticalLayout_9">
                <item>
-                <widget class="QScrollArea" name="scrollArea_3">
+                <widget class="QScrollArea" name="scrollAreaT">
                  <property name="widgetResizable">
                   <bool>true</bool>
                  </property>
-                 <widget class="QWidget" name="scrollAreaWidgetContents_3">
+                 <widget class="QWidget" name="scrollT">
                   <property name="geometry">
                    <rect>
                     <x>0</x>
@@ -354,11 +346,11 @@
               </attribute>
               <layout class="QVBoxLayout" name="verticalLayout_8">
                <item>
-                <widget class="QScrollArea" name="scrollArea_4">
+                <widget class="QScrollArea" name="scrollAreaH1">
                  <property name="widgetResizable">
                   <bool>true</bool>
                  </property>
-                 <widget class="QWidget" name="scrollAreaWidgetContents_4">
+                 <widget class="QWidget" name="scrollH1">
                   <property name="geometry">
                    <rect>
                     <x>0</x>
@@ -386,24 +378,36 @@
               </attribute>
               <layout class="QVBoxLayout" name="verticalLayout_10">
                <item>
-                <widget class="QScrollArea" name="scrollArea_5">
+                <widget class="QScrollArea" name="scrollAreaH2P">
                  <property name="widgetResizable">
                   <bool>true</bool>
                  </property>
-                 <widget class="QWidget" name="scrollAreaWidgetContents_5">
+                 <widget class="QWidget" name="scrollH2P">
                   <property name="geometry">
                    <rect>
                     <x>0</x>
                     <y>0</y>
                     <width>941</width>
-                    <height>529</height>
+                    <height>261</height>
                    </rect>
                   </property>
-                  <layout class="QGridLayout" name="gridLayout_7">
-                   <item row="0" column="0">
-                    <widget class="QChartView" name="HRV2CHART"/>
-                   </item>
-                  </layout>
+                 </widget>
+                </widget>
+               </item>
+               <item>
+                <widget class="QScrollArea" name="scrollAreaH2H">
+                 <property name="widgetResizable">
+                  <bool>true</bool>
+                 </property>
+                 <widget class="QWidget" name="scrollH2H">
+                  <property name="geometry">
+                   <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>941</width>
+                    <height>260</height>
+                   </rect>
+                  </property>
                  </widget>
                 </widget>
                </item>
@@ -422,11 +426,11 @@
               </attribute>
               <layout class="QVBoxLayout" name="verticalLayout_11">
                <item>
-                <widget class="QScrollArea" name="scrollArea_6">
+                <widget class="QScrollArea" name="scrollAreaHD">
                  <property name="widgetResizable">
                   <bool>true</bool>
                  </property>
-                 <widget class="QWidget" name="scrollAreaWidgetContents_6">
+                 <widget class="QWidget" name="scrollHD">
                   <property name="geometry">
                    <rect>
                     <x>0</x>
@@ -454,11 +458,11 @@
               </attribute>
               <layout class="QVBoxLayout" name="verticalLayout_12">
                <item>
-                <widget class="QScrollArea" name="scrollArea_7">
+                <widget class="QScrollArea" name="scrollAreaHC">
                  <property name="widgetResizable">
                   <bool>true</bool>
                  </property>
-                 <widget class="QWidget" name="scrollAreaWidgetContents_7">
+                 <widget class="QWidget" name="scrollHC">
                   <property name="geometry">
                    <rect>
                     <x>0</x>
@@ -518,13 +522,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>QChartView</class>
-   <extends>QGraphicsView</extends>
-   <header>QtCharts</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
