@@ -1,124 +1,89 @@
-#include <iostream> 
-#include <climits> 
-#include <armadillo> 
-#include <typeinfo>
+#include <armadillo>
 using namespace std;
 using namespace arma;
 
-int main() {
+int main()
+{
 
-    mat nsr001;
-    nsr001.load("chf206.csv", raw_ascii); // wczytanie tachogramu
-    mat tachogram = nsr001.rows(0, 659); // pobranie pewnej ilości próbek
+    mat signal;
+    signal.load("chf206.csv", raw_ascii);
+    mat tachogram = signal.rows(0, 1279);
 
-    //int m = 4; // tworzenie wektora z oknami
-    vec M(31);
-    vec F(31);
-    mat y_p3;
+    vec window_sizes(31);
+    vec fluctuation(31);
     mat y;
     mat x;
 
-    int k = tachogram.n_rows;
-    int length = tachogram.n_rows;
-    for (int m = 4; m <= 64; m = m + 2) {
-       
-        M((m - 4) / 2) = m;
-        //sprawdzenie rozmiaru tachogramu
-        mat tachogram2;
-        if (m < k) {
-            int modulo = k % m;
+    int trimmed_tachogram_length = tachogram.n_rows;
+    int tachogram_length = tachogram.n_rows;
 
-            unsigned int win = k - modulo; // wyznaczenie granicy okna
-            tachogram2 = tachogram.rows(0, win - 1); // wyznaczenie zakresu próbek (1:granica okna)
-            k = tachogram2.n_rows;
-        } else {
-            unsigned int win = k;
-            tachogram2 = tachogram.rows(0, win - 1);
+     //Checking size of tachogram
+    for (int window_size = 4; window_size <= 64; window_size = window_size + 2)
+    {
+
+        window_sizes((window_size - 4) / 2) = window_size;
+        mat trimmed_tachogram;
+        if (window_size < trimmed_tachogram_length)
+        {
+            trimmed_tachogram_length -= trimmed_tachogram_length % window_size;
         }
-        //całkowanie
-        x = cumsum(tachogram2, 0); // skumulowana suma
+        trimmed_tachogram = tachogram.rows(0, trimmed_tachogram_length - 1);
 
-        mat z;
-        mat xos(k, 1, fill::zeros);
+        //Integration
+        x = cumsum(trimmed_tachogram, 0);
+        mat tachogram_diff(trimmed_tachogram_length, 1, fill::zeros);
 
-        for (int a = 0; a < k; a++) {
+        for (int a = 0; a < trimmed_tachogram_length; a++)
+        {
 
-            mat mean_tachogram = mean(tachogram2);
+            mat mean_tachogram = mean(trimmed_tachogram);
 
-            mat pr = tachogram2.row(a);
+            mat sample = trimmed_tachogram.row(a);
 
-            mat z = (pr - mean_tachogram);
-            xos(a, 0) = z(0, 0);
-
+            mat tmp = (sample - mean_tachogram);
+            tachogram_diff(a, 0) = tmp(0, 0);
         }
 
-        y = cumsum(xos, 0);
+        y = cumsum(tachogram_diff, 0);
 
-        //dopasowanie krzywej polyfit/polyval
-        int len_x = x.n_rows;
+        // polyfit/polyval
+        // int len_x = x.n_rows;
 
-        int q = floor(len_x / (m));
+        int windows_count = floor(trimmed_tachogram_length / (window_size));
 
         int a = 0;
-        int b = m - 1;
+        int b = window_size - 1;
 
-        vec X(len_x);
-        vec y2(len_x);
-        mat matrix_polyfit(170, 2);
-        vec y_p3(len_x);
+        mat matrix_polyfit(windows_count, 2);
+        vec y_fitted(trimmed_tachogram_length);
 
-        // for( int i =0; i<q-1; i++ ){ // nie może tak być, pętla powinna się wykonać tyle ile wynosi q
-        //	cout <<"i"<<i<<" q "<<q<<" m: "<<m<<endl;
-        // 
-        //     y2.rows(a,b) = y.rows(a,b);
-
-        //     X.rows(a,b)= x.rows(a,b);
-        //	matrix_polyfit = polyfit(X,y2,1);
-        //  y_p3= polyval(matrix_polyfit,X);
-        //
-
-        // b = b + m;
-        //  a = a + m;
-
-        // } 
         int i = 0;
-        while (a < len_x) {
+        int j = 0;
+        while (a < trimmed_tachogram_length)
+        {
 
-            y2.rows(a, b) = y.rows(a, b);
+            matrix_polyfit.row(i) = trans(polyfit(x.rows(a, b), y.rows(a, b), 1));
 
-            X.rows(a, b) = x.rows(a, b);
+            y_fitted.rows(j, j + window_size - 1) = (polyval(matrix_polyfit.row(i), x.rows(a, b)));
 
-            matrix_polyfit.row(i) = trans(polyfit(X.rows(a, b), y2.rows(a, b), 1));
-            vec prob = trans(matrix_polyfit.row(i));
+            b = min(b + window_size, trimmed_tachogram_length - 1);
+            a = a + window_size;
 
-            y_p3 = polyval(matrix_polyfit.row(i), X);
-
-            b = min(b + m, len_x - 1);
-            a = a + m;
             i++;
-
+            j = j + window_size;
         }
-        
-        F((m - 4) / 2) = as_scalar(sqrt(1.0 / length * sum(square(y_p3 - y))));
 
-      
-
+        fluctuation((window_size - 4) / 2) = as_scalar(sqrt(1.0 / tachogram_length * sum(square(y_fitted - y))));
     }
- 
 
-    // polyval
+    // Fluctuation
 
-    // F = sqrt((1/k)*sum(square(y_p3-y)));
+    mat log_window_sizes = log(window_sizes);
+    mat log_fluctuation = log(fluctuation);
 
-    mat log_m = log(M); // Nie wiem czy jest to właściwywy logarytm
-    mat log_f = log(F);
+    vec alfa1 = polyfit(log_window_sizes.rows(0, 6), log_fluctuation.rows(0, 6), 1);
+    vec alfa2 = polyfit(log_window_sizes.rows(6, 30), log_fluctuation.rows(6, 30), 1);
 
-    vec alfa1 = polyfit(log_m.rows(0, 6), log_f.rows(0, 6), 1);
-    vec alfa2 = polyfit(log_m.rows(6, 30), log_f.rows(6, 30), 1);
-
-    vec line_alfa1 = polyval(alfa1, log_m.rows(0, 6));
-    vec line_alfa2 = polyval(alfa2, log_m.rows(6, 30));
-cout <<line_alfa2<<endl;
-   
-
+    vec line_alfa1 = polyval(alfa1, log_window_sizes.rows(0, 6));
+    vec line_alfa2 = polyval(alfa2, log_window_sizes.rows(6, 30));
 }
