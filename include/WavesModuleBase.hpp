@@ -3,10 +3,15 @@
 
 
 struct WavesData {
-
-};
-
-struct WavesConfig {
+    
+    std::vector<int> Q_wektor;
+    std::vector<int> S_wektor;
+    std::vector<int> QRSonset_wektor;
+    std::vector<int> QRSend_wektor;
+    std::vector<int> P_wektor;
+    std::vector<int> Pend_wektor;
+    std::vector<int> Ponset_wektor;
+    std::vector<int> T_wektor;
 
 };
 
