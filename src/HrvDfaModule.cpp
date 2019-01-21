@@ -1,29 +1,28 @@
 #include <armadillo>
-#include <DFAModule.hpp>
+#include <iostream>
+#include <HrvDfaModule.hpp>
 
-DFAModule::DFAModule(RPeaksModuleBase &rPeaksModule) : rPeaksModule{rPeaksModule}
+HrvDfaModule::HrvDfaModule(RPeaksModuleBase &rPeaksModule) : rPeaksModule{rPeaksModule}
 {
     rPeaksModule.attach(this);
 }
 
-DFAData DFAModule::getResults()
+HrvDfaData HrvDfaModule::getResults()
 {
     if (!resultsValid())
     {
-        runDFA();
+        runHrvDfa();
     }
 
     return results;
 }
 
-void DFAModule::runDFA()
+void HrvDfaModule::runHrvDfa()
 {
-
     using namespace std;
     using namespace arma;
 
     vector<int> rpeaks = rPeaksModule.getResults().rpeaks;
-
     vec tachogram = rpeaks2tachogram(rpeaks);
 
     vec window_sizes(31);
@@ -64,7 +63,6 @@ void DFAModule::runDFA()
         y = cumsum(tachogram_diff, 0);
 
         // polyfit/polyval
-      
 
         int windows_count = floor(trimmed_tachogram_length / (window_size));
 
@@ -111,21 +109,22 @@ void DFAModule::runDFA()
         arma2std(line_alfa2)};
 }
 
-std::vector<double> DFAModule::arma2std(arma::vec vec)
+std::vector<double> HrvDfaModule::arma2std(arma::vec vec1)
 {
-    return conv_to<std::vector<double>>(vec);
+    return arma::conv_to<std::vector<double>>::from(vec1);
 }
 
-arma::vec DFAModule::rpeaks2tachogram(std::vector<int> rpeaks)
+arma::vec HrvDfaModule::rpeaks2tachogram(std::vector<int> rpeaks)
 {
     using namespace arma;
-    vec rpeaksindex(rpeaks);
+    std::vector<double> rpeaks_double(rpeaks.begin(), rpeaks.end());
+    vec rpeaksindex(rpeaks_double);
     double sampling_frequency = 320;
     vec rr = createRRVector(rpeaksindex, sampling_frequency);
-    return rrFiltering(rr);
+    return rr;
 }
 
-arma::vec DFAModule::createRRVector(arma::vec &rpeaksindex, double sampling_frequency)
+arma::vec HrvDfaModule::createRRVector(arma::vec rpeaksindex, double sampling_frequency)
 {
     using namespace arma;
     double deltaT = 1 / sampling_frequency;
@@ -134,40 +133,4 @@ arma::vec DFAModule::createRRVector(arma::vec &rpeaksindex, double sampling_freq
     vec vector2 = rpeaks.rows(0, rpeaksindex.n_elem - 2);
     vec rr = vector1 - vector2;
     return rr;
-}
-
-arma::vec DFAModule::rrFiltering(arma::vec &rr)
-{
-    using namespace arma;
-
-    vec rr_ratio = zeros<vec>(rr.n_elem - 1);
-
-    for (uword i = 1; i < rr.n_elem; ++i)
-    {
-        rr_ratio(i - 1) = rr(i) / rr(i - 1);
-    }
-
-    vec rr_ratio_sorted = sort(rr_ratio);
-
-    uword percentyle1 = ceil(rr_ratio_sorted.n_elem * 0.01);
-    uword percentyle99 = floor(rr_ratio_sorted.n_elem * 0.99);
-    uword percentyle25 = ceil(rr_ratio_sorted.n_elem * 0.25);
-
-    vec map = ones<vec>(rr.n_elem);
-
-    for (uword i = 1; i < rr.n_elem - 2; i++)
-    {
-        if ((rr(i) / rr(i - 1) < rr_ratio_sorted(percentyle1) &&
-             rr(i + 1) / rr(i) > rr_ratio_sorted(percentyle99) &&
-             rr(i + 1) / rr(i + 2) > rr_ratio_sorted(percentyle25)) ||
-            (rr(i) / rr(i - 1) > rr_ratio_sorted(percentyle99) &&
-             rr(i + 1) / rr(i) < rr_ratio_sorted(percentyle1)))
-        {
-            map(i) = 0;
-        }
-    }
-
-    vec rr_filtered = rr(find(map));
-
-    return rr_filtered;
 }
