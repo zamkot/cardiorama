@@ -26,7 +26,7 @@ int main() {
     IOModuleStub ioModule;
     EcgBaselineModule ecgBaselineModule(ioModule);
 
-    ecgBaselineModule.configure(EcgBaselineConfig::Algorithm::BUTTERWORTH);
+    ecgBaselineModule.configure(EcgBaselineConfig{EcgBaselineConfig::Algorithm::BUTTERWORTH});
     EcgBaselineData filtered = ecgBaselineModule.getResults();
     
     saveData(filtered, "filtered_ecg.csv");

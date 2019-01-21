@@ -5,17 +5,15 @@
 #include "wavelet2s.h"
 #include "EcgBaselineModule.hpp"
 
-// TODO konstruktor 
-
 EcgBaselineModule::EcgBaselineModule(IOModuleBase& ioModule) : ioModule{ioModule}
 {
     ioModule.attach(this);
 }
 
-void EcgBaselineModule::configure(EcgBaselineConfig::Algorithm baselineMethod) {
+void EcgBaselineModule::configure(EcgBaselineConfig newConfig) {
   
-    if (config.algorithm != baselineMethod) {
-        config.algorithm = baselineMethod;
+    if (config.algorithm != newConfig.algorithm) {
+        config.algorithm = newConfig.algorithm;
         invalidateResults();
     }
 

@@ -20,5 +20,5 @@ public:
     EcgBaselineModule(IOModuleBase&);
 
     EcgBaselineData getResults() override;
-    void configure(EcgBaselineConfig::Algorithm) override;
+    void configure(EcgBaselineConfig) override;
 };

@@ -16,5 +16,5 @@ struct EcgBaselineConfig {
 class EcgBaselineModuleBase : public ModuleBase {
 public:
     virtual EcgBaselineData getResults() = 0;
-    virtual void configure(EcgBaselineConfig::Algorithm) = 0; 
+    virtual void configure(EcgBaselineConfig) = 0; 
 }; 
