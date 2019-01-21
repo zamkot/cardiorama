@@ -1,5 +1,4 @@
 #include <armadillo>
-#include <iostream>
 #include <HrvDfaModule.hpp>
 
 HrvDfaModule::HrvDfaModule(RPeaksModuleBase &rPeaksModule) : rPeaksModule{rPeaksModule}
@@ -36,7 +35,7 @@ void HrvDfaModule::runHrvDfa()
     //Checking size of tachogram
     for (int window_size = 4; window_size <= 64; window_size = window_size + 2)
     {
-
+        
         window_sizes((window_size - 4) / 2) = window_size;
         mat trimmed_tachogram;
         if (window_size < trimmed_tachogram_length)
@@ -44,7 +43,7 @@ void HrvDfaModule::runHrvDfa()
             trimmed_tachogram_length -= trimmed_tachogram_length % window_size;
         }
         trimmed_tachogram = tachogram.rows(0, trimmed_tachogram_length - 1);
-
+        
         //Integration
         x = cumsum(trimmed_tachogram, 0);
         mat tachogram_diff(trimmed_tachogram_length, 1, fill::zeros);

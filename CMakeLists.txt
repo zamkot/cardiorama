@@ -25,6 +25,7 @@ add_executable(cardiorama
     src/IOModule.cpp
     src/RPeaksModuleStub.cpp
     src/HrvDfaModule.cpp
+    src/DataFrame.cpp
 )
 
 # WFDB & Armadillo
