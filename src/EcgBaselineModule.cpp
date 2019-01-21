@@ -8,6 +8,9 @@
 EcgBaselineModule::EcgBaselineModule(IOModuleBase& ioModule) : ioModule{ioModule}
 {
     ioModule.attach(this);
+
+    // Default config
+    config.algorithm = EcgBaselineConfig::Algorithm::BUTTERWORTH;
 }
 
 void EcgBaselineModule::configure(EcgBaselineConfig newConfig) {
