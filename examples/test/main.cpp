@@ -37,9 +37,7 @@ OutputData doCalculations() {
 
     OutputData results;
     std::vector<double> pomocniczySQ;
-    //for (auto number : data)
-        //results.push_back(number * 2);
-	//std::cout<<R_wektor.size() <<std::endl;
+ 
 
     int okno=0;
     int odl=0;
@@ -87,7 +85,7 @@ OutputData doCalculations() {
         okno = 0; 
         kontroler=0;
 
-        while (R_wektor[i]+okno+1<sygnal.size() && okno<=odl*0.15) //poprawic, bo czasem zbyt malo
+        while (R_wektor[i]+okno+1<sygnal.size() && okno<=odl*0.3) //poprawic, bo czasem zbyt malo
         {
             if (sygnal[R_wektor[i]+okno] < sygnal[R_wektor[i]+okno+1] && okno>=odl*0.01)
             {
@@ -167,11 +165,10 @@ OutputData doCalculations() {
 
         //P_end
          okno=0;
-        kontroler=0; //pytanie czy go tu dodawac?
          while(results.P_wektor[i]+okno+1<sygnal.size() && results.P_wektor[i]+okno<R_wektor[i])
          { //uwaga na odwrcona proporcje przy wymnazaniu!!!
-             if(sygnal[results.P_wektor[i]+okno]<mediana) //sygnal[results.P_wektor[i]+okno] > sygnal[results.P_wektor[i]+okno+1] && 
-             {results.Pend_wektor.push_back(results.P_wektor[i]+okno);kontroler++;break;}
+             if(sygnal[results.P_wektor[i]+okno]<mediana) 
+             {results.Pend_wektor.push_back(results.P_wektor[i]+okno);break;}
              okno=okno+1;
          }
 
@@ -202,6 +199,77 @@ OutputData doCalculations() {
 
          }
 
+        // zamlamek T
+
+        //wypelnianie pomocniczego
+
+        pomocniczySQ.clear();
+
+        if (i == 0)   
+            {
+                for (int a=0; a<odlSQ; a++)
+                {pomocniczySQ.push_back(sygnal[a]);} //nalozy sie P i T
+            }
+            else 
+            {
+                szuk_przed=odlSQ/2;
+
+                for (int a=results.S_wektor[i-1]+szuk_przed*0.3; a<results.S_wektor[i-1]+szuk_przed; a++)
+                {  
+                    pomocniczySQ.push_back(sygnal[a]);
+                }
+            }
+
+        // szukanie max lub min
+        max_war=abs(pomocniczySQ[0]);
+         max_poz=0;
+         iterator=0;
+
+        for (int a=0; a<pomocniczySQ.size(); a++)
+        {
+            if (pomocniczySQ[a] < 0)
+             {pomocniczySQ[a]=pomocniczySQ[a]*(-1);}
+        }
+
+
+
+         while (iterator<pomocniczySQ.size())
+         {
+
+                if (pomocniczySQ[iterator]>max_war)
+                {
+                    max_war=pomocniczySQ[iterator];
+                    max_poz=iterator;
+                    
+                }
+
+
+             iterator=iterator+1;
+
+         }
+
+
+         if (i==0)
+         {
+             results.T_wektor.push_back(max_poz+szuk_przed*0.3); 
+         }
+         else
+         {
+             results.T_wektor.push_back(results.S_wektor[i-1]+max_poz+szuk_przed*0.3); 
+         }
+
+          // QRS_end
+        okno=0;
+         while(results.S_wektor[i-1]+okno>0 && results.S_wektor[i-1]+okno<results.T_wektor[i])
+         {
+             if (sygnal[results.S_wektor[i-1]+okno]>sygnal[results.S_wektor[i-1]+okno+1] )//&& sygnal[results.S_wektor[i-1]+okno]>mediana
+             {results.QRSend_wektor.push_back(results.S_wektor[i-1]+okno); break;}
+
+             okno=okno+1;
+         }
+
+
+
 
 
         
@@ -219,7 +287,7 @@ int main() {
     
     OutputData outputData = doCalculations();
 
-    for (auto i : outputData.Ponset_wektor)
+    for (auto i : outputData.QRSend_wektor)
     {
         std::cout<<i<<std::endl;
     }
