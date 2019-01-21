@@ -10,6 +10,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtCharts/QValueAxis>
 
+//Zmiany w chartach: alternans! nie alterans!
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -24,7 +25,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     analysis.sendRPeaksConfig(rPeaksConfig);
 
     ui->Buttherworth->setChecked(true);
-
+    //TODO enum + wywołanie przycisków
+    //EcgBaselineConfig ecgBaselineConfig{choice};
+    //analysis.sendEcgBaselineConfig(ecgBaselineConfig);
 
 }
 
@@ -39,7 +42,7 @@ void MainWindow::on_OpenFile_clicked()
                 this,
                 tr("Open File"),
                 QDir::currentPath(),
-                tr("DAT files(*.dat)"));
+                tr("DAT files(*.csv)"));
 
     ui->textBrowser->setText(QString("File path: %1").arg(filename));
     loadFile(filename);
@@ -72,7 +75,8 @@ void MainWindow::on_RunECG_BASELINE_clicked()
 {
     ui->Tab->setCurrentIndex(0);
 
-    Chart *chart = setChart_ECG_Baseline();
+    auto result = analysis.runEcgBaseline();
+    Chart *chart = setChart_ECG_Baseline(result.samples);
     QWidget *ECG_BASELINE= QApplication::activeWindow();
     QScrollArea *scrollB = ECG_BASELINE->findChild< QScrollArea*>("scrollAreaB");
     ChartView *baseline = new ChartView(chart, ECG_BASELINE);
@@ -120,32 +124,10 @@ void MainWindow::on_RunWAVES_clicked()
     ui->Tab->setCurrentIndex(2);
 
     auto result = analysis.runWaves();
-    for (size_t i =0;i<result.qrsOnset.size();i++)
-    {
-        qDebug()<<result.qrsOnset[i];
-    }
 
-    for (size_t i =0;i<result.qrsEnd.size();i++)
-    {
-        qDebug()<<result.qrsEnd[i];
-    }
+    Chart *chart = setChart_QRS(result.Q_wektor,result.S_wektor,result.QRSonset_wektor,result.QRSend_wektor,result.P_wektor,result.Pend_wektor,
+                                result.Ponset_wektor,result.T_wektor);
 
-    for (size_t i =0;i<result.tEnd.size();i++)
-    {
-       qDebug()<<result.tEnd[i];
-    }
-
-    for (size_t i =0;i<result.pOnset.size();i++)
-    {
-        qDebug()<<result.pOnset[i];
-    }
-
-    for (size_t i =0;i<result.pEnd.size();i++)
-    {
-       qDebug()<<result.pEnd[i];
-    }
-
-    Chart *chart = setChart_QRS();
     QWidget *WAVES= QApplication::activeWindow();
     QScrollArea *scrollW = WAVES->findChild< QScrollArea*>("scrollAreaW");
     ChartView *plot = new ChartView(chart, WAVES);
@@ -163,7 +145,8 @@ void MainWindow::on_RunT_WAVES_ALT_clicked()
 {
 
     ui->Tab->setCurrentIndex(3);
-    Chart *chart = setChart_T_Waves_ALT();
+    auto result = analysis.runTWaves();
+    Chart *chart = setChart_T_Waves_ALT(result.resultTWA);
     QWidget *T_WAVES_ALT= QApplication::activeWindow();
     QScrollArea *scrollT = T_WAVES_ALT->findChild< QScrollArea*>("scrollAreaT");
     ChartView *plot = new ChartView(chart,T_WAVES_ALT);
@@ -174,6 +157,14 @@ void MainWindow::on_RunT_WAVES_ALT_clicked()
     plot->grabGesture(Qt::PanGesture);
     plot->grabGesture(Qt::PinchGesture);
 
+    QTableWidget *MAXTWA = T_WAVES_ALT->findChild<QTableWidget*>("MAXTWA");
+    MAXTWA->clearContents();
+    MAXTWA->setRowCount(1);
+
+    QTableWidgetItem* newItem1 = new QTableWidgetItem();
+    newItem1->setText(QString::number(result.maxTWA));
+    MAXTWA->setItem(0,0,newItem1);
+
 
 }
 
@@ -181,7 +172,8 @@ void MainWindow::on_RunHRV1_clicked()
 {
 
     ui->Tab->setCurrentIndex(4);
-    Chart *chart = setChart_HRV1();
+    auto result = analysis.runHrv1();
+    Chart *chart = setChart_HRV1(result.F,result.P,result.ULF,result.VLF,result.LF,result.HF);
     QWidget *HRV1= QApplication::activeWindow();
     QScrollArea *scrollH1 = HRV1->findChild< QScrollArea*>("scrollAreaH1");
     ChartView *plot = new ChartView(chart,HRV1);
@@ -201,22 +193,37 @@ void MainWindow::on_RunHRV2_clicked()
     QWidget *HRV2= QApplication::activeWindow();
     QScrollArea *scrollH2P = HRV2->findChild< QScrollArea*>("scrollAreaH2P");
     QScrollArea *scrollH2H = HRV2->findChild< QScrollArea*>("scrollAreaH2H");
-    Chart *histogram = setChart_HRV_2_hist();
+    auto result = analysis.runHrv2();
+    Chart *histogram = setChart_HRV_2_hist(result.hist_values,result.bin_centers);
     ChartView *plot = new ChartView(histogram,HRV2);
     scrollH2H->setWidget(plot);
     plot->setRenderHints(QPainter::Antialiasing);
     plot->grabGesture(Qt::PanGesture);
     plot->grabGesture(Qt::PinchGesture);
 
-    Chart *poincare = setChart_HRV2_poincare();
+    Chart *poincare = setChart_HRV2_poincare(result.SD1,result.SD2,result.poincareplot_x_axis,result.poincareplot_y_axis,result.centroid_x,result.centroid_y);
     ChartView *plot2 = new ChartView(poincare,HRV2);
     scrollH2P->setWidget(plot2);
     plot2->setRenderHints(QPainter::Antialiasing);
     plot2->grabGesture(Qt::PanGesture);
     plot2->grabGesture(Qt::PinchGesture);
 
+    QTableWidget *HRV2TAB = HRV2->findChild<QTableWidget*>("HRV2TAB");
+    HRV2TAB->clearContents();
+    HRV2TAB->setRowCount(1);
 
-
+    QTableWidgetItem* newItem1 = new QTableWidgetItem();
+    newItem1->setText(QString::number(result.tinn));
+    HRV2TAB->setItem(0,0,newItem1);
+    QTableWidgetItem* newItem2 = new QTableWidgetItem();
+    newItem2->setText(QString::number(result.hrv_index));
+    HRV2TAB->setItem(0,1,newItem2);
+    QTableWidgetItem* newItem3 = new QTableWidgetItem();
+    newItem3->setText(QString::number(result.SD1));
+    HRV2TAB->setItem(0,2,newItem3);
+    QTableWidgetItem* newItem4 = new QTableWidgetItem();
+    newItem4->setText(QString::number(result.SD2));
+    HRV2TAB->setItem(0,3,newItem4);
 
 }
 

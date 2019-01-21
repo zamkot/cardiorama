@@ -138,29 +138,6 @@
             </widget>
            </item>
            <item>
-            <widget class="QGroupBox" name="groupBox_5">
-             <property name="title">
-              <string>R - peaks detection method:</string>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout_6">
-              <item>
-               <widget class="QRadioButton" name="Hilbert">
-                <property name="text">
-                 <string>Hilbert</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QRadioButton" name="PanTompkins">
-                <property name="text">
-                 <string>Pan - Tompkins</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
             <widget class="QGroupBox" name="groupBox_7">
              <property name="enabled">
               <bool>true</bool>
@@ -186,6 +163,41 @@
              </layout>
             </widget>
            </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_5">
+             <property name="title">
+              <string>R - peaks detection method:</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_6">
+              <item>
+               <widget class="QRadioButton" name="Hilbert">
+                <property name="text">
+                 <string>Hilbert</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="PanTompkins">
+                <property name="text">
+                 <string>Pan - Tompkins</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox">
+             <property name="title">
+              <string>Number of bins for RR intervals histogram:</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_9">
+              <item>
+               <widget class="QSpinBox" name="nr_of_bins"/>
+              </item>
+             </layout>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
@@ -204,7 +216,7 @@
               </size>
              </property>
              <property name="currentIndex">
-              <number>5</number>
+              <number>3</number>
              </property>
              <widget class="QWidget" name="ECG_BASELINE">
               <attribute name="title">
@@ -312,8 +324,21 @@
               <attribute name="title">
                <string>T_WAVES_ALT</string>
               </attribute>
-              <layout class="QVBoxLayout" name="verticalLayout_9">
-               <item>
+              <layout class="QGridLayout" name="gridLayout_4">
+               <item row="2" column="0">
+                <widget class="QPushButton" name="ExportData_3">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16775000</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Export Data</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
                 <widget class="QScrollArea" name="scrollAreaT">
                  <property name="widgetResizable">
                   <bool>true</bool>
@@ -324,18 +349,34 @@
                     <x>0</x>
                     <y>0</y>
                     <width>941</width>
-                    <height>529</height>
+                    <height>473</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_2"/>
                  </widget>
                 </widget>
                </item>
-               <item>
-                <widget class="QPushButton" name="ExportData_3">
-                 <property name="text">
-                  <string>Export Data</string>
+               <item row="1" column="0">
+                <widget class="QTableWidget" name="MAXTWA">
+                 <property name="maximumSize">
+                  <size>
+                   <width>140</width>
+                   <height>50</height>
+                  </size>
                  </property>
+                 <property name="layoutDirection">
+                  <enum>Qt::LeftToRight</enum>
+                 </property>
+                 <row>
+                  <property name="text">
+                   <string>Value</string>
+                  </property>
+                 </row>
+                 <column>
+                  <property name="text">
+                   <string>maxTWA</string>
+                  </property>
+                 </column>
                 </widget>
                </item>
               </layout>
@@ -388,7 +429,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>941</width>
-                    <height>261</height>
+                    <height>233</height>
                    </rect>
                   </property>
                  </widget>
@@ -405,10 +446,49 @@
                     <x>0</x>
                     <y>0</y>
                     <width>941</width>
-                    <height>260</height>
+                    <height>232</height>
                    </rect>
                   </property>
                  </widget>
+                </widget>
+               </item>
+               <item>
+                <widget class="QTableWidget" name="HRV2TAB">
+                 <property name="maximumSize">
+                  <size>
+                   <width>862</width>
+                   <height>50</height>
+                  </size>
+                 </property>
+                 <attribute name="horizontalHeaderDefaultSectionSize">
+                  <number>200</number>
+                 </attribute>
+                 <row>
+                  <property name="text">
+                   <string>Value</string>
+                  </property>
+                 </row>
+                 <row/>
+                 <column>
+                  <property name="text">
+                   <string>TINN [s]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>HRV Triangular Index [s]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>SD1 [s]</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>SD2 [s]</string>
+                  </property>
+                 </column>
                 </widget>
                </item>
                <item>

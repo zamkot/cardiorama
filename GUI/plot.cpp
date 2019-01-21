@@ -13,7 +13,7 @@ QFont ChartFont("Arial", 14, QFont::Bold);
 
 QT_CHARTS_USE_NAMESPACE
 
-Chart *setChart_ECG_Baseline()
+Chart *setChart_ECG_Baseline(std::vector<double>samples)
 {
 
     //  QValueAxis *x_axis = new QValueAxis();
@@ -22,22 +22,24 @@ Chart *setChart_ECG_Baseline()
 
      unsigned int i = 0;
      // tu będzie wektor danymi x - sygnał EKG
-     std::vector<int> dane_x(300);
+     //std::vector<int> dane_x(300);
+     //std::iota(dane_x.begin(), dane_x.end(), 1);
+     //a tu bedzie wektor z wartościami na ygrekach - sygnał EKG
+     //std::vector<int> dane_y = {2,45,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7
+     //                         ,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7
+      //                               ,2,45,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7};
+     //a tu bedzie wektor z wartościami na ygrekach - sygnał EKG
+
+     // w czasie czy próbki??
+     std::vector<int> dane_x(samples.size());
      std::iota(dane_x.begin(), dane_x.end(), 1);
-     //a tu bedzie wektor z wartościami na ygrekach - sygnał EKG
-     std::vector<int> dane_y = {2,45,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7
-                               ,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7
-                               ,2,45,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7,2,15,1,4,22,6,8,30,29,7};
-     //a tu bedzie wektor z wartościami na ygrekach - sygnał EKG
-
-
      //seria danych bazowych - sygnał EKG
      QLineSeries *series_line = new QLineSeries();
 
      //przygotowanie serii dla sygnalu EKG
      for(i = 0; i < dane_x.size(); i++)
      {
-         series_line->append(dane_x[i], dane_y[i]);
+         series_line->append(dane_x[i], samples[i]);
      }
 
 
@@ -51,15 +53,15 @@ Chart *setChart_ECG_Baseline()
      chart->legend()->hide();
      chart->setTitle("ECG Baseline");
 
-     auto max = *max_element(std::begin(dane_y), std::end(dane_y));
-     auto min = *min_element(std::begin(dane_y), std::end(dane_y));
+     auto max = *max_element(std::begin(samples), std::end(samples));
+     auto min = *min_element(std::begin(samples), std::end(samples));
      QValueAxis * axis_y = new QValueAxis();
      axis_y->setRange(min-2,max+2);
      axis_y->setTitleText("Voltage [mV]");
 
 
      QValueAxis * axis_x = new QValueAxis();
-     axis_x->setRange(0,dane_y.size()+2);
+     axis_x->setRange(0,samples.size()+2);
      axis_x->setTitleText("Samples");
 
 
@@ -169,7 +171,8 @@ Chart *setChart_R_peaks(std::vector<int> r_peaks)
 
 
 
-Chart *setChart_QRS()
+Chart *setChart_QRS(std::vector<int> Q_wektor,std::vector<int> S_wektor,std::vector<int> QRSonset_wektor,std::vector<int> QRSend_wektor,
+                     std::vector<int> P_wektor,std::vector<int> Pend_wektor,std::vector<int> Ponset_wektor,std::vector<int> T_wektor)
 {
     //Question: Czy os x ma być w próbkach, czy w czasie?
 
@@ -188,19 +191,19 @@ Chart *setChart_QRS()
      std::vector<int> r_peaks = {2,3,5};
 
      //tu będzie wektor z qrsOnset
-     std::vector<int> qrsOnset = {1,4};
+     //std::vector<int> qrsOnset = {1,4};
 
      //tu będzie wektor z qrsend
-     std::vector<int> qrsend = {6};
+     //std::vector<int> QRSend_wektor = {6};
 
      //tu będzie wektor z tEnd
-     std::vector<int> tEnd = {7};
+     //std::vector<int> T_wektor = {7};
 
      //tu będzie wektor z pOnset
-     std::vector<int> pOnset = {8};
+     //std::vector<int> pOnset = {8};
 
      //tu będzie wektor z pOnset
-     std::vector<int> pEnd = {9,10};
+     //std::vector<int> pEnd = {9,10};
 
      //seria danych bazowych - sygnał EKG
      QLineSeries *series_line = new QLineSeries();
@@ -208,8 +211,11 @@ Chart *setChart_QRS()
      //seria danych - wektor r pików
      QScatterSeries *series_rpeaks = new QScatterSeries();
      QScatterSeries *series_qrsOnset = new QScatterSeries();
+     QScatterSeries *series_q = new QScatterSeries();
+     QScatterSeries *series_s = new QScatterSeries();
+     QScatterSeries *series_p = new QScatterSeries();
      QScatterSeries *series_qrsend = new QScatterSeries();
-     QScatterSeries *series_tEnd = new QScatterSeries();
+     QScatterSeries *series_t = new QScatterSeries();
      QScatterSeries *series_pOnset = new QScatterSeries();
      QScatterSeries *series_pEnd = new QScatterSeries();
 
@@ -217,7 +223,10 @@ Chart *setChart_QRS()
      series_rpeaks->setName("R peak");
      series_qrsOnset->setName("Qrs Onset");
      series_qrsend->setName("Qrs End");
-     series_tEnd->setName("T-wave");
+     series_q->setName("Q wave");
+     series_s->setName("S wave");
+     series_p->setName("P wave");
+     series_t->setName("T wave");
      series_pOnset->setName("P onset");
      series_pEnd->setName("P End");
 
@@ -227,7 +236,10 @@ Chart *setChart_QRS()
      series_rpeaks->setMarkerSize(DEFAULT_MARKER_SIZE);
      series_qrsOnset->setMarkerSize(DEFAULT_MARKER_SIZE);
      series_qrsend->setMarkerSize(DEFAULT_MARKER_SIZE);
-     series_tEnd->setMarkerSize(DEFAULT_MARKER_SIZE);
+     series_t->setMarkerSize(DEFAULT_MARKER_SIZE);
+     series_s->setMarkerSize(DEFAULT_MARKER_SIZE);
+     series_p->setMarkerSize(DEFAULT_MARKER_SIZE);
+     series_q->setMarkerSize(DEFAULT_MARKER_SIZE);
      series_pOnset->setMarkerSize(DEFAULT_MARKER_SIZE);
      series_pEnd->setMarkerSize(DEFAULT_MARKER_SIZE);
 
@@ -239,31 +251,45 @@ Chart *setChart_QRS()
      }
 
 
-     for(i = 0; i < qrsOnset.size(); i++)
+     for(i = 0; i < QRSonset_wektor.size(); i++)
      {
-         series_qrsOnset->append(qrsOnset[i], dane_y[qrsOnset[i] - 1]);
+         series_qrsOnset->append(QRSonset_wektor[i], dane_y[QRSonset_wektor[i] - 1]);
      }
 
-     for(i = 0; i < qrsend.size(); i++)
+     for(i = 0; i < QRSend_wektor.size(); i++)
      {
-         series_qrsend->append(qrsend[i], dane_y[qrsend[i] - 1]);
+         series_qrsend->append(QRSend_wektor[i], dane_y[QRSend_wektor[i] - 1]);
      }
 
-     for(i = 0; i < tEnd.size(); i++)
+     for(i = 0; i < T_wektor.size(); i++)
      {
-         series_tEnd->append(tEnd[i], dane_y[tEnd[i] - 1]);
+         series_t->append(T_wektor[i], dane_y[T_wektor[i] - 1]);
      }
 
-     for(i = 0; i < pOnset.size(); i++)
+     for(i = 0; i <Ponset_wektor.size(); i++)
      {
-         series_pOnset->append(pOnset[i], dane_y[pOnset[i] - 1]);
+         series_pOnset->append(Ponset_wektor[i], dane_y[Ponset_wektor[i] - 1]);
      }
 
-     for(i = 0; i < pEnd.size(); i++)
+     for(i = 0; i < Pend_wektor.size(); i++)
      {
-         series_pEnd->append(pEnd[i], dane_y[pEnd[i] - 1]);
+         series_pEnd->append(Pend_wektor[i], dane_y[Pend_wektor[i] - 1]);
      }
 
+     for(i = 0; i < S_wektor.size(); i++)
+     {
+         series_s->append(S_wektor[i], dane_y[S_wektor[i] - 1]);
+     }
+
+     for(i = 0; i < Q_wektor.size(); i++)
+     {
+         series_q->append(Q_wektor[i], dane_y[Q_wektor[i] - 1]);
+     }
+
+     for(i = 0; i < P_wektor.size(); i++)
+     {
+         series_p->append(P_wektor[i], dane_y[P_wektor[i] - 1]);
+     }
 
      //przygotowanie serii dla sygnalu EKG
      for(i = 0; i < dane_x.size(); i++)
@@ -305,10 +331,12 @@ Chart *setChart_QRS()
      chart->addSeries(series_rpeaks);
      chart->addSeries(series_qrsOnset);
      chart->addSeries(series_qrsend);
-     chart->addSeries(series_tEnd);
+     chart->addSeries(series_t);
      chart->addSeries(series_pOnset);
      chart->addSeries(series_pEnd);
-
+     chart->addSeries(series_s);
+     chart->addSeries(series_p);
+     chart->addSeries(series_q);
 
      chart->setAxisX(axis_x,series_line);
      chart->setAxisY(axis_y,series_line);
@@ -322,8 +350,8 @@ Chart *setChart_QRS()
      chart->setAxisX(axis_x,series_qrsend);
      chart->setAxisY(axis_y,series_qrsend);
 
-     chart->setAxisX(axis_x,series_tEnd);
-     chart->setAxisY(axis_y,series_tEnd);
+     chart->setAxisX(axis_x,series_t);
+     chart->setAxisY(axis_y,series_t);
 
      chart->setAxisX(axis_x,series_pOnset);
      chart->setAxisY(axis_y,series_pOnset);
@@ -331,13 +359,22 @@ Chart *setChart_QRS()
      chart->setAxisX(axis_x,series_pEnd);
      chart->setAxisY(axis_y,series_pEnd);
 
+     chart->setAxisX(axis_x,series_p);
+     chart->setAxisY(axis_y,series_p);
+
+     chart->setAxisX(axis_x,series_s);
+     chart->setAxisY(axis_y,series_s);
+
+     chart->setAxisX(axis_x,series_q);
+     chart->setAxisY(axis_y,series_q);
+
      chart->setAnimationOptions(QChart::AllAnimations);
 
 
     return chart;
 }
 
-Chart *setChart_T_Waves_ALT()
+Chart *setChart_T_Waves_ALT(std::vector<int> resultTWA)
 {
 
     //Question: Czy os x ma być w próbkach, czy w czasie?
@@ -352,8 +389,8 @@ Chart *setChart_T_Waves_ALT()
      //a tu bedzie wektor z wartościami na ygrekach - sygnał EKG
      std::vector<int> dane_y = {2,15,1,4,22,6};
 
-     //tu będzie wektor z r pikami
-     std::vector<int> t_waves_alt = {2,3,5};
+     //tu będzie wektor z t_altami pikami
+     //std::vector<int> t_waves_alt = {2,3,5};
 
      //seria danych bazowych - sygnał EKG
      QLineSeries *series_line = new QLineSeries();
@@ -362,9 +399,9 @@ Chart *setChart_T_Waves_ALT()
      QScatterSeries *series_scatter2 = new QScatterSeries();
 
 
-     for(i = 0; i < t_waves_alt.size(); i++)
+     for(i = 0; i < resultTWA.size(); i++)
      {
-         series_scatter2->append(t_waves_alt[i], dane_y[t_waves_alt[i] - 1]);
+         series_scatter2->append( resultTWA[i], dane_y[ resultTWA[i] - 1]);
      }
 
      //przygotowanie serii dla sygnalu EKG
@@ -383,7 +420,7 @@ Chart *setChart_T_Waves_ALT()
 
      chart->legend()->hide();
 
-     chart->setTitle("T wave alterans");
+     chart->setTitle("T wave alternans");
      //chart->createDefaultAxes();
 
 
@@ -397,7 +434,7 @@ Chart *setChart_T_Waves_ALT()
      axis_x->setTitleText("Samples");
 
      series_scatter2->setMarkerSize(DEFAULT_MARKER_SIZE);
-     series_scatter2->setName("detected alterans");
+     series_scatter2->setName("detected alternans");
 
      series_line->setName("ECG Signal");
 
@@ -420,21 +457,22 @@ Chart *setChart_T_Waves_ALT()
      return chart;
 }
 
-Chart *setChart_HRV1()
+Chart *setChart_HRV1(std::vector<double> F,std::vector<double> P,std::vector<double> ULF,std::vector<double> VLF,std::vector<double> LF,
+                     std::vector<double> HF)
 {
     unsigned long i;
 
     //tu będzie wektor z częstotliwością
-    std::vector<double> F = {0.01,0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08,0.1,0.2,0.3,0.4};
+    //std::vector<double> F = {0.01,0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08,0.1,0.2,0.3,0.4};
     //tu będzie wektor z wartościami
-    std::vector<double> P = {1,2,100000,4,15,4,3,4,5,6,8,12};
+    //std::vector<double> P = {1,2,100000,4,15,4,3,4,5,6,8,12};
 
 
     //tu będą od Zuzy wartości
-    std::vector<double> ULF = {0,0.003};
-    std::vector<double> VLF = {0.003,0.15};
-    std::vector<double> LF = {0.16,0.2};
-    std::vector<double> HF = {0.35, 0.4};
+    //std::vector<double> ULF = {0,0.003};
+    //std::vector<double> VLF = {0.003,0.15};
+    //std::vector<double> LF = {0.16,0.2};
+    //std::vector<double> HF = {0.35, 0.4};
 
     //tu będzie oś od Zuzy
     QCategoryAxis  * axisX3 = new QCategoryAxis();
@@ -488,7 +526,7 @@ Chart *setChart_HRV1()
 }
 
 
-Chart *setChart_HRV_2_hist()
+Chart *setChart_HRV_2_hist(std::vector<int> hist_values,std::vector<double> bin_centers)
 {
 /************************************HISTOGRAM********************************************/
 
@@ -501,25 +539,25 @@ Chart *setChart_HRV_2_hist()
 
 
     //przedziały
-    std::vector<double> przedzialy(10);
-    przedzialy = {1,2,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19};
+    //std::vector<double> przedzialy(10);
+    //przedzialy = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19};
 
-    std::vector<std::string> string_przedzialy;
+    std::vector<std::string> string_bin_centers;
 
 
-    QList<QString> list_przedzialy;
+    QList<QString> list_bin_centers;
 
-    for(i = 0; i < przedzialy.size(); i++)
+    for(i = 0; i < bin_centers.size(); i++)
     {
-        list_przedzialy.append(QString::number(przedzialy[i]));
+        list_bin_centers.append(QString::number(bin_centers[i]));
     }
 
     //tu będą wartości dla danych przedziałów - dane y
-    std::vector<int> int_vector_y(10);
-    int_vector_y = {1,2,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,11};
+    //std::vector<int> int_vector_y(10);
+    //int_vector_y = {1,2,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,11};
 
     //int to double
-    std::vector<qreal> nowy_wektor(int_vector_y.begin(), int_vector_y.end());
+    std::vector<qreal> nowy_wektor(hist_values.begin(), hist_values.end());
 
     //przeksztalcenie na QVector
     QVector<double> nowy_wektor_q = QVector<double>::fromStdVector(nowy_wektor);
@@ -544,7 +582,7 @@ Chart *setChart_HRV_2_hist()
     hist->setTitleFont(ChartFont);
 
     QBarCategoryAxis *axis = new QBarCategoryAxis();
-    axis->append(list_przedzialy);
+    axis->append(list_bin_centers);
 
     axis->setLabelsAngle(-90);
 
@@ -562,19 +600,12 @@ Chart *setChart_HRV_2_hist()
 
 
 
-Chart *setChart_HRV2_poincare()
+Chart *setChart_HRV2_poincare( double SD1,double SD2,std::vector<double> poincareplot_x_axis,std::vector<double> poincareplot_y_axis,double centroid_x,double centroid_y)
 {
 
 /************************************POINCARE********************************************/
 
-    double centroid_x = 0.6;
-    double centroid_y = 0.6;
 
-    double SD1 = 0.2;
-    double SD2 = 0.5;
-
-    std::vector<double> poincareplot_x_axis =  {0.10, 0.15, 0.24, 0.26, 0.837};;
-    std::vector<double> poincareplot_y_axis = {0.915, 0.324, 0.426, 0.637, 0.118};
 
     QScatterSeries * series_poincare = new QScatterSeries();
 
