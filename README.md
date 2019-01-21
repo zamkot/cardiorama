@@ -5,11 +5,11 @@ Inżynieria Biomedyczna - Dedykowane Algorytmy Diagnostyki Medycznej - Analiza E
 ## TODO
 ### Klasy bazowe modułów
 
-- [ ] EcgBaseline
+- [x] EcgBaseline
 - [ ] RPeaks
 - [ ] Waves
-- [ ] TWaves
-- [ ] Hrv1
+- [x] TWaves
+- [x] Hrv1
 - [x] Hrv2
 - [ ] HrvDfa
 - [ ] HeartClass
