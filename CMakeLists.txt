@@ -8,6 +8,7 @@ include_directories(
     include
     third_party/wfdb-10.6.0 # WFDB
     third_party/armadillo-9.200.4/include # Armadillo
+    third_party/wavelib/src/static # Wavelib
 )
 
 # Armadillo
@@ -18,8 +19,10 @@ set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${BLAS_LINKER_FLAGS} ${LA
 
 # WFDB
 add_subdirectory(third_party/wfdb-10.6.0)
+# waveletlib
+add_subdirectory(third_party/wavelib/src/static build)
 
-add_executable(cardiorama src/main.cpp src/ModuleBase.cpp src/IOModule.cpp)
+add_executable(cardiorama src/main.cpp src/ModuleBase.cpp src/IOModule.cpp src/EcgBaselineModule.cpp)
 
-# WFDB & Armadillo
-target_link_libraries(cardiorama wfdb ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
+# WFDB & Armadillo & waveletlib
+target_link_libraries(cardiorama wfdb wavelet2 ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
