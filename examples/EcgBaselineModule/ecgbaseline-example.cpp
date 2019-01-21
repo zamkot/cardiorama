@@ -23,9 +23,8 @@ void saveData(EcgBaselineData data, std::string path) {
 }
 
 int main() {
-    EcgBaselineModule ecgBaselineModule;
-    // IOModuleStub ioModule;
-    // EcgBaselineModule ecgBaselineModule(ioModule);
+    IOModuleStub ioModule;
+    EcgBaselineModule ecgBaselineModule(ioModule);
 
     ecgBaselineModule.configure(EcgBaselineConfig::Algorithm::BUTTERWORTH);
     EcgBaselineData filtered = ecgBaselineModule.getResults();
