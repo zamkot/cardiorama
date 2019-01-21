@@ -18,5 +18,4 @@ struct WavesData {
 class WavesModuleBase : public ModuleBase {
 public:
     virtual WavesData getResults() = 0;
-    
 };
