@@ -7,7 +7,7 @@ Inżynieria Biomedyczna - Dedykowane Algorytmy Diagnostyki Medycznej - Analiza E
 
 - [x] EcgBaseline
 - [ ] RPeaks
-- [ ] Waves
+- [x] Waves
 - [x] TWaves
 - [x] Hrv1
 - [x] Hrv2
