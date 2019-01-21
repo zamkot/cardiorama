@@ -1,6 +1,10 @@
 #pragma once
 #include <ModuleBase.hpp>
-	
+
+struct TimeDomainVar {
+    // TODO fill this thing with some fields
+};
+
 struct Hrv1Data {
     
     std::vector<double> F;
@@ -17,4 +21,3 @@ class Hrv1ModuleBase : public ModuleBase {
 public:
     virtual Hrv1Data getResults() = 0;
 };
-
