@@ -1,13 +1,13 @@
 #pragma once 
 #include <ModuleBase.hpp>
 
-struct heartClassesOutput{
+struct HeartClassData{
     std::vector<int> qrsPosition;
     std::vector<char> heartClass;
 };
 
 
-class heartClassBase : public ModuleBase {
+class HeartClassModuleBase : public ModuleBase {
 public:
-    virtual int getResults() = 0;
+    virtual HeartClassData getResults() = 0;
 };

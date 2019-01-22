@@ -17,6 +17,7 @@ add_executable(
     example-example 
     testmain.cpp
     ../../src/DataFrame.cpp
+    ../../src/HeartClassModule.cpp
 )
 
 # WFDB & Armadillo

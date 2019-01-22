@@ -1,8 +1,28 @@
 #include <iostream>
 #include <vector>
-#include "heartClassModule.hpp"
+#include <HeartClassModule.hpp>
+#include <EcgBaselineModuleBase.hpp>
+#include <WavesModuleBase.hpp>
 
 #include <DataFrame.hpp>
+
+
+class EcgBaselineStub : public EcgBaselineModuleBase {
+    EcgBaselineData getResults() {
+        // stąd zwracacie swoje podstawione dane
+    }
+    void configure(EcgBaselineConfig) {
+        // to może być puste ale musi być bo się kompilator sra
+    } 
+};
+
+class WavesStub : public WavesModuleBase {
+    WavesData getResults() {
+        // stąd zwracacie swoje podstawione dane
+    }
+
+    void configure(WavesConfig) {}
+};
 
 std::vector<int> loadData(std::string path) {
     DataFrame df(path);
@@ -21,5 +41,11 @@ int main() {
     std::vector<int> rPeaks = loadData("r_peaks.csv");
     std::vector<double> rawSignal = loadData1("sygnal.csv");
 
-    heartClassModule classfier = heartClassModule(rawSignal, rPeaks, 360);
+    EcgBaselineStub ecgBaselineStub;
+    WavesStub wavesStub;
+
+    HeartClassModule classfier = HeartClassModule(ecgBaselineStub, wavesStub);
+    auto results = classfier.getResults();
+    
+    //costam
 }

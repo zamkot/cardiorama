@@ -1,6 +1,7 @@
 #pragma once
-#include <heartClassBase.hpp>
-
+#include <HeartClassModuleBase.hpp>
+#include <EcgBaselineModuleBase.hpp>
+#include <WavesModuleBase.hpp>
 
 struct cardioFeatures{
     std::vector<double> maxValue;
@@ -15,8 +16,13 @@ struct cardioFeatures{
 };
 
 
-class heartClassModule : public heartClassBase {
-    
+class HeartClassModule : public HeartClassModuleBase {
+
+    HeartClassData results;
+    void runHeartClass();
+
+    EcgBaselineModuleBase& ecgBaselineModule; 
+    WavesModuleBase& wavesModule;
 
     //atrbuty
     std::vector<std::vector<double>> signal;
@@ -41,11 +47,7 @@ class heartClassModule : public heartClassBase {
 
 public:
 
-    heartClassModule(std::vector<double> rawSignal,std::vector<int> rPeaks, int sF);
+    HeartClassModule(EcgBaselineModuleBase&, WavesModuleBase&);
     void setFeatures();
-    int getResults() override;
-    void notify() override;
-    void invalidateResults() override;
-    void validateResults() override;
-    void attach(ModuleBase* observer) override;
+    HeartClassData getResults() override;
 };

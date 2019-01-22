@@ -7,12 +7,20 @@
 #include <vector>
 #include <armadillo>
 #include <iterator>
-#include "heartClassBase.hpp"
-#include "heartClassModule.hpp"
+#include <HeartClassModule.hpp>
 
 // ------PRIVATE---------------
 
-std::vector<double> heartClassModule::maxValue(std::vector<std::vector <double>> &signal)
+void HeartClassModule::runHeartClass() {
+    // tu wołacie swoje metody, robicie obliczenia i wpisujecie wynik do results
+
+    results = {};
+
+    // na koniec to
+    validateResults();
+}
+
+std::vector<double> HeartClassModule::maxValue(std::vector<std::vector <double>> &signal)
 {
     std::vector<double> maxes;
     maxes.resize(signal.size());
@@ -24,7 +32,7 @@ std::vector<double> heartClassModule::maxValue(std::vector<std::vector <double>>
     return maxes;
 }
 
-std::vector<double> heartClassModule::minValue(std::vector<std::vector <double>> &signal)
+std::vector<double> HeartClassModule::minValue(std::vector<std::vector <double>> &signal)
 {
     std::vector<double> mins;
     mins.resize(signal.size());
@@ -37,7 +45,7 @@ std::vector<double> heartClassModule::minValue(std::vector<std::vector <double>>
     return mins;
 }
 
-std::vector<std::vector<double>> heartClassModule::ptsAboveTh(std::vector<std::vector<double>> &signal)
+std::vector<std::vector<double>> HeartClassModule::ptsAboveTh(std::vector<std::vector<double>> &signal)
 {
     std::vector<double> ths;
     ths.resize(signal.size());
@@ -65,7 +73,7 @@ std::vector<std::vector<double>> heartClassModule::ptsAboveTh(std::vector<std::v
     
 }
 
-std::vector <double> heartClassModule::qrsAuc(std::vector<std::vector<double>> &signal)
+std::vector <double> HeartClassModule::qrsAuc(std::vector<std::vector<double>> &signal)
 {
     std::vector<double> integrals;
     integrals.resize(signal.size());
@@ -77,7 +85,7 @@ std::vector <double> heartClassModule::qrsAuc(std::vector<std::vector<double>> &
     return integrals;
 }
 
-std::vector <double> heartClassModule::qrsPosRatio(std::vector<std::vector<double>> &signal)
+std::vector <double> HeartClassModule::qrsPosRatio(std::vector<std::vector<double>> &signal)
 {
     std::vector<double> posRatios;
     posRatios.resize(signal.size());
@@ -87,7 +95,7 @@ std::vector <double> heartClassModule::qrsPosRatio(std::vector<std::vector<doubl
         auto integral = std::accumulate(std::cbegin(sig), std::cend(sig), 0);
         auto posIntegral = std::accumulate(std::cbegin(sig), std::cend(sig), 0, [](double acc,double val)
         {
-            return val>0?: acc+val : acc;
+            return val > 0 ? acc+val : acc;
         });
         float ratio = static_cast<float>(posIntegral)/integral;
 
@@ -96,7 +104,7 @@ std::vector <double> heartClassModule::qrsPosRatio(std::vector<std::vector<doubl
     return posRatios;
 }
 
-std::vector <double> heartClassModule::qrsNegRatio(std::vector<std::vector<double>> &signal)
+std::vector <double> HeartClassModule::qrsNegRatio(std::vector<std::vector<double>> &signal)
 {
     std::vector<double> negRatios;
     negRatios.resize(signal.size());
@@ -106,7 +114,7 @@ std::vector <double> heartClassModule::qrsNegRatio(std::vector<std::vector<doubl
         auto integral = std::accumulate(std::cbegin(sig), std::cend(sig), 0);
         auto negIntegral = std::accumulate(std::cbegin(sig), std::cend(sig), 0, [](double acc,double val)
         {
-            return val<0?: acc+val: acc;
+            return val<0 ? acc+val : acc;
         });
         float ratio = static_cast<float>(negIntegral)/integral;
 
@@ -114,7 +122,7 @@ std::vector <double> heartClassModule::qrsNegRatio(std::vector<std::vector<doubl
     });
     return negRatios;
 }
-std::vector <int> heartClassModule::aucComparsion(std::vector<std::vector<double>> &signal)
+std::vector <int> HeartClassModule::aucComparsion(std::vector<std::vector<double>> &signal)
 {
     auto posRatios = qrsPosRatio(signal); //vector<float>
     auto negRatios = qrsNegRatio(signal); //vector<float>
@@ -129,7 +137,7 @@ std::vector <int> heartClassModule::aucComparsion(std::vector<std::vector<double
 
      return comparsion1;
 }
-std::vector<double> heartClassModule::kurtosis(std::vector<std::vector<double>> &signal)
+std::vector<double> HeartClassModule::kurtosis(std::vector<std::vector<double>> &signal)
 {
     std::vector <double> kurtosisVec;
     double sum,n;
@@ -162,7 +170,7 @@ std::vector<double> heartClassModule::kurtosis(std::vector<std::vector<double>> 
 
 }
 
-std::vector<double> heartClassModule::skewness(std::vector<std::vector<double>> &signal)
+std::vector<double> HeartClassModule::skewness(std::vector<std::vector<double>> &signal)
 {
     std::vector <double> skewnessVec;
     double sum,n;
@@ -194,7 +202,7 @@ std::vector<double> heartClassModule::skewness(std::vector<std::vector<double>> 
     return skewnessVec;
 }
 
-std::vector<std::vector<double>> heartClassModule::prepareSignal(std::vector<double> &rawSignal, std::vector<int> &rPeaks, int &samplingFrequency)
+std::vector<std::vector<double>> HeartClassModule::prepareSignal(std::vector<double> &rawSignal, std::vector<int> &rPeaks, int &samplingFrequency)
 {
     int frames;
     std::vector<std::vector<double>> prepared;
@@ -212,33 +220,24 @@ std::vector<std::vector<double>> heartClassModule::prepareSignal(std::vector<dou
 
 
 // ------------------------PUBLIC------------------------------------
-heartClassModule::heartClassModule(std::vector<double> rawSignal,std::vector<int> rPeaks, int sF){
+HeartClassModule::HeartClassModule(
+    EcgBaselineModuleBase& ecgBaselineModule, 
+    WavesModuleBase& wavesModule) 
+    :  ecgBaselineModule{ecgBaselineModule}, wavesModule{wavesModule}
+    {
         this->samplingFrequency = sF;
         this->signal = prepareSignal(rawSignal, rPeaks, samplingFrequency);
-        
- }
+    }
 
-int heartClassModule::getResults(){
-    return 0;
+HeartClassData HeartClassModule::getResults(){
+    if (!resultsValid()) {
+        runHeartClass();
+    }
+
+    return results;
 }
 
-void heartClassModule::notify()
-{
-    /****/
-}
-void heartClassModule::invalidateResults()
-{
-    /****/
-}
-void heartClassModule::validateResults()
-{
-    /****/
-}
-void heartClassModule::attach(ModuleBase* observer)
-{
-    /****/
-}
-void heartClassModule::setFeatures(){
+void HeartClassModule::setFeatures(){
     this->signalFeatures.maxValue = maxValue(signal);
     this->signalFeatures.minValue = minValue(signal);
     this->signalFeatures.ptsAboveTh = ptsAboveTh(signal);
