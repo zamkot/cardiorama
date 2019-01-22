@@ -1,8 +1,22 @@
 #include <iostream>
 #include <vector>
-#include <RPeaksModuleStub.hpp>
 #include <HrvDfaModule.hpp>
 #include <DataFrame.hpp>
+
+class RPeaksModuleStub : public RPeaksModuleBase {
+
+    RPeaksData results;
+    std::vector<int> rPeaks;
+
+
+public:
+
+    RPeaksModuleStub(std::vector<int> rPeaks) : rPeaks{rPeaks} {}
+
+    void configure(RPeaksConfig) override {}
+    RPeaksData getResults() override { return {rPeaks}; }
+};
+
 
 int main(int argc, char** argv) {
     using namespace std;
