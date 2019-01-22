@@ -5,6 +5,8 @@
 struct HrvDfaData {
     std::vector<double> log_window_sizes;
     std::vector<double> log_fluctuation;
+    std::vector<double> alfa1;
+    std::vector<double> alfa2;
     std::vector<double> line_alfa1;
     std::vector<double> line_alfa2;
 };

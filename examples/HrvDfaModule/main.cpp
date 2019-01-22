@@ -40,6 +40,8 @@ int main(int argc, char** argv) {
 
     df_out.addColumn("log_window_sizes", hrvDfaData.log_window_sizes);
     df_out.addColumn("log_fluctuation", hrvDfaData.log_fluctuation);
+    df_out.addColumn("alfa1", hrvDfaData.alfa1);
+    df_out.addColumn("alfa2", hrvDfaData.alfa2);
     df_out.addColumn("line_alfa1", hrvDfaData.line_alfa1);
     df_out.addColumn("line_alfa2", hrvDfaData.line_alfa2);
 
