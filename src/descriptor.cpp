@@ -114,20 +114,14 @@ std::vector <float> heartClassModule::qrsNegRatio(std::vector<std::vector<int>> 
 }
 std::vector <int> heartClassModule::aucComparsion(std::vector<std::vector<int>> &signal)
 {
-    std::vector<int> comparsion;
-    auto posRatio = qrsPosRatio(signal);
-    auto negRatio = qrsNegRatio(signal);
-    for(int i = 0; i<posRatio.size(); ++i)
-	{
-		if(posRatio[i] >= negRatio[i])
-		{
-			comparsion.push_back(1);
-		}
-		else
-		{
-			comparsion.push_back(0);
-		}
-	}
+    auto posRatios = qrsPosRatio(signal); //vector<float>
+    auto negRatios = qrsNegRatio(signal); //vector<float>
+    std::vector<int> comparsion(posRatios.size());
+
+    std::transform(std::cbegin(posRatios), std::cend(posRatios),std::cbegin(negRatios), std::begin(comparison), 
+        [](const int& posRatio, const int& negRatio){
+        return posRatio >= negRatio ? 1 : 0;
+    });
 
     return comparsion;
 }
@@ -183,29 +177,29 @@ std::vector<float> heartClassModule::skewness(std::vector<std::vector<int>> &sig
           }   
           var = (double)(var)/(n - 1);  
           S = (double)sqrt(var);
-         for (int i = 0; i < n; i++)
+         for (int j = 0; j < n; j++)
 	      {
 		    skewness += (signal[i][j] - avg)*(signal[i][j] - avg)*(signal[i][j] - avg);
 	      }
 	    skewness = skewness/(n * S * S * S);
 
-        skewnessVec.push_back(skewness)
+        skewnessVec.push_back(skewness);
          
      }
     
     return skewnessVec;
 }
 
-std::vector<std::vector<int>> heartClassModule::prepareSignal(std::vector<double> &rawSignal, std::vector<int> &rPeaks, int &samplingFrequency)
+std::vector<std::vector<double>> heartClassModule::prepareSignal(std::vector<double> &rawSignal, std::vector<int> &rPeaks, int &samplingFrequency)
 {
-    int frame;
+    int frames;
     std::vector<std::vector<double>> prepared;
-    frame = 0.2*samplingFrequency;
+    frames = 0.2*samplingFrequency;
 
     for (int i=0; i<rPeaks.size(); i++)
         {
-            std::vector <double> slice(&rawSignal[rPeaks(i)-frames],&rawSignal[rPeaks(i)+frame]);
-            prepared(i) = slice;
+            std::vector <double> slice((rawSignal.data())[rPeaks[i]-frames],(rawSignal.data())[rPeaks[i]-frames]);
+            prepared[i] = slice;
         }
 
 

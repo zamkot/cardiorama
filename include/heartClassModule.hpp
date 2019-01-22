@@ -10,16 +10,16 @@ class heartClassModule : public heartClassDescriptorBase {
 
     // Serce modułu. Tutaj robisz swoje obliczenia.
     void runheartClassModule();
-    std::vector<std::vector<int>> prepareSignal(std::vector<double>, std::vector<int>, int);
-    std::vector<int> maxValue(std::vector<std::vector<int>>);
-    std::vector<int> minValue(std::vector<std::vector<int>>);
-    std::vector<std::vector<int>> ptsAboveTh(std::vector<std::vector<int>>);
-    std::vector<int> qrsAuc(std::vector<std::vector<int>>);
-    std::vector<float> qrsPosRatio(std::vector<std::vector<int>>);
-    std::vector<float> qrsNegRatio(std::vector<std::vector<int>>);
-    std::vector<int> aucComparsion(std::vector<std::vector<int>>);
-    std::vector<float> kurtosis(std::vector<std::vector<int>>);
-    std::vector<float> skewness(std::vector<std::vector<int>>);
+    std::vector<std::vector<double>> prepareSignal(std::vector<double>&, std::vector<int>&, int&);
+    std::vector<int> maxValue(std::vector<std::vector<int>>&);
+    std::vector<int> minValue(std::vector<std::vector<int>>&);
+    std::vector<std::vector<int>> ptsAboveTh(std::vector<std::vector<int>>&);
+    std::vector<int> qrsAuc(std::vector<std::vector<int>>&);
+    std::vector<float> qrsPosRatio(std::vector<std::vector<int>>&);
+    std::vector<float> qrsNegRatio(std::vector<std::vector<int>>&);
+    std::vector<int> aucComparsion(std::vector<std::vector<int>>&);
+    std::vector<float> kurtosis(std::vector<std::vector<int>>&);
+    std::vector<float> skewness(std::vector<std::vector<int>>&);
     std::vector<std::vector<int>> signal;
     struct wszystko 
         {
