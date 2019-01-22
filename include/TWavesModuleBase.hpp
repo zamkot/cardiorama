@@ -4,7 +4,7 @@
 
 struct TWavesData {
     std::vector<int> resultTWA;
-    double maxTWA
+    double maxTWA;
 };
 
 class TWavesModuleBase : public ModuleBase {
