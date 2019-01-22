@@ -17,7 +17,7 @@ std::vector<int> heartClassModule::maxValue(std::vector<std::vector <int>> &sign
 
     std::transform(std::cbegin(signal), std::cend(signal), std::begin(maxes), [](const std::vector<int> &sig)
     {
-        return std::max(std::cbegin(sig), std::cend(sig));
+        return *(std::max_element(std::cbegin(sig), std::cend(sig)));
     });
     return maxes;
 }
@@ -29,7 +29,7 @@ std::vector<int> heartClassModule::minValue(std::vector<std::vector <int>> &sign
     
     std::transform(std::cbegin(signal),std::cend(signal),std::begin(mins), [](const std::vector<int> &sig)
     {
-        return std::min(std::cbegin(sig), std::cend(sig))
+        return *(std::min_element(std::cbegin(sig), std::cend(sig)));
     });
 
     return mins;
