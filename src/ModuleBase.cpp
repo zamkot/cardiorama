@@ -4,11 +4,19 @@
 #endif
 
 
-ModuleBase::ModuleBase(ModuleId id) : resultsValidFlag{false}, id{id} {}
+ModuleBase::ModuleBase(ModuleId id, onModuleStatusChange_t onStatusChange)
+    :   resultsValidFlag{false}, 
+        onStatusChange{onStatusChange},
+        id{id} {}
 
 
 ModuleId ModuleBase::getId() {
     return id;
+}
+
+
+void ModuleBase::setOnStatusChangeCallback(onModuleStatusChange_t callback) {
+    onStatusChange = callback;
 }
 
 
@@ -21,24 +29,31 @@ void ModuleBase::notify() {
     for (auto view : views) {
         view->invalidateResults();
     }
+
+    onStatusChange(id, resultsValidFlag);
 }
 
 
 void ModuleBase::invalidateResults() {
     if (resultsValidFlag == true) {
         resultsValidFlag = false;
-        consoleLog("%s: results invalid.", moduleIdToString(id).c_str());
+        consoleLog("%sModule::invalidateResults(): changing state to invalid.", moduleIdToString(id).c_str());
         notify();
     }
     else {
-        consoleLog("%sModule::invalidateResults(): redundant call.", moduleIdToString(id).c_str());
+        consoleLog("%sModule::invalidateResults(): already invalid.", moduleIdToString(id).c_str());
     }
 }
 
 
 void ModuleBase::validateResults() {
-    resultsValidFlag = true;
-    consoleLog("%s: results valid.", moduleIdToString(id).c_str());
+    if (resultsValidFlag == true) {
+        consoleLog("%sModule::validateResults(): already valid.", moduleIdToString(id).c_str());
+    }
+    else {
+        resultsValidFlag = true;
+        consoleLog("%sModule::validateResults(): changing state to valid.", moduleIdToString(id).c_str());
+    }
 }
 
 

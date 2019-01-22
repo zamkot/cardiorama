@@ -24,7 +24,11 @@ public:
         }
         
         return {};
-    };
+    }
+
+    void setOnStatusChangeCallback(onModuleStatusChange_t callback) {
+        ModuleBase::setOnStatusChangeCallback(callback);
+    }
 
 private:
     EcgBaselineModuleBase& ecgBaselineModule;

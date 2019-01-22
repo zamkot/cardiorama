@@ -19,4 +19,8 @@ public:
     void setInputFileName(std::string) override {
         invalidateResults();
     }; 
+
+    void setOnStatusChangeCallback(onModuleStatusChange_t callback) {
+        ModuleBase::setOnStatusChangeCallback(callback);
+    };
 };

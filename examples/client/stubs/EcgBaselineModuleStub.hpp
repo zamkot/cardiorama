@@ -26,6 +26,10 @@ public:
         invalidateResults();
     }
 
+    void setOnStatusChangeCallback(onModuleStatusChange_t callback) {
+        ModuleBase::setOnStatusChangeCallback(callback);
+    };
+
 private:
     IOModuleBase& ioModule;
 };

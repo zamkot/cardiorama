@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
-
+#include <functional>
 
 enum class ModuleId {
     IO,
@@ -12,7 +12,8 @@ enum class ModuleId {
     Hrv1,
     Hrv2,
     HrvDfa,
-    HeartClass
+    HeartClass,
+    Unknown
 };
 
 
@@ -27,21 +28,26 @@ static std::string moduleIdToString(ModuleId id) {
         case ModuleId::Hrv2        : return "Hrv2";
         case ModuleId::HrvDfa      : return "HrvDfa";
         case ModuleId::HeartClass  : return "HeartClass";
-        default : return "unknown";
+        default : return "Unknown";
     }
 }
 
+using onModuleStatusChange_t = std::function<void(ModuleId id, bool resultsValid)>; 
 
 class ModuleBase {
     std::vector<ModuleBase*> views;
     bool resultsValidFlag;
+    onModuleStatusChange_t onStatusChange;
 
 protected:
     ModuleId id;
     virtual void notify();
+    void setOnStatusChangeCallback(onModuleStatusChange_t);
 
 public:
-    ModuleBase(ModuleId);
+    ModuleBase(
+        ModuleId id = ModuleId::Unknown, 
+        onModuleStatusChange_t onStatusChange = nullptr);
     ModuleId getId();
     bool resultsValid();
     virtual void invalidateResults();

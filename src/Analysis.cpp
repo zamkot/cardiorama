@@ -4,7 +4,12 @@ Analysis::Analysis(std::function<void(ModuleId, bool)> onModuleStatusUpdate) :
     ecgBaselineModule(ioModule),
     rPeaksModule(ecgBaselineModule),
     wavesModule(ecgBaselineModule, rPeaksModule)
-{}
+{
+    ioModule.setOnStatusChangeCallback(onModuleStatusUpdate);
+    ecgBaselineModule.setOnStatusChangeCallback(onModuleStatusUpdate);
+    rPeaksModule.setOnStatusChangeCallback(onModuleStatusUpdate);
+    wavesModule.setOnStatusChangeCallback(onModuleStatusUpdate);
+}
 
 void Analysis::setInputFileName(std::string fileName) {
     ioModule.setInputFileName(fileName);
