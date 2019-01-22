@@ -11,7 +11,7 @@ Inżynieria Biomedyczna - Dedykowane Algorytmy Diagnostyki Medycznej - Analiza E
 - [x] TWaves
 - [x] Hrv1
 - [x] Hrv2
-- [ ] HrvDfa
+- [x] HrvDfa
 - [ ] HeartClass
 
 ## Quick start
