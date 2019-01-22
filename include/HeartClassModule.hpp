@@ -6,7 +6,7 @@
 struct cardioFeatures{
     std::vector<double> maxValue;
     std::vector<double> minValue;
-    std::vector<std::vector<double>> ptsAboveTh;
+    std::vector<double> ptsAboveTh;
     std::vector<double> qrsAuc;
     std::vector<double> qrsPosRatio;
     std::vector<double> qrsNegRatio;

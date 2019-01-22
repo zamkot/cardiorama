@@ -45,7 +45,7 @@ std::vector<double> HeartClassModule::minValue(std::vector<std::vector <double>>
     return mins;
 }
 
-std::vector<std::vector<double>> HeartClassModule::ptsAboveTh(std::vector<std::vector<double>> &signal)
+std::vector<double> HeartClassModule::ptsAboveTh(std::vector<std::vector<double>> &signal)
 {
     std::vector<double> ths;
     ths.resize(signal.size());
@@ -66,7 +66,7 @@ std::vector<std::vector<double>> HeartClassModule::ptsAboveTh(std::vector<std::v
             return value > th;
         });
 
-        return ptsA;
+        return ptsA.size();
     } );
 
     return ptsAbove;
@@ -128,7 +128,7 @@ std::vector <int> HeartClassModule::aucComparsion(std::vector<std::vector<double
     auto negRatios = qrsNegRatio(signal); //vector<float>
     std::vector<double> comparsion(posRatios.size());
 
-    std::transform(std::cbegin(posRatios), std::cend(posRatios),std::cbegin(negRatios), std::begin(comparison), 
+    std::transform(std::cbegin(posRatios), std::cend(posRatios),std::cbegin(negRatios), std::begin(comparsion), 
         [](const int& posRatio, const int& negRatio){
         return posRatio >= negRatio ? 1 : 0;
     });
