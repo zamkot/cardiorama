@@ -1,17 +1,16 @@
 #pragma once
-#include <ModuleBase.hpp>
+#include "ModuleBase.hpp"
 
 
 struct HrvDfaData {
-
+    std::vector<double> log_window_sizes;
+    std::vector<double> log_fluctuation;
+    std::vector<double> line_alfa1;
+    std::vector<double> line_alfa2;
 };
 
-struct HrvDfaConfig {
-
-};
 
 class HrvDfaModuleBase : public ModuleBase {
 public:
-    virtual HrvDfaData getResults() = 0;
-    virtual void configure(HrvDfaConfig) = 0;
+    virtual HrvDfaData getResults() = 0; 
 };
