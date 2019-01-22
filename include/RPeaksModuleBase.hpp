@@ -3,12 +3,13 @@
 
 
 struct RPeaksData {
-    std::vector<int> rpeaks;
+    std::vector<double> rpeaks;
 };
 
 struct RPeaksConfig {
     enum Algorithm { HILBERT, PAN_TOMPKINS };
     Algorithm algorithm;
+    double samplingFrequency;
 };
 
 class RPeaksModuleBase : public ModuleBase {
