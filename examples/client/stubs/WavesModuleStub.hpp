@@ -1,14 +1,19 @@
 #pragma once
-#include <RPeaksModuleBase.hpp>
+#include <WavesModuleBase.hpp>
 #include <EcgBaselineModuleBase.hpp>
+#include <RPeaksModuleBase.hpp>
+#include <Log.hpp>
 
-class RPeaksModule : public RPeaksModuleBase {
+class WavesModule : public WavesModuleBase {
 public:
-    RPeaksModule (EcgBaselineModuleBase& ecgBaselineModule) : ecgBaselineModule(ecgBaselineModule) {
+    WavesModule (EcgBaselineModuleBase& ecgBaselineModule, RPeaksModuleBase& rPeaksModule) : 
+        ecgBaselineModule(ecgBaselineModule),
+        rPeaksModule(rPeaksModule) {
         ecgBaselineModule.attach(this);
+        rPeaksModule.attach(this);
     }
 
-    RPeaksData getResults() override {
+    WavesData getResults() override {
         if (resultsValid()) {
             consoleLog("%sModule::getResults(): returninng cached results", moduleIdToString(id).c_str());
         }
@@ -21,10 +26,7 @@ public:
         return {};
     };
 
-    void configure(RPeaksConfig) override {
-        invalidateResults();
-    }; 
-
 private:
     EcgBaselineModuleBase& ecgBaselineModule;
+    RPeaksModuleBase& rPeaksModule;
 };

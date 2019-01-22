@@ -17,5 +17,6 @@ struct WavesData {
 
 class WavesModuleBase : public ModuleBase {
 public:
+    WavesModuleBase() : ModuleBase(ModuleId::Waves) {}
     virtual WavesData getResults() = 0;
 };

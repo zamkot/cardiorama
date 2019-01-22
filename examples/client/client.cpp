@@ -1,26 +1,17 @@
 #include <iostream>
 #include <Analysis.hpp>
 
-std::string moduleIdToString(ModuleId id) {
-    switch (id) {
-        case ModuleId::IO          : return "IO";
-        case ModuleId::EcgBaseline : return "EcgBaseline";
-        case ModuleId::RPeaks      : return "RPeaks";
-        case ModuleId::Waves       : return "Waves";
-        case ModuleId::TWaves      : return "TWaves";
-        case ModuleId::Hrv1        : return "Hrv1";
-        case ModuleId::Hrv2        : return "Hrv2";
-        case ModuleId::HrvDfa      : return "HrvDfa";
-        case ModuleId::HeartClass  : return "HeartClass";
-        default : return "unknown";
-    }
-}
+// #define consoleLog
+#ifndef consoleLog
+#include <Log.hpp>
+#endif
+
 
 class App {
     void onModuleStatusUpdate(ModuleId id, bool resultsValid) {
         std::cout 
-            << name << ", " 
-            << moduleIdToString(id) << ", " 
+            << name << ": " 
+            << moduleIdToString(id) << " results " 
             << (resultsValid ? "valid" : "invalid") << std::endl;
     }
 
@@ -32,13 +23,27 @@ public:
     App(std::string name)
     :  name{name}, 
        analysis([this] (ModuleId id, bool resultsValid) { onModuleStatusUpdate(id, resultsValid); }) 
-    {}
-    
+    {
+        std::cout << std::endl << name << ": constructed." << std::endl;
+    }
+
     void go() {
+        std::cout << std::endl << name << ": setting input file name." << std::endl;
+        analysis.setInputFileName("some/path");
+        
+        std::cout << std::endl << name << ": getting rpeaks." << std::endl;
+        analysis.getRPeaks();
+
+        std::cout << std::endl << name << ": sending ecgBaselineConfig." << std::endl;
+        analysis.configure(EcgBaselineConfig{});
+
+        std::cout << std::endl << name << ": getting waves." << std::endl;
+        analysis.getWaves();
+
     }
 };
 
 int main() {
-    App app("Jeden");
+    App app("App");
     app.go();
 }
