@@ -13,6 +13,7 @@ public:
 
     RPeaksModuleStub(std::vector<int> rPeaks) : rPeaks{rPeaks} {}
 
+    void configure(RPeaksConfig) override {}
     RPeaksData getResults() override { return {rPeaks}; }
 };
 
