@@ -1,7 +1,7 @@
 #include <ModuleBase.hpp>
 
 
-ModuleBase::ModuleBase() : resultsValidFlag{false} {}
+ModuleBase::ModuleBase(ModuleId id) : resultsValidFlag{false}, id{id} {}
 
 
 bool ModuleBase::resultsValid() {

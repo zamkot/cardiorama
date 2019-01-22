@@ -13,6 +13,7 @@ struct RPeaksConfig {
 
 class RPeaksModuleBase : public ModuleBase {
 public:
+    RPeaksModuleBase() : ModuleBase(ModuleId::RPeaks) {}
     virtual RPeaksData getResults() = 0;
     virtual void configure(RPeaksConfig) = 0;
 };
