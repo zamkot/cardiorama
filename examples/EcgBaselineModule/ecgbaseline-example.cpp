@@ -11,6 +11,8 @@ public:
         DataFrame df("input_signal.csv");
         return df.get<double>("raw_signal", [](std::string s){ return std::stod(s); });
     }
+
+    void setInputFileName(std::string) override {};
 };
 
 void saveData(EcgBaselineData data, std::string path) {
