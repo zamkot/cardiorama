@@ -3,15 +3,11 @@
 
 
 struct TWavesData {
-
-};
-
-struct TWavesConfig {
-
+    std::vector<int> resultTWA;
+    double maxTWA;
 };
 
 class TWavesModuleBase : public ModuleBase {
 public:
     virtual TWavesData getResults() = 0;
-    virtual void configure(TWavesConfig) = 0;
 };

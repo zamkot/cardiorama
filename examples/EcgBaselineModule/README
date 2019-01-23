@@ -1,0 +1,6 @@
+To install dependencies for this project:
+1. cd into third_party/fftw-3.8.8
+2. Run the following:
+  $ ./configure
+  $ make
+  $ sudo make install
