@@ -22,7 +22,8 @@ add_subdirectory(third_party/wfdb-10.6.0)
 # waveletlib
 add_subdirectory(third_party/wavelib/src/static build)
 
-add_executable(cardiorama src/main.cpp src/ModuleBase.cpp src/IOModule.cpp src/EcgBaselineModule.cpp)
+add_definitions(-DDATA_DIR="${PROJECT_SOURCE_DIR}/data")
+add_executable(cardiorama src/main.cpp src/ModuleBase.cpp src/IOModule.cpp src/RPeaksModule.cpp src/EcgBaselineModule.cpp examples/rpeaks/main.cpp)
 
 # WFDB & Armadillo & waveletlib
 target_link_libraries(cardiorama wfdb wavelet2 ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
