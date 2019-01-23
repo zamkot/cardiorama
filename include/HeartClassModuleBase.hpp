@@ -3,7 +3,7 @@
 
 struct HeartClassData{
     std::vector<int> qrsPosition;
-    std::vector<char> heartClass;
+    std::vector<double> heartClass;
 };
 
 

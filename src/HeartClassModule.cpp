@@ -24,8 +24,6 @@ HeartClassModule::HeartClassModule(
 
     rPeaksModule.attach(this);
     ecgBaselineModule.attach(this);
-
-    std::cout<<"Hello, heart constructor here!"<<std::endl;
 }
 
 // -------------------------- DESCRIPTOR METHODS ----------------------------
@@ -221,6 +219,79 @@ cardioFeatures HeartClassModule::calculateFeatures(std::vector<std::vector<doubl
     return signalFeatures;
 }
 
+// ------------------------ CLASSIFICATION METHODS --------------------------
+
+std::vector<samplesType> HeartClassModule::prepareFeatures( std::vector<std::vector<double>>& features){
+    std::vector<samplesType> changedFeatures; 
+
+    for(int i = 0; i < features.size(); i++){
+        samplesType sample;
+        for(int j = 0; j < features[i].size(); j++){
+            sample(j) = features[i][j];
+        }
+        changedFeatures.push_back(sample);
+    }
+
+    return changedFeatures;
+}
+
+void HeartClassModule::addSamples(std::vector<std::vector<double>>& features) {
+
+    this->samples = this->prepareFeatures(features);
+
+}
+
+void HeartClassModule::addLabels(std::vector<double>& labels) {
+    this->labels = labels;
+}
+
+void HeartClassModule::trainSVM(double gammaParameter) {
+    // classification using one_vs_one calssifier
+    ovo_trainer trainer;
+
+    dlib::krr_trainer<rbf_kernel> rbf_trainer;
+
+    rbf_trainer.set_kernel(rbf_kernel(gammaParameter));
+    trainer.set_trainer(rbf_trainer);
+
+    this->model = trainer.train(this->samples, this->labels);
+    this->modelFlag = true;
+}
+
+void HeartClassModule::saveModel(std::string path){
+    if (this->modelFlag == true){
+        std::cout<<"Saving model..."<<std::endl;
+        dlib::one_vs_one_decision_function <ovo_trainer, dlib::decision_function<rbf_kernel>> model; 
+        model = this->model;
+        dlib::serialize(path) << model;
+        std::cout<<"Model saved."<<std::endl;
+    }
+    else
+        std::cout<<"No loaded model. Save imposible."<<std::endl;   
+}
+
+void HeartClassModule::loadModel(std::string path){
+    
+    dlib::one_vs_one_decision_function <ovo_trainer, dlib::decision_function<rbf_kernel>> model; 
+    dlib::deserialize(path) >> model;
+    this->model = model;
+    this->modelFlag = true;
+    std::cout<<"Model loaded."<<std::endl;
+
+}
+
+std::vector<double>  HeartClassModule::classify(std::vector<std::vector<double>>& features){ 
+    auto classifyFeatures = this->prepareFeatures(features);
+    model = this->model;
+
+    std::vector<double> results(features.size());
+    for(int i = 0; i < results.size(); i++){
+        results[i] = model(classifyFeatures[i]);
+    }
+
+    return results;
+}
+
 // ------------------------------- PRIVATE ----------------------------------
 
 void HeartClassModule::runHeartClass() {
@@ -229,14 +300,14 @@ void HeartClassModule::runHeartClass() {
     auto ecgSignal = ecgBaselineModule.getResults().samples;
     auto sliced_vector = this->prepareSignal(ecgSignal, rPeaks, this->samplingRate);
     auto features = this->calculateFeatures(sliced_vector);
-    this->features = features;
     auto featuresVector = this->featuresToVector(features);
-    this->featuresVec = featuresVector;
+    this->addSamples(featuresVector);
+    this->loadModel(MODEL_PATH);
+    auto outLabels = this->classify(this->samples);
 
+    this->results.qrsPosition = rPeaks;
+    this->results.heartClass = outLabels;
 
-    // results = {};
-
-    // // na koniec to
     validateResults();
 }
 
@@ -275,52 +346,12 @@ std::vector<std::vector<double>> HeartClassModule::featuresToVector(cardioFeatur
     return transposeFeaturesVector(featuresVector);
 };
 
-// ------------------------PUBLIC------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// ------------------------------- OVERRIDE ----------------------------------
 
 HeartClassData HeartClassModule::getResults() {
-    HeartClassData results;
-    std::vector<char> classes{'N'};
-    results.heartClass = classes;
-    std::vector<int> rpos{1};
-    results.qrsPosition = rpos;
+    if (!resultsValid()) {
+        runHeartClass();
+    }
 
     return results;
 };
-
-void HeartClassModule::notify() {
-    log("Notifying");
-    ModuleBase::notify();
-}
-
-
-void HeartClassModule::invalidateResults() {
-    log("Something changed");
-    ModuleBase::invalidateResults();
-}
-
-cardioFeatures HeartClassModule::getFeatures() {
-    runHeartClass();
-    return this->features;
-}

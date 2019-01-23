@@ -6,9 +6,16 @@
 #include <EcgBaselineModuleBase.hpp>
 #include <RPeaksModuleBase.hpp>
 
+#include <dlib/svm_threaded.h>
+
 const int N_FEATURES = 9;
 const int SAMPLING_RATE = 360;
 const int WINDOW_SIZE = 0.2 * SAMPLING_RATE;
+const std::string MODEL_PATH = "../../model.dat";
+
+typedef dlib::matrix<double, N_FEATURES, 1> samplesType;  
+typedef dlib::one_vs_one_trainer<dlib::any_trainer<samplesType> > ovo_trainer;
+typedef dlib::radial_basis_kernel<samplesType> rbf_kernel;
 
 struct cardioFeatures{
     std::vector<double> maxValue;
@@ -27,13 +34,19 @@ class HeartClassModule : public HeartClassModuleBase {
 
     EcgBaselineModuleBase& ecgBaselineModule;
     RPeaksModuleBase& rPeaksModule;
-    
+
+    // results
+    HeartClassData results;
+
     // atruibutes
     int samplingRate = SAMPLING_RATE;
     int nFeatures = N_FEATURES;
     int windowSize = WINDOW_SIZE;
 
-    HeartClassData results;
+    std::vector<samplesType> samples;
+    std::vector<double> labels;
+    dlib::one_vs_one_decision_function<ovo_trainer> model;  
+    bool modelFlag = false;
 
     // descriptor methods
     std::vector<std::vector<double>> prepareSignal(std::vector<double>&, std::vector<int>&, int&);
@@ -49,25 +62,26 @@ class HeartClassModule : public HeartClassModuleBase {
     cardioFeatures calculateFeatures(std::vector<std::vector<double>>& );   
     std::vector<std::vector<double>> transposeFeaturesVector(std::vector<std::vector<double>>& );
     std::vector<std::vector<double>> featuresToVector(cardioFeatures& );
-    
-    // 
 
-    // metody inne
+    // calassfication methods 
+    std::vector<samplesType> prepareFeatures(std::vector<std::vector<double>>& features);
     
+    // other
     void runHeartClass();
 
 public:
 
-    cardioFeatures features;
-    std::vector<std::vector<double>> featuresVec;
-    std::vector<std::vector<double>> featuresVec1;
-
-    // metody publiczne
+    // constructor 
     HeartClassModule(EcgBaselineModuleBase&, RPeaksModuleBase&);
     
-    cardioFeatures getFeatures();
+    // classification methods
+    void addSamples(std::vector<std::vector<double>>& features);
+    void addLabels(std::vector<double>& labels);   
+    void trainSVM(double gammaParameter);
+    void saveModel(std::string path);
+    void loadModel(std::string path);
+    std::vector<double> classify(std::vector<std::vector<double>>& features);
 
+    // virtual override
     HeartClassData getResults() override;
-    void notify() override;
-    void invalidateResults() override;
 };

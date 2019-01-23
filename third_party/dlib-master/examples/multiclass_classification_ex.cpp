@@ -43,7 +43,7 @@ void generate_data (
 int main()
 {
     try
-    {dlib::
+    {
         std::vector<sample_type> samples;
         std::vector<double> labels;
 
@@ -61,7 +61,7 @@ int main()
         // labels, which then vote on the label of a sample.
         //
         // In this example program we will work with a one_vs_one_trainer object which stores any 
-        // kind of traineany_trainerr that uses our sample_type samples.
+        // kind of trainer that uses our sample_type samples.
         typedef one_vs_one_trainer<any_trainer<sample_type> > ovo_trainer;
 
 
