@@ -147,9 +147,9 @@
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_3">
               <item>
-               <widget class="QRadioButton" name="Buttherworth">
+               <widget class="QRadioButton" name="Butterworth">
                 <property name="text">
-                 <string>Buttherworth filter</string>
+                 <string>Butterworth filter</string>
                 </property>
                </widget>
               </item>
@@ -216,7 +216,7 @@
               </size>
              </property>
              <property name="currentIndex">
-              <number>3</number>
+              <number>6</number>
              </property>
              <widget class="QWidget" name="ECG_BASELINE">
               <attribute name="title">
@@ -360,7 +360,7 @@
                 <widget class="QTableWidget" name="MAXTWA">
                  <property name="maximumSize">
                   <size>
-                   <width>140</width>
+                   <width>145</width>
                    <height>50</height>
                   </size>
                  </property>
@@ -374,7 +374,7 @@
                  </row>
                  <column>
                   <property name="text">
-                   <string>maxTWA</string>
+                   <string>maxTWA [mV]</string>
                   </property>
                  </column>
                 </widget>
@@ -516,11 +516,31 @@
                     <x>0</x>
                     <y>0</y>
                     <width>941</width>
-                    <height>529</height>
+                    <height>423</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_8"/>
                  </widget>
+                </widget>
+               </item>
+               <item>
+                <widget class="QTableWidget" name="Alpha">
+                 <property name="maximumSize">
+                  <size>
+                   <width>230</width>
+                   <height>100</height>
+                  </size>
+                 </property>
+                 <column>
+                  <property name="text">
+                   <string>Alpha1</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Alpha2</string>
+                  </property>
+                 </column>
                 </widget>
                </item>
                <item>
@@ -595,11 +615,6 @@
     <bool>false</bool>
    </attribute>
   </widget>
-  <action name="actionOpen">
-   <property name="text">
-    <string>Open ...</string>
-   </property>
-  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

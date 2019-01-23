@@ -10,7 +10,6 @@
 #include <QtWidgets/QMainWindow>
 #include <QtCharts/QValueAxis>
 
-//Zmiany w chartach: alternans! nie alterans!
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -24,10 +23,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     RPeaksConfig rPeaksConfig{choice};
     analysis.sendRPeaksConfig(rPeaksConfig);
 
-    ui->Buttherworth->setChecked(true);
-    //TODO enum + wywołanie przycisków
-    //EcgBaselineConfig ecgBaselineConfig{choice};
-    //analysis.sendEcgBaselineConfig(ecgBaselineConfig);
+    ui->Butterworth->setChecked(true);
+    EcgBaselineConfig::Algorithm algorytm;
+    algorytm = EcgBaselineConfig::Algorithm::BUTTERWORTH;
+    EcgBaselineConfig ecgBaselineConfig{algorytm};
+    analysis.sendEcgBaselineConfig(ecgBaselineConfig);
+
+    ui->nr_of_bins->setRange(70,150);
+    ui->nr_of_bins->setSingleStep(10);
 
 }
 
@@ -55,6 +58,30 @@ void MainWindow::loadFile(QString path)
 }
 
 
+
+void MainWindow::on_Butterworth_clicked()
+{
+    EcgBaselineConfig::Algorithm algorytm;
+    algorytm = EcgBaselineConfig::Algorithm::BUTTERWORTH;
+    EcgBaselineConfig ecgBaselineConfig{algorytm};
+
+    if(ecgBaselineConfig.algorithm == EcgBaselineConfig::Algorithm::BUTTERWORTH)
+      {qDebug()<<QString("Butter");}
+     analysis.sendEcgBaselineConfig(ecgBaselineConfig);
+};
+
+void MainWindow::on_WD_clicked()
+{
+    EcgBaselineConfig::Algorithm algorytm2;
+    algorytm2 = EcgBaselineConfig::Algorithm::WAVELET;
+    EcgBaselineConfig ecgBaselineConfig2{algorytm2};
+
+    if(ecgBaselineConfig2.algorithm == EcgBaselineConfig::Algorithm::WAVELET)
+         {qDebug()<<QString("WyD");}
+    analysis.sendEcgBaselineConfig(ecgBaselineConfig2);
+}
+
+
 void MainWindow::on_Hilbert_clicked()
 {
     short choice = 0;
@@ -70,6 +97,16 @@ void MainWindow::on_PanTompkins_clicked()
     analysis.sendRPeaksConfig(rPeaksConfig);
 
 }
+
+
+void MainWindow::on_nr_of_bins_valueChanged(int arg1)
+{
+
+    Hrv2Config hrv2Config{arg1};
+    analysis.sendHrv2Config(hrv2Config);
+
+}
+
 
 void MainWindow::on_RunECG_BASELINE_clicked()
 {
@@ -95,13 +132,14 @@ void MainWindow::on_RunR_PEAKS_clicked()
      ui->Tab->setCurrentIndex(1);
 
      auto result = analysis.runRPeaks();
+     auto result2 = analysis.runEcgBaseline();
      for (size_t i =0;i<result.rpeaks.size();i++)
      {
          qDebug()<<result.rpeaks[i];
 
      }
 
-     Chart *chart = setChart_R_peaks(result.rpeaks);
+     Chart *chart = setChart_R_peaks(result.rpeaks,result2.samples);
      QWidget *R_PEAKS= QApplication::activeWindow();
      QScrollArea *scrollR = R_PEAKS->findChild< QScrollArea*>("scrollAreaR");
      ChartView *plot = new ChartView(chart, R_PEAKS);
@@ -124,14 +162,16 @@ void MainWindow::on_RunWAVES_clicked()
     ui->Tab->setCurrentIndex(2);
 
     auto result = analysis.runWaves();
+    auto result2 = analysis.runEcgBaseline();
+    auto result3 = analysis.runRPeaks();
 
-    Chart *chart = setChart_QRS(result.Q_wektor,result.S_wektor,result.QRSonset_wektor,result.QRSend_wektor,result.P_wektor,result.Pend_wektor,
-                                result.Ponset_wektor,result.T_wektor);
+    Chart *chart = setChart_QRS(result.Q_wektor,result.QRSonset_wektor,result.QRSend_wektor,result.P_wektor,result.Pend_wektor,
+                                result.Ponset_wektor,result.T_wektor,result3.rpeaks,result2.samples);
 
     QWidget *WAVES= QApplication::activeWindow();
     QScrollArea *scrollW = WAVES->findChild< QScrollArea*>("scrollAreaW");
     ChartView *plot = new ChartView(chart, WAVES);
-    chart->axisX()->setRange(0,15);
+    chart->axisX()->setRange(0,50);
     scrollW->setWidget(plot);
 
     plot->setRenderHints(QPainter::Antialiasing);
@@ -146,11 +186,12 @@ void MainWindow::on_RunT_WAVES_ALT_clicked()
 
     ui->Tab->setCurrentIndex(3);
     auto result = analysis.runTWaves();
-    Chart *chart = setChart_T_Waves_ALT(result.resultTWA);
+    auto result2 = analysis.runEcgBaseline();
+    Chart *chart = setChart_T_Waves_ALT(result.resultTWA,result2.samples);
     QWidget *T_WAVES_ALT= QApplication::activeWindow();
     QScrollArea *scrollT = T_WAVES_ALT->findChild< QScrollArea*>("scrollAreaT");
     ChartView *plot = new ChartView(chart,T_WAVES_ALT);
-    //chart->axisX()->setRange(0,50);
+    chart->axisX()->setRange(0,50);
     scrollT->setWidget(plot);
 
     plot->setRenderHints(QPainter::Antialiasing);
@@ -177,7 +218,6 @@ void MainWindow::on_RunHRV1_clicked()
     QWidget *HRV1= QApplication::activeWindow();
     QScrollArea *scrollH1 = HRV1->findChild< QScrollArea*>("scrollAreaH1");
     ChartView *plot = new ChartView(chart,HRV1);
-    //chart->axisX()->setRange(0,50);
     scrollH1->setWidget(plot);
 
     plot->setRenderHints(QPainter::Antialiasing);
@@ -231,7 +271,8 @@ void MainWindow::on_RunHRV_DFA_clicked()
 {
     ui->Tab->setCurrentIndex(6);
 
-    Chart *chart = setChart_HRV_DFA();
+    auto result = analysis.runHrvDfa();
+    Chart *chart = setChart_HRV_DFA(result.log_window_sizes,result.log_fluctuation,result.line_alfa1,result.line_alfa2);
     QWidget *HRVD= QApplication::activeWindow();
     QScrollArea *scrollHD = HRVD->findChild< QScrollArea*>("scrollAreaHD");
     ChartView *plot = new ChartView(chart,HRVD);
@@ -241,6 +282,33 @@ void MainWindow::on_RunHRV_DFA_clicked()
     plot->setRenderHints(QPainter::Antialiasing);
     plot->grabGesture(Qt::PanGesture);
     plot->grabGesture(Qt::PinchGesture);
+
+    QTableWidget *Alpha = HRVD->findChild<QTableWidget*>("Alpha");
+    Alpha->clearContents();
+
+
+    int convertlength = static_cast<int>(result.line_alfa1.size());
+    Alpha->setRowCount(convertlength);
+    double *array = result.line_alfa1.data();
+
+    for(int j = 0; j<convertlength; j++)
+    {
+        QTableWidgetItem* newItem = new QTableWidgetItem();
+        newItem->setText(QString::number(array[j]));
+        Alpha->setItem(j,0,newItem);
+    }
+
+    int convertlength2 = static_cast<int>(result.line_alfa2.size());
+    Alpha->setRowCount(convertlength2);
+    double *array2 = result.line_alfa2.data();
+
+    for(int j = 0; j<convertlength2; j++)
+    {
+        QTableWidgetItem* newItem2 = new QTableWidgetItem();
+        newItem2->setText(QString::number(array2[j]));
+        Alpha->setItem(j,1,newItem2);
+    }
+
 }
 
 void MainWindow::on_RunHEART_CLASS_clicked()
@@ -249,6 +317,8 @@ void MainWindow::on_RunHEART_CLASS_clicked()
     ui->Tab->setCurrentIndex(7);
 
 }
+
+
 
 
 

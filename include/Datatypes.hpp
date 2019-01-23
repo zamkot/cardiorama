@@ -27,7 +27,6 @@ struct RPeaksData {
 struct WavesData {
 
     std::vector<int> Q_wektor;
-    std::vector<int> S_wektor;
     std::vector<int> QRSonset_wektor;
     std::vector<int> QRSend_wektor;
     std::vector<int> P_wektor;
@@ -70,4 +69,11 @@ struct Hrv2Data {
     std::vector<double> poincareplot_y_axis;
     double centroid_x;
     double centroid_y;
+};
+
+struct HrvDfaData {
+    std::vector<double> log_window_sizes;
+    std::vector<double> log_fluctuation;
+    std::vector<double> line_alfa1;
+    std::vector<double> line_alfa2;
 };

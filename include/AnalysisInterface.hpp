@@ -2,6 +2,7 @@
 #include <string>
 
 
+
 struct EcgBaselineConfig {
     enum Algorithm { BUTTERWORTH, WAVELET };
     Algorithm algorithm;
@@ -25,6 +26,7 @@ public:
     TWavesData runTWaves();
     Hrv1Data  runHrv1();
     Hrv2Data  runHrv2();
+    HrvDfaData runHrvDfa();
 
     void sendEcgBaselineConfig(EcgBaselineConfig);
     void sendRPeaksConfig(RPeaksConfig);
@@ -32,15 +34,3 @@ public:
 
 };
 
-// int main() {
-
-//     Analysis analysis;
-
-//     // wciskamy przycisk send rpeaksconfig
-//     short wybor = 0; // 0 albo 1
-//     RPeaksConfig rPeaksConfig{wybor};
-//     analysis.sendRPeaksConfig(rPeaksConfig);
-
-//     // wciskamy run rpeaks
-//     RPeaksData wynikiRpeaks = analysis.runRPeaks(); 
-// }

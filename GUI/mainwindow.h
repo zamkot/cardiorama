@@ -39,6 +39,12 @@ private slots:
 
     void on_RunHEART_CLASS_clicked();
 
+    void on_nr_of_bins_valueChanged(int arg1);
+
+    void on_Butterworth_clicked();
+
+    void on_WD_clicked();
+
 private:
     Ui::MainWindow *ui;
     Analysis analysis;

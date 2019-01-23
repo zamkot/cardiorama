@@ -12,7 +12,14 @@ void Analysis::loadFile(std::string path)
 
 void Analysis::sendEcgBaselineConfig(EcgBaselineConfig)
 {
-    qDebug()<<QString("The ECG detection method was choosen");
+
+      EcgBaselineConfig ecgBaselineConfig3;
+
+      if(ecgBaselineConfig3.algorithm == EcgBaselineConfig::Algorithm::WAVELET)
+      {qDebug()<<QString("The ECG detection method was choosen W");}
+      else if (ecgBaselineConfig3.algorithm == EcgBaselineConfig::Algorithm::BUTTERWORTH)
+      {qDebug()<<QString("The ECG detection method was choosen B");}
+
 }
 
 void Analysis::sendRPeaksConfig(RPeaksConfig)
@@ -49,7 +56,6 @@ WavesData Analysis::runWaves()
 {
     WavesData wavesdata;
     wavesdata.Q_wektor = vector<int>({5,6,7,8,2,4,6,2,1,6,7,9,0,10,7,9,0,10});
-    wavesdata.S_wektor= vector<int>({9,10,11,12,2,4,6,2,1,6,7,9,0,10,7,9,0,10});
     wavesdata.QRSonset_wektor = vector<int>({13,14,15,16,2,4,6,2,1,6,7,9,0,10,7,9,0,10});
     wavesdata.QRSend_wektor = vector<int>({17,18,19,20,2,4,6,2,1,6,7,9,0,10,7,9,0,10});
     wavesdata.P_wektor = vector<int>({21,22,23,24,2,4,6,2,1,6,7,9,0,10,7,9,0,10});
@@ -106,5 +112,15 @@ Hrv2Data Analysis::runHrv2()
 
 }
 
+HrvDfaData Analysis::runHrvDfa()
+{
+    HrvDfaData hrvDfaData;
+    hrvDfaData.line_alfa1 = vector<double>({1.2,2.3,4.5});
+    hrvDfaData.line_alfa2 = vector<double>({4.5,5.6,7.8,8.9,11.3});
+    hrvDfaData.log_fluctuation = vector<double>({1.2,2.3,4.5,4.5,5.6,7.8,8.9,11.3});
+    hrvDfaData.log_window_sizes = vector<double>({4,6,8,8,10,12,14,16,});
+
+    return hrvDfaData;
+}
 
 
