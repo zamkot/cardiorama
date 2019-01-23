@@ -4,6 +4,7 @@
 struct TimeDomainVar{
 
     double TP;
+    double pULF;
     double pVLF;
     double pLF;
     double pHF;
