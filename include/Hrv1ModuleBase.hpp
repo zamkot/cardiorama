@@ -19,7 +19,6 @@ struct TimeDomainVar{
 
 };	
 
-
 struct Hrv1Data {
     
     std::vector<double> F;
@@ -36,4 +35,3 @@ class Hrv1ModuleBase : public ModuleBase {
 public:
     virtual Hrv1Data getResults() = 0;
 };
-
