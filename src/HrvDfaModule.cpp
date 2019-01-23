@@ -104,6 +104,8 @@ void HrvDfaModule::runHrvDfa()
     results = {
         arma2std(log_window_sizes),
         arma2std(log_fluctuation),
+        arma2std(alfa1.row(0)),
+        arma2std(alfa2.row(0)),
         arma2std(line_alfa1),
         arma2std(line_alfa2)};
 }

@@ -1,7 +1,5 @@
-function [ x, M] = podzial( x1, y1, l )
+function [ x, M] = share_signal( x1, y1, l )
 
-% l - dlugosc bloku
-% M - wynikowa macierz
 
 q = floor(length(x1)/l);
 a = 1;

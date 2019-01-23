@@ -1,12 +1,12 @@
-function [alfa1,alfa2] = Main_DFA(sygnal)
+function [alfa1,alfa2] = Main_DFA(signal)
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
-[window, Fluktuacja] = DFA(sygnal);
+[window, fluctuation] = DFA(signal);
 
 s = 7; % podzia³ wektora na  m1 = [4 6 8 10 12 14 16], m2 = [32 - 64]
 % dane nsr001
 log_m = log(window);
-log_f = log(Fluktuacja);
+log_f = log(fluctuation);
 
 
 alfa1 = polyfit(log_m(1:s), log_f(1:s), 1);

@@ -1,17 +1,16 @@
-function [m,F] = DFA(sygnal)
+function [window,Fluctuation] = DFA(signal)
 
-tachogram = sygnal(sygnal<2);
-
+tachogram = signal;
 
 %% podzia³ na bloki -> 4<=deltam<=64, wyznaczenie krzywej i wyznaczenie wektora fluktuakcji
 K = length(tachogram);
-m = 4:2:64;
-for i = 1:length(m)
+window = 4:2:64;
+for i = 1:length(window)
     
-    tachogram = tachogram(1:length(tachogram) - mod(length(tachogram), m(i)));
-    [x, y] = calka(tachogram);
-	[x1, y1] = podzial(x, y, m(i));
-    [p] = my_poly( x1, y1 );
+    tachogram = tachogram(1:length(tachogram) - mod(length(tachogram), window(i)));
+    [x, y] = integration(tachogram);
+	[x1, y1] = share_signal(x, y, window(i));
+    [p] = polyfit_function( x1, y1 );
     y_p = zeros(size(y1));
     
     for ii = 1:size(y1, 1)
@@ -20,16 +19,8 @@ for i = 1:length(m)
     end 
     y_p = y_p';
     y_p = y_p(:);
-    F(i) = sqrt(1/K*sum((y_p-y).^2)); 
-end
-tachogram3 = 0.001*tachogram;
-X(1) =  tachogram3(1);
-suma =  X(1);
-for j = 2: length(tachogram3)
-    for k = 2: j
-        X(j) = (suma+ tachogram3(k));
-        suma = X(j);
-    end
+    Fluctuation(i) = sqrt(1/K*sum((y_p-y).^2)); 
 end
 end
+
 
