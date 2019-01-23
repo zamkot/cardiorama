@@ -1,4 +1,4 @@
-function [ p] = my_poly( x, y )
+function [ p] = polyfit_function( x, y )
         
     p = zeros(size(y, 1), 2);
     
