@@ -1,51 +1,70 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include <HeartClassModule.hpp>
-#include <EcgBaselineModuleBase.hpp>
-#include <WavesModuleBase.hpp>
-
 #include <DataFrame.hpp>
 
+#define PRINT(X) std::cout<<X<<std::endl
 
 class EcgBaselineStub : public EcgBaselineModuleBase {
-    EcgBaselineData getResults() {
-        // stąd zwracacie swoje podstawione dane
-    }
-    void configure(EcgBaselineConfig) {
-        // to może być puste ale musi być bo się kompilator sra
-    } 
+    EcgBaselineData results;
+    std::vector<double> ecgBaseline;
+    
+public:
+    
+    EcgBaselineStub(std::vector<double> ecgBaseline) : ecgBaseline{ecgBaseline} {} 
+
+    void configure(EcgBaselineConfig) override {} 
+    EcgBaselineData getResults() override {return {ecgBaseline}; }
 };
 
-class WavesStub : public WavesModuleBase {
-    WavesData getResults() {
-        // stąd zwracacie swoje podstawione dane
-    }
+class RPeaksModuleStub : public RPeaksModuleBase {
 
-    void configure(WavesConfig) {}
+    RPeaksData results;
+    std::vector<int> rPeaks;
+
+
+public:
+
+    RPeaksModuleStub(std::vector<int> rPeaks) : rPeaks{rPeaks} {}
+
+    void configure(RPeaksConfig) override {}
+    RPeaksData getResults() override { return {rPeaks}; }
 };
-
-std::vector<int> loadData(std::string path) {
-    DataFrame df(path);
-    std::vector<int> data = df.get<int>("Example Input Data", [](auto s){ return std::stoi(s); });
-
-    return data;
-}
-std::vector<double> loadData1(std::string path) {
-    DataFrame df(path);
-    std::vector<double> data = df.get<double>("Example Input Data", [](auto s){ return std::stoi(s); });
-
-    return data;
-}
 
 int main() {
-    std::vector<int> rPeaks = loadData("r_peaks.csv");
-    std::vector<double> rawSignal = loadData1("sygnal.csv");
 
-    EcgBaselineStub ecgBaselineStub;
-    WavesStub wavesStub;
+    // DataFrame ecg("sygnal.csv");
+    DataFrame df_rpeaks("/home/xavier/Desktop/repos/cardiorama/examples/heartClass/r_peaks.csv");
+    DataFrame df_ecg("/home/xavier/Desktop/repos/cardiorama/examples/heartClass/sygnal.csv");
 
-    HeartClassModule classfier = HeartClassModule(ecgBaselineStub, wavesStub);
-    auto results = classfier.getResults();
-    
-    //costam
+    std::vector<int> rpeaks = df_rpeaks.get<int>("Rpeaks", [](std::string s){ return std::stoi(s); });
+    std::vector<double> ecg = df_ecg.get<double>("signal", [](std::string s){ return std::stod(s); });
+
+    RPeaksModuleStub R(rpeaks);
+    EcgBaselineStub B(ecg);
+
+    HeartClassModule heart(B, R);
+
+    auto heartData = heart.getResults();      
+    auto feat = heart.getFeatures();
+    auto featVec = heart.featuresVec;
+
+    for(int i = 0; i < feat.maxValue.size(); i++){
+        std::cout<<feat.maxValue[i]<<" ";
+    }
+
+    std::cout<<std::endl;
+
+    for(int i = 0; i < featVec.size(); i++){
+        std::cout<<featVec[i][0]<< " ";
+    }
+
+    // for(int i = 0; i < featVec.size(); i++){
+    //     std::cout<<featVec[0][i]<< " ";
+    // }
+
+    std::cout<<std::endl;
+
+    return 0;
 }
