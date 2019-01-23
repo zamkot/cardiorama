@@ -342,10 +342,29 @@ std::vector<std::vector<double>> HeartClassModule::featuresToVector(cardioFeatur
     featuresVector[7] = featuresStruct.kurtosis;
     featuresVector[8] = featuresStruct.skewness;
     
-    // TUTAJ JEST MIEJSCE NA NORMALIZACJĘ! wchodzi featuresVector i ESTIMATORS
-
-    return transposeFeaturesVector(featuresVector);
+    auto normalisedFeatures = normaliseFeatures(featuresVector, estimators);
+    
+    return transposeFeaturesVector(normalisedFeatures);
 };
+
+std::vector<std::vector<double>> HeartClassModule::normaliseFeatures(std::vector<std::vector<double>>& features, std::vector<std::vector<double>>& estimators) {
+    std::vector<std::vector<double>> normalisedFeatures(features.size());
+    
+    for(int i = 0; i<features.size();i++)
+    {
+        auto& feature = features[i];
+        std::vector<double> normalized(feature.size());
+        const auto& A = estimators[i][0];
+        const auto& B = estimators[i][1];
+        std::transform(std::cbegin(feature), std::cend(feature), std::begin(normalized),
+        [&](double feat){
+            return (feat - A)/ B;
+        });
+        normalisedFeatures[i] = normalized;
+    }
+    
+    return normalisedFeatures;
+}
 
 // ------------------------------- OVERRIDE ----------------------------------
 

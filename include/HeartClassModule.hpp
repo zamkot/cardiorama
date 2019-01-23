@@ -53,7 +53,7 @@ class HeartClassModule : public HeartClassModuleBase {
     int samplingRate = SAMPLING_RATE;
     int nFeatures = N_FEATURES;
     int windowSize = WINDOW_SIZE;
-
+    std::vector<std::vector <double>> estimators = ESTIMATORS;
     std::vector<samplesType> samples;
     std::vector<double> labels;
     dlib::one_vs_one_decision_function<ovo_trainer> model;  
@@ -73,7 +73,8 @@ class HeartClassModule : public HeartClassModuleBase {
     cardioFeatures calculateFeatures(std::vector<std::vector<double>>& );   
     std::vector<std::vector<double>> transposeFeaturesVector(std::vector<std::vector<double>>& );
     std::vector<std::vector<double>> featuresToVector(cardioFeatures& );
-
+    std::vector<std::vector<double>> normaliseFeatures(std::vector<std::vector<double>>& features, std::vector<std::vector<double>>& estimators);
+    
     // calassfication methods 
     std::vector<samplesType> prepareFeatures(std::vector<std::vector<double>>& features);
     
