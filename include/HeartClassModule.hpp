@@ -6,12 +6,23 @@
 #include <EcgBaselineModuleBase.hpp>
 #include <RPeaksModuleBase.hpp>
 
+#include <vector>
 #include <dlib/svm_threaded.h>
 
 const int N_FEATURES = 9;
 const int SAMPLING_RATE = 360;
 const int WINDOW_SIZE = 0.2 * SAMPLING_RATE;
 const std::string MODEL_PATH = "../../model.dat";
+
+const std::vector<std::vector <double>> ESTIMATORS {{1.39, 0.65},     // max
+                                                    {-0.45, 0.43},    // min
+                                                    {8.1, 3.3},       // ptsab
+                                                    {26.44, 16.29},   // Auc
+                                                    {0.67, 0.21},     // pos
+                                                    {0.33, 0.21},     // neg
+                                                    {0.79, 0.41},     // comp
+                                                    {2.35, 1.98},     // kurt
+                                                    {1.49, 0.95}};    // sqews
 
 typedef dlib::matrix<double, N_FEATURES, 1> samplesType;  
 typedef dlib::one_vs_one_trainer<dlib::any_trainer<samplesType> > ovo_trainer;

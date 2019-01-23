@@ -301,9 +301,8 @@ void HeartClassModule::runHeartClass() {
     auto sliced_vector = this->prepareSignal(ecgSignal, rPeaks, this->samplingRate);
     auto features = this->calculateFeatures(sliced_vector);
     auto featuresVector = this->featuresToVector(features);
-    this->addSamples(featuresVector);
     this->loadModel(MODEL_PATH);
-    auto outLabels = this->classify(this->samples);
+    auto outLabels = this->classify(featuresVector);
 
     this->results.qrsPosition = rPeaks;
     this->results.heartClass = outLabels;

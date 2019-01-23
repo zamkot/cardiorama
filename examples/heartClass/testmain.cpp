@@ -46,25 +46,5 @@ int main() {
 
     HeartClassModule heart(B, R);
 
-    auto heartData = heart.getResults();      
-    auto feat = heart.getFeatures();
-    auto featVec = heart.featuresVec;
-
-    for(int i = 0; i < feat.maxValue.size(); i++){
-        std::cout<<feat.maxValue[i]<<" ";
-    }
-
-    std::cout<<std::endl;
-
-    for(int i = 0; i < featVec.size(); i++){
-        std::cout<<featVec[i][0]<< " ";
-    }
-
-    // for(int i = 0; i < featVec.size(); i++){
-    //     std::cout<<featVec[0][i]<< " ";
-    // }
-
-    std::cout<<std::endl;
-
     return 0;
 }
