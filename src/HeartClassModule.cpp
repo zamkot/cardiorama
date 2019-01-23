@@ -342,6 +342,8 @@ std::vector<std::vector<double>> HeartClassModule::featuresToVector(cardioFeatur
     featuresVector[7] = featuresStruct.kurtosis;
     featuresVector[8] = featuresStruct.skewness;
     
+    // TUTAJ JEST MIEJSCE NA NORMALIZACJĘ! wchodzi featuresVector i ESTIMATORS
+
     return transposeFeaturesVector(featuresVector);
 };
 
