@@ -1,9 +1,24 @@
 #pragma once
 #include <ModuleBase.hpp>
 
-struct TimeDomainVar {
-    // TODO fill this thing with some fields
-};
+struct TimeDomainVar{
+
+    double TP;
+    double pULF;
+    double pVLF;
+    double pLF;
+    double pHF;
+    double LHHF;
+    double meanRR;
+    double stdRR;
+    double rmsRR;
+    int sumNN50;
+    double pNN50;
+    double sdann;
+    double sdanni;
+    double sdsd;
+
+};	
 
 struct Hrv1Data {
     
