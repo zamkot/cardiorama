@@ -1,5 +1,6 @@
 function [window,Fluctuation] = DFA(signal)
 
+tachogram = signal;
 
 %% podzia³ na bloki -> 4<=deltam<=64, wyznaczenie krzywej i wyznaczenie wektora fluktuakcji
 K = length(tachogram);
