@@ -16,6 +16,7 @@ void Hrv1Module::runHrv1(){
     auto rPeaksOut = RPeaksModule.getResults();
     
     double fs = 360;
+    rPeaksOut.rpeaks = int(rPeaksOut.rpeaks);
     vec data = createRRVector(rPeaksOut.rpeaks, fs);
 
     vec tk = adjustRR(data);
