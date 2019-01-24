@@ -10,7 +10,7 @@ class Hrv1Module : public Hrv1ModuleBase{
     Hrv1Data results;
 	
     void runHrv1();
-    arma::vec createRRVector(std::vector<int> &rPeaksOut, double samplingFrequency);
+    arma::vec createRRVector(std::vector<double> &rPeaksOut, double samplingFrequency);
     arma::vec adjustRR(arma::vec& data);
     arma::vec periodogramLombScargle(arma::vec& tk, arma::vec& data, arma::vec& F);
     TimeDomainVar timeDomain(arma::vec& F, arma::vec& P, arma::vec& data, arma::vec& tk);
