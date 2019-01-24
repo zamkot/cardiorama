@@ -279,10 +279,10 @@ arma::vec RPeaksModule::findPeaks(arma::vec signal)
 }
 
 // Conversion from armadillo vector to standard vector
-std::vector<double> RPeaksModule::armadilloVecToStdVec(const arma::vec& invec) {
-    std::vector<double> stdvec;
+std::vector<int> RPeaksModule::armadilloVecToStdVec(const arma::vec& invec) {
+    std::vector<int> stdvec;
     for(auto element: invec) {
-        stdvec.push_back((double)element);
+        stdvec.push_back(static_cast<int>(std::round(element)));
     }
 
     return stdvec;

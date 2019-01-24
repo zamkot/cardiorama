@@ -3,7 +3,7 @@
 
 
 struct RPeaksData {
-    std::vector<double> rpeaks;
+    std::vector<int> rpeaks;
 };
 
 struct RPeaksConfig {

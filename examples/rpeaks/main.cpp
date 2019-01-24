@@ -16,7 +16,7 @@ public:
 
 void saveData(RPeaksData data, std::string path) {
     DataFrame df;
-    df.addColumn("rpeaks", data.rpeaks, [](double number) {
+    df.addColumn("rpeaks", data.rpeaks, [](int number) {
         return std::to_string(number);
     });
 

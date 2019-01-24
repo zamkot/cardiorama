@@ -29,7 +29,7 @@ private:
     void integrate(int W);
     arma::vec findPeaks(arma::vec signal);
     arma_inline double besseli0(double x);
-    std::vector<double> armadilloVecToStdVec(const arma::vec& invec);
+    std::vector<int> armadilloVecToStdVec(const arma::vec& invec);
 };
 
 #endif //R_PEAKS_H
