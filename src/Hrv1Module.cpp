@@ -15,10 +15,9 @@ void Hrv1Module::runHrv1(){
     using namespace arma;
 
     auto rPeaksOut = RPeaksModule.getResults();
-    vec rPeaksIdx(rPeaksOut.rpeaks);
     
     double fs = 360;
-    vec data = createRRVector(rPeaksIdx, fs);
+    vec data = createRRVector(rPeaksOut, fs);
 
     vec tk = adjustRR(data);
     
@@ -72,8 +71,8 @@ arma::vec Hrv1Module::createRRVector(std::vector<int> &rPeaksOutput, double samp
 
    double deltaT = 1/samplingFrequency;
    vec rPeaks = rPeaksIndex*deltaT;
-   vec vector1 = rPeaks.rows(1,rpeaks_index.n_elem-1);
-   vec vector2 = rPeaks.rows(0,rpeaks_index.n_elem-2);
+   vec vector1 = rPeaks.rows(1,rPeaksIndex.n_elem-1);
+   vec vector2 = rPeaks.rows(0,rPeaksIndex.n_elem-2);
    vec rr = vector1-vector2; 
    return rr; 
 }
@@ -143,6 +142,14 @@ TimeDomainVar Hrv1Module::timeDomain(arma::vec& F, arma::vec& data, arma::vec& t
      
     using namespace arma;
     TimeDomainVar timeResults;
+    vec ULF;
+    ULF << 0 << endr << 0.003;
+    vec VLF;
+	VLF << 0.003 << endr << 0.04;
+	vec LF;
+	LF << 0.04 << endr << 0.15;
+	vec HF;
+	HF << 0.15 << endr << 0.4;
 
 	// finding indexes corresponding to the VLF, LF and HF bands
     vec iULF = zeros<vec>(size(F));
@@ -163,10 +170,10 @@ TimeDomainVar Hrv1Module::timeDomain(arma::vec& F, arma::vec& data, arma::vec& t
 
 	timeResults.TP = as_scalar(aULF+aVLF + aLF + aHF);
 	
-    timeResults.pULF = (aULF/aTotal)*100;
-	timeResults.pVLF = (aVLF/aTotal)*100;
-	timeResults.pLF = (aLF/aTotal)*100;
-	timeResults.pHF = (aHF/aTotal)*100;
+    timeResults.pULF = (aULF/timeResults.TP)*100;
+	timeResults.pVLF = (aVLF/timeResults.TP)*100;
+	timeResults.pLF = (aLF/timeResults.TP)*100;
+	timeResults.pHF = (aHF/timeResults.TP)*100;
 
 	// calculating LF/HF ratio
 	timeResults.LHHF = aLF/aHF;
@@ -185,7 +192,7 @@ TimeDomainVar Hrv1Module::timeDomain(arma::vec& F, arma::vec& data, arma::vec& t
 	timeResults.rmsRR = sqrt((pow((data.n_elem-1), -1))*sumRms);
 	
 	// number of RR intervals that differ more than 50 ms
-	timeResults.sumNN50 = 0;
+	int sumNN50 = 0;
 	int addIdx;
 	for (uword i = 0; i < (data.n_elem - 1); i++)
 	{
@@ -196,7 +203,8 @@ TimeDomainVar Hrv1Module::timeDomain(arma::vec& F, arma::vec& data, arma::vec& t
 	    
 		sumNN50 = sumNN50 + addIdx;
 	}
-	
+	timeResults.sumNN50 = sumNN50;
+
 	// percentage of RR intervals that differ more than 50 ms
 	timeResults.pNN50 = double(sumNN50)/(double(data.n_elem-1))*100;
 
