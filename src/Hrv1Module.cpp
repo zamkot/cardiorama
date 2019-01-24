@@ -16,8 +16,7 @@ void Hrv1Module::runHrv1(){
     auto rPeaksOut = RPeaksModule.getResults();
     
     double fs = 360;
-    rPeaksOut.rpeaks = std::vector<int>(rPeaksOut.rpeaks);
-    vec data = createRRVector(rPeaksOut.rpeaks, fs);
+    vec data = createRRVector(rPeaksOut.rPeaks, fs);
 
     vec tk = adjustRR(data);
     
@@ -76,7 +75,6 @@ arma::vec Hrv1Module::createRRVector(std::vector<int> &rPeaksOutput, double samp
    vec rr = vector1-vector2; 
    return rr; 
 }
-
 
 arma::vec Hrv1Module::adjustRR(arma::vec& data){
 
