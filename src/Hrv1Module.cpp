@@ -4,7 +4,7 @@
 #include <cmath>
 #include <armadillo>
 
-Hrv1Module::Hrv1Module(RPeaksModuleBase& RPeaksModule):RPeaksModule{RpeaksModule}{
+Hrv1Module::Hrv1Module(RPeaksModuleBase& RPeaksModule):RPeaksModule{RPeaksModule}{
 
     RPeaksModule.attach(this);
 }
@@ -18,7 +18,7 @@ void Hrv1Module::runHrv1(){
     vec rPeaksIdx(rPeaksOut.rpeaks);
     
     double fs = 360;
-    vec data = createRRvector(rPeaksIdx, fs);
+    vec data = createRRVector(rPeaksIdx, fs);
 
     vec tk = adjustRR(data);
     
@@ -37,11 +37,11 @@ void Hrv1Module::runHrv1(){
 
     results.F = std::vector<double>(F.begin(), F.end());
     results.P = std::vector<double>(P.begin(), P.end());
-    results.ULF = std::vector<double>(ULF.begin(), ULF.end())
+    results.ULF = std::vector<double>(ULF.begin(), ULF.end());
     results.VLF = std::vector<double>(VLF.begin(), VLF.end());
     results.LF = std::vector<double>(LF.begin(), LF.end());
     results.HF = std::vector<double>(HF.begin(), HF.end());
-    results.timeDomainResults = timeDomainResults
+    results.timeDomainResults = timeDomainResults;
 
     validateResults();
 
@@ -64,13 +64,13 @@ arma::vec Hrv1Module::createRRVector(std::vector<int> &rPeaksOutput, double samp
    using namespace arma;
    using namespace std;
 
-   vec rpeaks_index = zeros<vec>(rPeaksIndex.size()); 
+   vec rPeaksIndex = zeros<vec>(rPeaksIndex.size()); 
    
    for(int i = 0; i < rPeaksOutput.size(); i++){
         rPeaksIndex(i) = rPeaksOutput[i];
     }
 
-   double deltaT = 1/sampling_frequency;
+   double deltaT = 1/samplingFrequency;
    vec rPeaks = rPeaksIndex*deltaT;
    vec vector1 = rPeaks.rows(1,rpeaks_index.n_elem-1);
    vec vector2 = rPeaks.rows(0,rpeaks_index.n_elem-2);
@@ -79,7 +79,7 @@ arma::vec Hrv1Module::createRRVector(std::vector<int> &rPeaksOutput, double samp
 }
 
 
-Hrv1Module::arma::vec adjustRR(arma::vec& data){
+arma::vec Hrv1Module::adjustRR(arma::vec& data){
 
     using namespace arma;
 
@@ -106,7 +106,7 @@ Hrv1Module::arma::vec adjustRR(arma::vec& data){
 }
 
 
-Hrv1Module::arma::vec periodogramLombScargle(arma::vec& tk, arma::vec& data, arma::vec& F){
+arma::vec Hrv1Module::periodogramLombScargle(arma::vec& tk, arma::vec& data, arma::vec& F){
 
     using namespace arma;
 
@@ -139,7 +139,7 @@ Hrv1Module::arma::vec periodogramLombScargle(arma::vec& tk, arma::vec& data, arm
     return P;
 }
 
-Hrv1Module::TimeDomainVar timeDomain(arma::vec& F, arma::vec& data, arma::vec& tk){
+TimeDomainVar Hrv1Module::timeDomain(arma::vec& F, arma::vec& data, arma::vec& tk){
      
     using namespace arma;
     TimeDomainVar timeResults;
