@@ -5,7 +5,6 @@
 #include <armadillo>
 
 Hrv1Module::Hrv1Module(RPeaksModuleBase& RPeaksModule):RPeaksModule{RPeaksModule}{
-
     RPeaksModule.attach(this);
 }
 
@@ -17,13 +16,13 @@ void Hrv1Module::runHrv1(){
     auto rPeaksOut = RPeaksModule.getResults();
     
     double fs = 360;
-    vec data = createRRVector(rPeaksOut, fs);
+    vec data = createRRVector(rPeaksOut.rpeaks, fs);
 
     vec tk = adjustRR(data);
     
 	vec F = regspace<vec>(0.001, 0.001, 0.4);
     vec P = periodogramLombScargle(tk, data, F);
-	TimeDomainVar timeDomainResults = timeDomain(F, data, tk);
+	TimeDomainVar timeDomainResults = timeDomain(F, P, data, tk);
 
     vec ULF;
     ULF << 0 << endr << 0.003;
@@ -63,7 +62,7 @@ arma::vec Hrv1Module::createRRVector(std::vector<int> &rPeaksOutput, double samp
    using namespace arma;
    using namespace std;
 
-   vec rPeaksIndex = zeros<vec>(rPeaksIndex.size()); 
+   vec rPeaksIndex = zeros<vec>(rPeaksOutput.size()); 
    
    for(int i = 0; i < rPeaksOutput.size(); i++){
         rPeaksIndex(i) = rPeaksOutput[i];
@@ -138,7 +137,7 @@ arma::vec Hrv1Module::periodogramLombScargle(arma::vec& tk, arma::vec& data, arm
     return P;
 }
 
-TimeDomainVar Hrv1Module::timeDomain(arma::vec& F, arma::vec& data, arma::vec& tk){
+TimeDomainVar Hrv1Module::timeDomain(arma::vec& F, arma::vec& P, arma::vec& data, arma::vec& tk){
      
     using namespace arma;
     TimeDomainVar timeResults;
