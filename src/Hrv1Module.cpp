@@ -175,9 +175,9 @@ TimeDomainVar Hrv1Module::timeDomain(arma::vec& F, arma::vec& P, arma::vec& data
 
 	// calculating LF/HF ratio
 	timeResults.LHHF = aLF/aHF;
-
+	data = 1000*data;
 	// mean of RR intervals in ms
-	timeResults.meanRR  = mean(data) * 1000;
+	timeResults.meanRR  = mean(data);
 	
 	// standard deviation of RR intervals
 	timeResults.stdRR = stddev(data);
