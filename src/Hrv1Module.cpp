@@ -1,6 +1,6 @@
 #include <Hrv1Module.hpp>
 #include <RPeaksModule.hpp>
-#include <iosream>
+#include <iostream>
 #include <cmath>
 #include <armadillo>
 
