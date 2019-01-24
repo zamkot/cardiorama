@@ -19,6 +19,7 @@ public:
         }
         else {
             ecgBaselineModule.getResults();
+            rPeaksModule.getResults();
             consoleLog("%sModule::getResults(): recalculating results", moduleIdToString(id).c_str());
             validateResults();
         }

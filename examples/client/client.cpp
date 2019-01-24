@@ -40,6 +40,11 @@ public:
         std::cout << std::endl << name << ": getting waves." << std::endl;
         analysis.getWaves();
 
+        std::cout << std::endl << name << ": sending rPeaksConfig." << std::endl;
+        analysis.configure(RPeaksConfig{});
+
+        std::cout << std::endl << name << ": exporting results." << std::endl;
+        analysis.exportResults();
     }
 };
 

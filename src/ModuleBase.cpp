@@ -29,8 +29,6 @@ void ModuleBase::notify() {
     for (auto view : views) {
         view->invalidateResults();
     }
-
-    onStatusChange(id, resultsValidFlag);
 }
 
 
@@ -38,6 +36,7 @@ void ModuleBase::invalidateResults() {
     if (resultsValidFlag == true) {
         resultsValidFlag = false;
         consoleLog("%sModule::invalidateResults(): changing state to invalid.", moduleIdToString(id).c_str());
+        onStatusChange(id, resultsValidFlag);
         notify();
     }
     else {
@@ -52,6 +51,8 @@ void ModuleBase::validateResults() {
     }
     else {
         resultsValidFlag = true;
+        onStatusChange(id, resultsValidFlag);
+
         consoleLog("%sModule::validateResults(): changing state to valid.", moduleIdToString(id).c_str());
     }
 }

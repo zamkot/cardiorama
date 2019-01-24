@@ -1,6 +1,7 @@
 #pragma once
 #include <IOModuleBase.hpp>
 #include <Log.hpp>
+#include <iostream>
 
 class IOModule : public IOModuleBase {
 public:
@@ -23,4 +24,14 @@ public:
     void setOnStatusChangeCallback(onModuleStatusChange_t callback) {
         ModuleBase::setOnStatusChangeCallback(callback);
     };
+
+    void exportResults(EcgBaselineData&&) {
+        std::cout << "Exporting EcgBaselineData" << std::endl;
+    }
+    void exportResults(RPeaksData&&) {
+        std::cout << "Exporting RPeaksData" << std::endl;
+    }
+    void exportResults(WavesData&&) {
+        std::cout << "Exporting WavesData" << std::endl;
+    }
 };
