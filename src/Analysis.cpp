@@ -16,7 +16,13 @@ Analysis::Analysis(std::function<void(ModuleId, bool)> _notifyClient) :
     ecgBaselineModule(ioModule),
     rPeaksModule(ecgBaselineModule),
     wavesModule(ecgBaselineModule, rPeaksModule),
-    notifyClient{_notifyClient}
+    notifyClient{_notifyClient},
+    moduleStates{
+        {ModuleId::IO, false},
+        {ModuleId::EcgBaseline, false},
+        {ModuleId::RPeaks, false},
+        {ModuleId::Waves, false}
+    }
 {
     ioModule.setOnStatusChangeCallback([this] (ModuleId id, bool resultsValid) { onModuleStatusUpdate(id, resultsValid); });
     ecgBaselineModule.setOnStatusChangeCallback([this] (ModuleId id, bool resultsValid) { onModuleStatusUpdate(id, resultsValid); });

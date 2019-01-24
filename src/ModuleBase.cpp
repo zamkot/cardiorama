@@ -1,4 +1,5 @@
 #include <ModuleBase.hpp>
+#define consoleLog
 #ifndef consoleLog
 #include <Log.hpp>
 #endif
