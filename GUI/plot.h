@@ -32,6 +32,8 @@ Chart *setChart_HRV2_poincare(double SD1,double SD2,std::vector<double> poincare
 
 Chart *setChart_HRV_DFA(std::vector<double> log_window_sizes,std::vector<double> log_fluctuation,std::vector<double> line_alfa1,std::vector<double> line_alfa2);
 
+Chart *setChart_Heart_Class(std::vector<int> qrsPosition,std::vector<double> heartClass,std::vector<double> samples);
+
 
 #endif // PLOT_H
 

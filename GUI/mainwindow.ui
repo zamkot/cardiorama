@@ -117,13 +117,6 @@
                 </property>
                </widget>
               </item>
-              <item row="0" column="1">
-               <widget class="QProgressBar" name="progressBar">
-                <property name="value">
-                 <number>0</number>
-                </property>
-               </widget>
-              </item>
               <item row="3" column="0" colspan="2">
                <widget class="QTextBrowser" name="textBrowser">
                 <property name="sizePolicy">
@@ -133,6 +126,25 @@
                  </sizepolicy>
                 </property>
                </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QProgressBar" name="progressBar">
+                <property name="value">
+                 <number>0</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_6">
+             <property name="title">
+              <string>Sampling frequency [Hz]:</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_7">
+              <item row="1" column="0">
+               <widget class="QDoubleSpinBox" name="sampling_f"/>
               </item>
              </layout>
             </widget>
@@ -145,7 +157,7 @@
              <property name="title">
               <string>Filtration and isoline detection method:</string>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_3">
+             <layout class="QHBoxLayout" name="horizontalLayout">
               <item>
                <widget class="QRadioButton" name="Butterworth">
                 <property name="text">
@@ -156,7 +168,7 @@
               <item>
                <widget class="QRadioButton" name="WD">
                 <property name="text">
-                 <string>Wavelet decomposition</string>
+                 <string>DWT</string>
                 </property>
                </widget>
               </item>
@@ -168,7 +180,7 @@
              <property name="title">
               <string>R - peaks detection method:</string>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_6">
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
               <item>
                <widget class="QRadioButton" name="Hilbert">
                 <property name="text">
@@ -216,7 +228,7 @@
               </size>
              </property>
              <property name="currentIndex">
-              <number>6</number>
+              <number>3</number>
              </property>
              <widget class="QWidget" name="ECG_BASELINE">
               <attribute name="title">
@@ -374,7 +386,7 @@
                  </row>
                  <column>
                   <property name="text">
-                   <string>maxTWA [mV]</string>
+                   <string>maxTWA [uV]</string>
                   </property>
                  </column>
                 </widget>

@@ -43,7 +43,20 @@ struct TWavesData {
 };
 
 struct TimeDomainVar {
-    // TODO fill this thing with some fields
+       double TP;
+       double pULF;
+       double pVLF;
+       double pLF;
+       double pHF;
+       double LHHF;
+       double meanRR;
+       double stdRR;
+       double rmsRR;
+       int sumNN50;
+       double pNN50;
+       double sdann;
+       double sdanni;
+       double sdsd;
 };
 
 struct Hrv1Data {
@@ -76,4 +89,11 @@ struct HrvDfaData {
     std::vector<double> log_fluctuation;
     std::vector<double> line_alfa1;
     std::vector<double> line_alfa2;
+    std::vector<double> alfa1;
+    std::vector<double> alfa2;
+};
+
+struct HeartClassData{
+    std::vector<int> qrsPosition;
+    std::vector<double> heartClass;
 };

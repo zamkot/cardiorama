@@ -16,21 +16,26 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
     setWindowTitle("ECG ANALYSIS");
     ui->Tab->setCurrentIndex(0);
-
+    ui->sampling_f->setRange(0,500);
+    ui->sampling_f->setValue(360);
+    auto result = ui->sampling_f->value();
     // AUTO configuraton
     ui->Hilbert->setChecked(true);
-    short choice = 0;
-    RPeaksConfig rPeaksConfig{choice};
+    RPeaksConfig::Algorithm choice1;
+    choice1 = RPeaksConfig::Algorithm::HILBERT;
+    RPeaksConfig rPeaksConfig{choice1,result};
     analysis.sendRPeaksConfig(rPeaksConfig);
 
     ui->Butterworth->setChecked(true);
-    EcgBaselineConfig::Algorithm algorytm;
-    algorytm = EcgBaselineConfig::Algorithm::BUTTERWORTH;
-    EcgBaselineConfig ecgBaselineConfig{algorytm};
+    EcgBaselineConfig::Algorithm choice2;
+    choice2 = EcgBaselineConfig::Algorithm::BUTTERWORTH;
+    EcgBaselineConfig ecgBaselineConfig{choice2};
     analysis.sendEcgBaselineConfig(ecgBaselineConfig);
 
     ui->nr_of_bins->setRange(70,150);
     ui->nr_of_bins->setSingleStep(10);
+
+    ui->sampling_f->setSingleStep(10);
 
 }
 
@@ -61,9 +66,9 @@ void MainWindow::loadFile(QString path)
 
 void MainWindow::on_Butterworth_clicked()
 {
-    EcgBaselineConfig::Algorithm algorytm;
-    algorytm = EcgBaselineConfig::Algorithm::BUTTERWORTH;
-    EcgBaselineConfig ecgBaselineConfig{algorytm};
+    EcgBaselineConfig::Algorithm choice;
+    choice = EcgBaselineConfig::Algorithm::BUTTERWORTH;
+    EcgBaselineConfig ecgBaselineConfig{choice};
 
     if(ecgBaselineConfig.algorithm == EcgBaselineConfig::Algorithm::BUTTERWORTH)
       {qDebug()<<QString("Butter");}
@@ -72,30 +77,40 @@ void MainWindow::on_Butterworth_clicked()
 
 void MainWindow::on_WD_clicked()
 {
-    EcgBaselineConfig::Algorithm algorytm2;
-    algorytm2 = EcgBaselineConfig::Algorithm::WAVELET;
-    EcgBaselineConfig ecgBaselineConfig2{algorytm2};
+    EcgBaselineConfig::Algorithm choice;
+    choice = EcgBaselineConfig::Algorithm::WAVELET;
+    EcgBaselineConfig ecgBaselineConfig2{choice};
 
     if(ecgBaselineConfig2.algorithm == EcgBaselineConfig::Algorithm::WAVELET)
-         {qDebug()<<QString("WyD");}
+         {qDebug()<<QString("WD");}
     analysis.sendEcgBaselineConfig(ecgBaselineConfig2);
 }
 
 
 void MainWindow::on_Hilbert_clicked()
 {
-    short choice = 0;
-    RPeaksConfig rPeaksConfig{choice};
-    analysis.sendRPeaksConfig(rPeaksConfig);
+    auto result = ui->sampling_f->value();
+    RPeaksConfig::Algorithm choice;
+    choice = RPeaksConfig::Algorithm::HILBERT;
+    RPeaksConfig rPeaksConfig{choice,result};
+
+
+    if(rPeaksConfig.algorithm == RPeaksConfig::Algorithm::HILBERT)
+      {qDebug()<<QString("Hilbert");}
+     analysis.sendRPeaksConfig(rPeaksConfig);
 
 }
 
 void MainWindow::on_PanTompkins_clicked()
-{
-    short choice = 1;
-    RPeaksConfig rPeaksConfig{choice};
-    analysis.sendRPeaksConfig(rPeaksConfig);
+{   // here sending also sample frequency
+    auto result = ui->sampling_f->value();
+    RPeaksConfig::Algorithm choice;
+    choice = RPeaksConfig::Algorithm::PAN_TOMPKINS;
+    RPeaksConfig rPeaksConfig{choice,result};
 
+    if(rPeaksConfig.algorithm == RPeaksConfig::Algorithm::PAN_TOMPKINS)
+      {qDebug()<<QString("Tompkins");}
+     analysis.sendRPeaksConfig(rPeaksConfig);
 }
 
 
@@ -117,7 +132,7 @@ void MainWindow::on_RunECG_BASELINE_clicked()
     QWidget *ECG_BASELINE= QApplication::activeWindow();
     QScrollArea *scrollB = ECG_BASELINE->findChild< QScrollArea*>("scrollAreaB");
     ChartView *baseline = new ChartView(chart, ECG_BASELINE);
-    chart->axisX()->setRange(0,50);
+    chart->axisX()->setRange(0,2500);
     scrollB->setWidget(baseline);
     baseline->setRenderHints(QPainter::Antialiasing);
     baseline->grabGesture(Qt::PanGesture);
@@ -143,13 +158,9 @@ void MainWindow::on_RunR_PEAKS_clicked()
      QWidget *R_PEAKS= QApplication::activeWindow();
      QScrollArea *scrollR = R_PEAKS->findChild< QScrollArea*>("scrollAreaR");
      ChartView *plot = new ChartView(chart, R_PEAKS);
-     chart->axisX()->setRange(0,50);
+     chart->axisX()->setRange(0,2500);
      scrollR->setWidget(plot);
 
-     //ChartView *plot = R_PEAKS->findChild<ChartView*>("RPEAKSCHART");
-     //plot->setChart(chart);
-     //rectangular zooming sucks
-     //plot->setRubberBand( QChartView::RectangleRubberBand);
      plot->setRenderHints(QPainter::Antialiasing);
      plot->grabGesture(Qt::PanGesture);
      plot->grabGesture(Qt::PinchGesture);
@@ -171,7 +182,7 @@ void MainWindow::on_RunWAVES_clicked()
     QWidget *WAVES= QApplication::activeWindow();
     QScrollArea *scrollW = WAVES->findChild< QScrollArea*>("scrollAreaW");
     ChartView *plot = new ChartView(chart, WAVES);
-    chart->axisX()->setRange(0,50);
+    chart->axisX()->setRange(0,2500);
     scrollW->setWidget(plot);
 
     plot->setRenderHints(QPainter::Antialiasing);
@@ -191,7 +202,7 @@ void MainWindow::on_RunT_WAVES_ALT_clicked()
     QWidget *T_WAVES_ALT= QApplication::activeWindow();
     QScrollArea *scrollT = T_WAVES_ALT->findChild< QScrollArea*>("scrollAreaT");
     ChartView *plot = new ChartView(chart,T_WAVES_ALT);
-    chart->axisX()->setRange(0,50);
+    chart->axisX()->setRange(0,2500);
     scrollT->setWidget(plot);
 
     plot->setRenderHints(QPainter::Antialiasing);
@@ -313,10 +324,27 @@ void MainWindow::on_RunHRV_DFA_clicked()
 
 void MainWindow::on_RunHEART_CLASS_clicked()
 {
-
     ui->Tab->setCurrentIndex(7);
 
+    auto result = analysis.runHeartClass();
+    auto result2 = analysis.runEcgBaseline();
+
+    Chart *chart = setChart_Heart_Class(result.qrsPosition,result.heartClass,result2.samples);
+    QWidget *HEART_CLASS = QApplication::activeWindow();
+    QScrollArea *scrollR = HEART_CLASS->findChild< QScrollArea*>("scrollAreaHC");
+    ChartView *plot = new ChartView(chart, HEART_CLASS);
+    chart->axisX()->setRange(0,2500);
+    scrollR->setWidget(plot);
+
+
+    plot->setRenderHints(QPainter::Antialiasing);
+    plot->grabGesture(Qt::PanGesture);
+    plot->grabGesture(Qt::PinchGesture);
 }
+
+
+
+
 
 
 

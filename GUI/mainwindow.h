@@ -45,6 +45,7 @@ private slots:
 
     void on_WD_clicked();
 
+
 private:
     Ui::MainWindow *ui;
     Analysis analysis;

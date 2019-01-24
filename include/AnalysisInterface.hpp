@@ -8,9 +8,13 @@ struct EcgBaselineConfig {
     Algorithm algorithm;
 };
 
+
 struct RPeaksConfig {
-    short algorithm; // 0 - HILBERT, 1 - PAN_TOMPKINS
+    enum Algorithm { HILBERT, PAN_TOMPKINS };
+    Algorithm algorithm;
+    double samplingFrequency;
 };
+
 
 struct Hrv2Config {
     int num_of_bins;
@@ -27,7 +31,7 @@ public:
     Hrv1Data  runHrv1();
     Hrv2Data  runHrv2();
     HrvDfaData runHrvDfa();
-
+    HeartClassData runHeartClass();
     void sendEcgBaselineConfig(EcgBaselineConfig);
     void sendRPeaksConfig(RPeaksConfig);
     void sendHrv2Config(Hrv2Config);

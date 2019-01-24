@@ -119,8 +119,8 @@ Chart *setChart_R_peaks(std::vector<int> r_peaks,std::vector<double> samples)
     series_line->setName("ECG Signal");
 
     //dodanie serii danych
-    chart->addSeries(series_scatter2);
     chart->addSeries(series_line);
+    chart->addSeries(series_scatter2);
 
     chart->setAxisX(axis_x,series_line);
     chart->setAxisY(axis_y,series_line);
@@ -186,13 +186,14 @@ Chart *setChart_QRS(std::vector<int> Q_wektor,std::vector<int> QRSonset_wektor,s
 
 
      series_rpeaks->setMarkerSize(DEFAULT_MARKER_SIZE);
-     series_qrsOnset->setMarkerSize(DEFAULT_MARKER_SIZE);
-     series_qrsend->setMarkerSize(DEFAULT_MARKER_SIZE);
      series_t->setMarkerSize(DEFAULT_MARKER_SIZE);
      series_p->setMarkerSize(DEFAULT_MARKER_SIZE);
      series_q->setMarkerSize(DEFAULT_MARKER_SIZE);
-     series_pOnset->setMarkerSize(DEFAULT_MARKER_SIZE);
-     series_pEnd->setMarkerSize(DEFAULT_MARKER_SIZE);
+
+     series_qrsOnset->setMarkerSize(8);
+     series_qrsend->setMarkerSize(8);
+     series_pOnset->setMarkerSize(8);
+     series_pEnd->setMarkerSize(8);
 
 
 
@@ -244,8 +245,10 @@ Chart *setChart_QRS(std::vector<int> Q_wektor,std::vector<int> QRSonset_wektor,s
          series_line->append(dane_x[i], samples[i]);
      }
 
-     series_rpeaks->setMarkerShape(QScatterSeries::MarkerShapeCircle);
-     //  series_scatter2->setColor(QColor::red());
+     series_rpeaks->setMarkerShape(QScatterSeries::MarkerShapeRectangle);
+     series_p->setMarkerShape(QScatterSeries::MarkerShapeRectangle);
+     series_t->setMarkerShape(QScatterSeries::MarkerShapeRectangle);
+     series_q->setMarkerShape(QScatterSeries::MarkerShapeRectangle);
 
      //Tworzenie nowego wykresu
      Chart *chart = new Chart();
@@ -277,13 +280,15 @@ Chart *setChart_QRS(std::vector<int> Q_wektor,std::vector<int> QRSonset_wektor,s
      //dodanie serii danych
      chart->addSeries(series_line);
      chart->addSeries(series_rpeaks);
+     chart->addSeries(series_t);
+     chart->addSeries(series_q);
+     chart->addSeries(series_p);
      chart->addSeries(series_qrsOnset);
      chart->addSeries(series_qrsend);
-     chart->addSeries(series_t);
      chart->addSeries(series_pOnset);
      chart->addSeries(series_pEnd);
-     chart->addSeries(series_p);
-     chart->addSeries(series_q);
+
+
 
      chart->setAxisX(axis_x,series_line);
      chart->setAxisY(axis_y,series_line);
@@ -438,7 +443,7 @@ Chart *setChart_HRV1(std::vector<double> F,std::vector<double> P,std::vector<dou
     //tu oś y ech
     QLogValueAxis *axis_y_log = new QLogValueAxis();
     axis_y_log->setBase(10);
-    axis_y_log->setTitleText("Signal power");
+    axis_y_log->setTitleText("Signal power [ms\xC2\xB2]");
 
 
 
@@ -681,6 +686,7 @@ Chart *setChart_HRV2_poincare(double SD1,double SD2,std::vector<double> poincare
 Chart *setChart_HRV_DFA(std::vector<double> log_window_sizes, std::vector<double> log_fluctuation, std::vector<double> line_alfa1, std::vector<double> line_alfa2)
 {
     unsigned long i = 0;
+    //unsigned long s = 6;
     unsigned long s = 3;
 
     //seria danych bazowych - sygnał EKG
@@ -751,3 +757,102 @@ Chart *setChart_HRV_DFA(std::vector<double> log_window_sizes, std::vector<double
     return chart;
 }
 
+Chart *setChart_Heart_Class(std::vector<int> qrsPosition,std::vector<double> heartClass,std::vector<double> samples)
+{
+    unsigned int i = 0;
+
+    std::vector<int> dane_x(samples.size());
+    std::iota(dane_x.begin(), dane_x.end(), 1);
+
+
+//seria danych bazowych - sygnał EKG
+QLineSeries *series_line = new QLineSeries();
+
+//seria danych - wektor qrs
+QScatterSeries *series_scatter2 = new QScatterSeries();
+QScatterSeries *series_scatter3 = new QScatterSeries();
+QScatterSeries *series_scatter4 = new QScatterSeries();
+
+
+for(i = 0; i < qrsPosition.size(); i++)
+{
+    if(heartClass[i] == 0)
+        series_scatter2->append(qrsPosition[i], samples[qrsPosition[i] - 1]);
+     else if(heartClass[i] == 1)
+        series_scatter3->append(qrsPosition[i], samples[qrsPosition[i] - 1]);
+    else if(heartClass[i] == 2)
+         series_scatter4->append(qrsPosition[i], samples[qrsPosition[i] - 1]);
+}
+
+//przygotowanie serii dla sygnalu EKG
+for(i = 0; i < dane_x.size(); i++)
+{
+    series_line->append(dane_x[i], samples[i]);
+}
+
+
+series_scatter2->setMarkerShape(QScatterSeries::MarkerShapeCircle);
+series_scatter3->setMarkerShape(QScatterSeries::MarkerShapeCircle);
+series_scatter4->setMarkerShape(QScatterSeries::MarkerShapeCircle);
+
+//Tworzenie nowego wykresu
+Chart *chart = new Chart();
+
+
+chart->legend()->hide();
+
+
+chart->setTitle("Heart Class");
+
+auto max = *max_element(std::begin(samples), std::end(samples));
+auto min = *min_element(std::begin(samples), std::end(samples));
+QValueAxis * axis_y = new QValueAxis();
+axis_y->setRange(min-2,max+2);
+axis_y->setTitleText("Voltage [mV]");
+
+
+QValueAxis * axis_x = new QValueAxis();
+axis_x->setRange(0,samples.size()+2);
+axis_x->setTitleText("Samples");
+
+
+series_scatter2->setMarkerSize(DEFAULT_MARKER_SIZE);
+series_scatter2->setName("Normal");
+
+
+series_scatter3->setMarkerSize(DEFAULT_MARKER_SIZE);
+series_scatter3->setName("Supra Ventricular");
+
+
+series_scatter4->setMarkerSize(DEFAULT_MARKER_SIZE);
+series_scatter4->setName("Ventricular");
+
+series_line->setName("ECG Signal");
+
+//dodanie serii danych
+chart->addSeries(series_line);
+chart->addSeries(series_scatter2);
+chart->addSeries(series_scatter3);
+chart->addSeries(series_scatter4);
+
+chart->setAxisX(axis_x,series_line);
+chart->setAxisY(axis_y,series_line);
+
+chart->setAxisX(axis_x,series_scatter2);
+chart->setAxisY(axis_y,series_scatter2);
+
+chart->setAxisX(axis_x,series_scatter3);
+chart->setAxisY(axis_y,series_scatter3);
+
+chart->setAxisX(axis_x,series_scatter4);
+chart->setAxisY(axis_y,series_scatter4);
+chart->setAnimationOptions(QChart::AllAnimations);
+
+
+
+chart->setTitleFont(ChartFont);
+chart->legend()->show();
+chart->legend()->setAlignment(Qt::AlignRight);
+
+return chart;
+}
