@@ -57,7 +57,7 @@ Hrv1Data Hrv1Module::getResults(){
 
 // function from Hrv2Module
 
-arma::vec Hrv1Module::createRRVector(std::vector<int> &rPeaksOutput, double samplingFrequency){
+arma::vec Hrv1Module::createRRVector(std::vector<double> &rPeaksOutput, double samplingFrequency){
    
    using namespace arma;
    using namespace std;
